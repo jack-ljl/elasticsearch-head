@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="AppFolder">
+	<typeAlias alias="appFolder"
+		type="com.excellence.platform.missive.vo.AppFolderVO" />
+
+	<resultMap id="appFolderResult" class="appFolder">
+		<result property="id" column="FOLDER_ID" />
+		<result property="name" column="NAME" />
+		<result property="parentId" column="PARENT_ID" />
+		<result property="type" column="TYPE" />
+		<result property="desc" column="DESCRI" />
+		<result property="guid" column="GUID" />
+		<result property="unitId" column="UNIT_ID" />
+		<result property="unitName" column="UNIT_NAME" />		
+	</resultMap>
+
+	<insert id="insertAppFolder" parameterClass="appFolder">
+		INSERT INTO mv_app_folder ( FOLDER_ID, NAME, PARENT_ID, TYPE,
+		DESCRI, GUID, UNIT_ID, UNIT_NAME ) values
+		(#id#,#name:VARCHAR#,#parentId:NUMERIC#,#type:VARCHAR#,#desc:VARCHAR#,#guid:VARCHAR#,#unitId:NUMERIC#,#unitName:VARCHAR#)
+	</insert>
+
+	<select id="getAppFolderById" resultMap="appFolderResult"
+		parameterClass="int">
+		select * from mv_app_folder where FOLDER_ID=#value#
+	</select>
+
+	<select id="getAllAppFolders" resultMap="appFolderResult">
+		select * from mv_app_folder order by DESCRI
+	</select>
+
+	<select id="isHasFolder" resultClass="java.lang.Integer"
+		parameterClass="int">
+		select COUNT(*) from mv_app_folder where FOLDER_ID=#value#
+	</select>
+
+
+	<update id="updateAppFolder" parameterClass="appFolder">
+		update mv_app_folder set
+		NAME=#name:VARCHAR#,PARENT_ID=#parentId:NUMERIC#,
+		TYPE=#type:VARCHAR#,DESCRI=#desc:VARCHAR#,GUID=#guid:VARCHAR#,UNIT_ID=#unitId:NUMERIC#,UNIT_NAME=#unitName:VARCHAR#
+		where FOLDER_ID=#id#
+	</update>
+
+	<delete id="delAppFolder" parameterClass="int">
+		delete from mv_app_folder where FOLDER_ID=#value#
+	</delete>
+
+</sqlMap>

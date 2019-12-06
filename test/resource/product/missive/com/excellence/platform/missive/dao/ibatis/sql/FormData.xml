@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="FormData">
+	<typeAlias alias="formData"
+		type="com.excellence.platform.missive.vo.FormDataVO" />
+
+	<resultMap id="formDataResult" class="formData">
+		<result property="id" column="FORM_DATA_ID" />
+		<result property="formId" column="FORM_ID" />
+		<result property="name" column="NAME" />
+		<result property="type" column="TYPE" />
+	</resultMap>
+
+	<resultMap id="idsResult" class="java.lang.Integer">
+		<result property="id" column="FORM_DATA_ID" />
+	</resultMap>
+
+	<insert id="insertFormData" parameterClass="formData">
+		INSERT INTO mv_form_data ( FORM_DATA_ID, FORM_ID, NAME, TYPE )
+		VALUES (#id#,#formId:NUMERIC#,#name:VARCHAR#,#type:NUMERIC#)
+	</insert>
+	
+	<insert id="insertFormDataByoldIdAndFormId" parameterClass="java.util.Map">
+		INSERT INTO mv_form_data ( FORM_DATA_ID, FORM_ID, NAME, TYPE )
+		SELECT #newId#, #formId#, NAME, TYPE
+		FROM mv_form_data WHERE FORM_DATA_ID=#oldFrmDataId#
+	</insert>
+	
+	<select id="getFormDataById" resultMap="formDataResult"
+		parameterClass="int">
+		select * from mv_form_data where FORM_DATA_ID=#value#
+	</select>
+
+	<select id="getFormDataIdListByFormId" resultMap="idsResult"
+		parameterClass="int">
+		select FORM_DATA_ID from mv_form_data where FORM_ID=#value#
+	</select>
+	
+	<select id="getFormDataListByFormId" resultMap="formDataResult"
+		parameterClass="int">
+		select * from mv_form_data where FORM_ID=#value#
+	</select>
+
+	<delete id="delFormDataById" parameterClass="int">
+		delete from mv_form_data where FORM_DATA_ID=#value#
+	</delete>
+
+	<delete id="delFormDataByFormId" parameterClass="int">
+		delete from mv_form_data where FORM_ID=#value#
+	</delete>
+
+
+</sqlMap>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Delegate">
+	<typeAlias alias="delegate"
+		type="com.excellence.platform.missive.vo.DelegateVO" />
+
+	<resultMap id="delegateResult" class="delegate">
+		<result property="id" column="DELEGATE_ID" />
+		<result property="name" column="NAME" />
+		<result property="applicable" column="APPLICABLE" />
+		<result property="startTime" column="START_TIME" />
+		<result property="endTime" column="END_TIME" />
+		<result property="delegateeId" column="DELEGATEE_ID" />
+		<result property="delegatee" column="DELEGATEE" />
+		<result property="delegantId" column="DELEGANT_ID" />
+		<result property="delegant" column="DELEGANT" />
+		<result property="objectType" column="OBJECT_TYPE" />
+		<result property="objectId" column="OBJECT_ID" />
+		<result property="objectActivityId" column="OBJECT_ACT_ID" />
+	</resultMap>
+
+	<resultMap id="idsResult" class="java.lang.Integer">
+		<result property="id" column="DELEGATE_ID" />
+	</resultMap>
+
+	<insert id="insertDelegate" parameterClass="delegate">
+		INSERT INTO MV_DELEGATE ( DELEGATE_ID, NAME, APPLICABLE,
+		START_TIME, END_TIME, DELEGATEE_ID, DELEGATEE, DELEGANT_ID,
+		DELEGANT, OBJECT_TYPE, OBJECT_ID, OBJECT_ACT_ID ) VALUES
+		(#id#,#name:VARCHAR#,#applicable:NUMERIC#,#startTime:TIMESTAMP#,
+		#endTime:TIMESTAMP#,#delegateeId:NUMERIC#,#delegatee:VARCHAR#,#delegantId:NUMERIC#,
+		#delegant:VARCHAR#,#objectType:NUMERIC#,#objectId:NUMERIC#,#objectActivityId:NUMERIC#)
+	</insert>
+
+	<update id="updateDelegate" parameterClass="delegate">
+		update MV_DELEGATE set NAME=#name:VARCHAR#,
+		APPLICABLE=#applicable:NUMERIC#,
+		START_TIME=#startTime:TIMESTAMP#, END_TIME=#endTime:TIMESTAMP#,
+		DELEGATEE_ID=#delegateeId:NUMERIC#,
+		DELEGATEE=#delegatee:VARCHAR#,
+		DELEGANT_ID=#delegantId:NUMERIC#,DELEGANT=#delegant:VARCHAR#,
+		OBJECT_TYPE=#objectType:NUMERIC#,OBJECT_ID=#objectId:NUMERIC#,
+		OBJECT_ACT_ID=#objectActivityId:NUMERIC# where DELEGATE_ID=#id#
+	</update>
+
+	<select id="getDelegateById" resultMap="delegateResult"
+		parameterClass="int">
+		select * from MV_DELEGATE where DELEGATE_ID=#value#
+	</select>
+
+	<select id="getDelegateByDelegantIdAndFormSetIdAndActId"
+		resultMap="delegateResult" parameterClass="java.util.Map">
+		select * from MV_DELEGATE where DELEGANT_ID=#delegantId# and (
+		(object_type=1 and object_id=#objectId#) or (object_type=2 and
+		object_id=#objectId# and object_act_id=#activityId#) or
+		(object_type=3 and object_id=#objectId#) or (object_type=4 and
+		object_id=#objectId# and object_act_id=#activityId#) ) order by
+		object_type
+	</select>
+
+	<select id="getDelegateByObjectIdAndDelegantId"
+		resultMap="delegateResult" parameterClass="java.util.Map">
+		select * from MV_DELEGATE where OBJECT_ID=#objectId# and
+		DELEGANT_ID=#delegantId# and OBJECT_TYPE =#objType#
+	</select>
+
+	<select id="getDelegateByDelegantId"
+		resultMap="delegateResult" parameterClass="int">
+		select * from MV_DELEGATE where DELEGANT_ID=#delegantId#
+	</select>
+
+	<delete id="delDelegateById" parameterClass="int">
+		delete from MV_DELEGATE where DELEGATE_ID=#value#
+	</delete>
+
+</sqlMap>

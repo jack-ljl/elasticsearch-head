@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="DataTranMain">
+
+	<typeAlias alias="datatranmain"
+		type="com.excellence.platform.missive.vo.DataTranMainVO" />
+	
+	<resultMap id="datatranmainResult" class="datatranmain">
+		<result property="id" column="MAIN_ID" />
+		<result property="mappingName" column="MAPPING_NAME" />
+		<result property="oriObjectId" column="ORI_OBJECT_ID" />
+		<result property="aimObjectId" column="AIM_OBJECT_ID" />
+		<result property="control" column="CONTROL" />
+		<result property="transferType" column="TRANSFER_TYPE" nullValue="0" />
+	</resultMap>
+	
+
+	<resultMap id="idsResult" class="java.lang.Integer">
+		<result property="id" column="Main_ID" />
+	</resultMap>
+	
+	<select id="getDataTranMainVO" resultMap="datatranmainResult"
+		parameterClass="int">
+		select  * from MV_DATATRAN_MAIN 
+	</select>
+	
+	<select id="getDataTranMainVOById" resultMap="datatranmainResult"
+		parameterClass="int">
+		select  * from MV_DATATRAN_MAIN where MAIN_ID = #value#
+	</select>
+	
+	<select id="getDataTranMainVOByObjectId" resultMap="datatranmainResult"
+		parameterClass="int">
+		select  * from MV_DATATRAN_MAIN 
+			where ORI_OBJECT_ID=#value# or AIM_OBJECT_ID=#value#
+	</select>
+	
+	<select id="getDataTranMainVOByObjectIdAndType" resultMap="datatranmainResult"
+		parameterClass="java.util.Map">
+		select  * from MV_DATATRAN_MAIN 
+			where ( ORI_OBJECT_ID=#objectId:NUMERIC# or AIM_OBJECT_ID=#objectId:NUMERIC# ) and transfer_type = #transferType:NUMERIC#
+	</select>
+	
+	<select id="getDataTranMainVOByOriObjectId" resultMap="datatranmainResult"
+		parameterClass="int">
+		select  * from MV_DATATRAN_MAIN 
+			where ORI_OBJECT_ID=#value# 
+	</select>
+	
+	<select id="getDataTranMainVOByOriObjectIdAndType" resultMap="datatranmainResult"
+		parameterClass="java.util.Map">
+		select  * from MV_DATATRAN_MAIN 
+			where ORI_OBJECT_ID=#oriObjectId:NUMERIC# and transfer_type = #transferType:NUMERIC#
+	</select>
+	
+	<select id="getDataTranMainVOByAimObjectId" resultMap="datatranmainResult"
+		parameterClass="int">
+		select  * from MV_DATATRAN_MAIN 
+			where  AIM_OBJECT_ID=#value#
+	</select>
+	
+	<select id="getDataTranMainVOByAimObjectIdAndType" resultMap="datatranmainResult"
+		parameterClass="java.util.Map">
+		select  * from MV_DATATRAN_MAIN 
+			where  AIM_OBJECT_ID=#aimObjectId:NUMERIC# and transfer_type = #transferType:NUMERIC#
+	</select>
+	
+	
+	<select id="getDataTranMainVOByOriObjectIdAndAimObjectIdAndType" resultMap="datatranmainResult"
+		parameterClass="java.util.Map">
+		select  * from MV_DATATRAN_MAIN 
+			where ORI_OBJECT_ID=#oriObjectId:NUMERIC# and  AIM_OBJECT_ID=#aimObjectId:NUMERIC# and transfer_type = #transferType:NUMERIC#
+	</select>
+	
+	<delete id="delDataTranByObjectId" parameterClass="int">
+		delete from MV_DATATRAN_MAIN where ORI_OBJECT_ID=#value# or AIM_OBJECT_ID=#value#
+	</delete>
+	
+	<delete id="delDataTranByMainId" parameterClass="int">
+		delete from MV_DATATRAN_MAIN where MAIN_ID=#value#
+	</delete>
+	
+	<insert id="insertDataTranMain" parameterClass="datatranmain">
+		INSERT INTO MV_DATATRAN_MAIN
+		(MAIN_ID,MAPPING_NAME,ORI_OBJECT_ID,AIM_OBJECT_ID,CONTROL,TRANSFER_TYPE)
+		values
+		(#id#,#mappingName:VARCHAR#,#oriObjectId:NUMERIC#,#aimObjectId:NUMERIC#,#control:NUMERIC#,#transferType:NUMERIC#)
+	</insert>
+
+	<update id="updateDataTranMain" parameterClass="datatranmain">
+		update MV_DATATRAN_MAIN set 
+		MAPPING_NAME=#mappingName:VARCHAR#,ORI_OBJECT_ID=#oriObjectId:NUMERIC#,AIM_OBJECT_ID=#aimObjectId:NUMERIC#,
+		CONTROL=#control:NUMERIC#,TRANSFER_TYPE=#transferType:NUMERIC# where MAIN_ID=#id#
+	</update>
+
+</sqlMap>

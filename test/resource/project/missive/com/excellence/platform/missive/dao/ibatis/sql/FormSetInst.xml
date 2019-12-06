@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="FormSetInst">
+	<typeAlias alias="formSetInst"
+		type="com.excellence.platform.missive.vo.FormSetInstVO" />
+	<typeAlias alias="lockOfFormSetInst"
+		type="com.excellence.platform.missive.vo.LockOfFormSetInstVO" />
+			
+
+	<resultMap id="formSetInstResult" class="formSetInst">
+		<result property="id" column="FORMSET_INST_ID" />
+		<result property="procInfoId" column="PROC_ID" />
+		<result property="formId" column="FORM_ID" />
+		<result property="folderId" column="FOLDER_ID" />
+		<result property="formsetId" column="FORMSET_ID" />
+		<result property="name" column="NAME" />
+		<result property="status" column="STATUS" />
+		<result property="toPigeonhole" column="TO_PIGEONHOLE" />
+		<result property="toRepository" column="TO_REPOSITORY" />
+		<result property="lockingActivity" column="LOCKING_ACTIVITY" />
+		<result property="formsetName" column="FORMSET_NAME" />
+		<result property="textMode" column="TEXT_MODE" />
+		<result property="folderName" column="FOLDER_NAME" />
+		<result property="creatorId" column="CREATOR_ID" />
+		<result property="creator" column="CREATOR" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="lockerId" column="LOCKER_ID" />
+		<result property="locker" column="LOCKER" />
+		<result property="lockTime" column="LOCK_TIME" />
+		<result property="ext1" column="EXT1" />
+		<result property="ext2" column="EXT2" />
+		<result property="ext3" column="EXT3" />
+		<result property="ext4" column="EXT4" />
+		<result property="ext5" column="EXT5" />
+		<result property="ext6" column="EXT6" />
+		<result property="ext7" column="EXT7" />
+		<result property="ext8" column="EXT8" />
+		<result property="ext9" column="EXT9" />
+		<result property="ext10" column="EXT10" />
+		<result property="ext11" column="EXT11" />
+		<result property="ext12" column="EXT12" />
+		<result property="ext13" column="EXT13" />
+		<result property="ext14" column="EXT14" />
+		<result property="ext15" column="EXT15" />
+		<result property="ext16" column="EXT16" />
+		<result property="ext17" column="EXT17" />
+		<result property="ext18" column="EXT18" />
+		<result property="ext19" column="EXT19" />
+		<result property="ext20" column="EXT20" />
+		<result property="ext21" column="EXT21" />
+		<result property="ext22" column="EXT22" />
+		<result property="ext23" column="EXT23" />
+		<result property="ext24" column="EXT24" />
+		<result property="ext25" column="EXT25" />
+		<result property="ext26" column="EXT26" />
+		<result property="ext27" column="EXT27" />
+		<result property="ext28" column="EXT28" />
+		<result property="ext29" column="EXT29" />
+		<result property="ext30" column="EXT30" />
+		<result property="sysType" column="SYS_TYPE" />
+		<result property="guid" column="GUID" />
+		<result property="creatorDept" column="CREATOR_DEPT" />
+		<result property="creatorDeptId" column="CREATOR_DEPT_ID" nullValue="0"/>
+		<result property="creatorUnit" column="CREATOR_UNIT" />
+		<result property="creatorUnitId" column="CREATOR_UNIT_ID" nullValue="0"/>
+		<result property="formsetGuid" column="FORMSET_GUID" />
+		<result property="secretLevel" column="SECRET_LEVEL" nullValue="0"/>
+		<result property="secretLevelName" column="SECRET_LEVEL_NAME" />
+		<result property="signature" column="SIGNATURE" />
+	</resultMap>
+
+	<resultMap id="lockOfFormSetInstResult" class="lockOfFormSetInst">
+		<result property="instId" column="FORMSET_INST_ID" />
+		<result property="lockerId" column="LOCKER_ID" />
+		<result property="locker" column="LOCKER" />
+		<result property="lockTime" column="LOCK_TIME" />
+	</resultMap>
+	
+	<resultMap id="idsResult" class="java.lang.Integer">
+		<result property="id" column="ACT_ID" />
+	</resultMap>
+
+	<insert id="insertFormSetInst" parameterClass="formSetInst">
+		INSERT INTO MV_FORMSET_INST ( FORMSET_INST_ID, PROC_ID, FORM_ID,
+		FOLDER_ID, FORMSET_ID, NAME, STATUS, TO_PIGEONHOLE,
+		TO_REPOSITORY, LOCKING_ACTIVITY, FORMSET_NAME, TEXT_MODE,
+		FOLDER_NAME, CREATOR_ID, CREATOR, CREATE_TIME, LOCKER_ID,
+		LOCKER, LOCK_TIME, EXT1, EXT2, EXT3, EXT4, EXT5, EXT6, EXT7,
+		EXT8, EXT9, EXT10, EXT11, EXT12, EXT13, EXT14, EXT15, EXT16,
+		EXT17, EXT18, EXT19, EXT20, EXT21, EXT22, EXT23, EXT24, EXT25,
+		EXT26, EXT27, EXT28, EXT29, EXT30, SYS_TYPE, GUID, CREATOR_DEPT,
+		CREATOR_DEPT_ID, FORMSET_GUID, CREATOR_UNIT, CREATOR_UNIT_ID, SECRET_LEVEL, SECRET_LEVEL_NAME, SIGNATURE) VALUES
+		(#id#,#procInfoId:NUMERIC#,#formId:NUMERIC#,#folderId:NUMERIC#,
+		#formsetId:NUMERIC#,#name:VARCHAR#,#status:NUMERIC#,#toPigeonhole:NUMERIC#,
+		#toRepository:NUMERIC#,#lockingActivity:VARCHAR#,#formsetName:VARCHAR#,#textMode:VARCHAR#,
+		#folderName:VARCHAR#,#creatorId:NUMERIC#,#creator:VARCHAR#,#createTime:TIMESTAMP#,
+		#lockerId:NUMERIC#,#locker:VARCHAR#,#lockTime:TIMESTAMP#,#ext1:VARCHAR#,
+		#ext2:VARCHAR#,#ext3:VARCHAR#,#ext4:VARCHAR#,#ext5:VARCHAR#,
+		#ext6:VARCHAR#,#ext7:VARCHAR#,#ext8:VARCHAR#,#ext9:VARCHAR#,
+		#ext10:VARCHAR#,#ext11:VARCHAR#,#ext12:VARCHAR#,#ext13:VARCHAR#,
+		#ext14:VARCHAR#,#ext15:VARCHAR#,#ext16:VARCHAR#,#ext17:VARCHAR#,
+		#ext18:VARCHAR#,#ext19:VARCHAR#,#ext20:VARCHAR#,#ext21:VARCHAR#,
+		#ext22:VARCHAR#,#ext23:NUMERIC#,#ext24:NUMERIC#,#ext25:NUMERIC#,
+		#ext26:NUMERIC#,#ext27:TIMESTAMP#,#ext28:TIMESTAMP#,#ext29:TIMESTAMP#,
+		#ext30:TIMESTAMP#,#sysType:NUMERIC#,#guid:NUMERIC#,#creatorDept:VARCHAR#,
+		#creatorDeptId:NUMERIC#,#formsetGuid:VARCHAR#,
+		#creatorUnit:VARCHAR#,#creatorUnitId:NUMERIC#,
+		#secretLevel:NUMERIC#,#secretLevelName:VARCHAR#,#signature:VARCHAR#)
+	</insert>
+
+
+	<update id="updateFormSetInst" parameterClass="formSetInst">
+		UPDATE MV_FORMSET_INST set PROC_ID=#procInfoId:NUMERIC#,
+		FORM_ID=#formId:NUMERIC#, FOLDER_ID=#folderId:NUMERIC#,
+		FORMSET_ID=#formsetId:NUMERIC#, NAME=#name:VARCHAR#,
+		STATUS=#status:NUMERIC#, TO_PIGEONHOLE=#toPigeonhole:NUMERIC#,
+		TO_REPOSITORY=#toRepository:NUMERIC#,
+		LOCKING_ACTIVITY=#lockingActivity:VARCHAR#,
+		FORMSET_NAME=#formsetName:VARCHAR#,
+		TEXT_MODE=#textMode:VARCHAR#, FOLDER_NAME=#folderName:VARCHAR#,
+		CREATOR_ID=#creatorId:NUMERIC#, CREATOR=#creator:VARCHAR#,
+		CREATE_TIME=#createTime:TIMESTAMP#,
+		LOCKER_ID=#lockerId:NUMERIC#, LOCKER=#locker:VARCHAR#,
+		LOCK_TIME=#lockTime:TIMESTAMP#, EXT1=#ext1:VARCHAR#,
+		EXT2=#ext2:VARCHAR#, EXT3=#ext3:VARCHAR#, EXT4=#ext4:VARCHAR#,
+		EXT5=#ext5:VARCHAR#, EXT6=#ext6:VARCHAR#, EXT7=#ext7:VARCHAR#,
+		EXT8=#ext8:VARCHAR#, EXT9=#ext9:VARCHAR#, EXT10=#ext10:VARCHAR#,
+		EXT11=#ext11:VARCHAR#, EXT12=#ext12:VARCHAR#,
+		EXT13=#ext13:VARCHAR#, EXT14=#ext14:VARCHAR#,
+		EXT15=#ext15:VARCHAR#, EXT16=#ext16:VARCHAR#,
+		EXT17=#ext17:VARCHAR#, EXT18=#ext18:VARCHAR#,
+		EXT19=#ext19:VARCHAR#, EXT20=#ext20:VARCHAR#,
+		EXT21=#ext21:VARCHAR#, EXT22=#ext22:VARCHAR#,
+		EXT23=#ext23:NUMERIC#, EXT24=#ext24:NUMERIC#,
+		EXT25=#ext25:NUMERIC#, EXT26=#ext26:NUMERIC#,
+		EXT27=#ext27:TIMESTAMP#, EXT28=#ext28:TIMESTAMP#,
+		EXT29=#ext29:TIMESTAMP#, EXT30=#ext30:TIMESTAMP#,
+		SYS_TYPE=#sysType:NUMERIC#, GUID=#guid:NUMERIC#,
+		CREATOR_DEPT=#creatorDept:VARCHAR#,
+		CREATOR_DEPT_ID=#creatorDeptId:NUMERIC#,
+		CREATOR_UNIT=#creatorUnit:VARCHAR#,
+		CREATOR_UNIT_ID=#creatorUnitId:NUMERIC#,
+		FORMSET_GUID=#formsetGuid:VARCHAR#,
+		SECRET_LEVEL=#secretLevel:NUMERIC#, SECRET_LEVEL_NAME=#secretLevelName:VARCHAR#, SIGNATURE=#signature:VARCHAR#
+		where FORMSET_INST_ID=#id#
+	</update>
+
+
+	<select id="getFormSetInstById" resultMap="formSetInstResult"
+		parameterClass="int">
+		select * from MV_FORMSET_INST where FORMSET_INST_ID=#value#
+	</select>
+
+	<select id="getFormInsetCountByProcId"
+		resultClass="java.lang.Integer" parameterClass="int">
+		select COUNT(*) from MV_FORMSET_INST where PROC_ID=#value#
+	</select>
+
+	<select id="getInstNumByFormsetId" resultClass="java.lang.Integer"
+		parameterClass="int">
+		select COUNT(*) from MV_FORMSET_INST where FORMSET_ID=#value#
+	</select>
+
+	<select id="getInstNumByFormId" resultClass="java.lang.Integer"
+		parameterClass="int">
+		select COUNT(*) from MV_FORMSET_INST where FORM_ID=#value#
+	</select>
+
+	<select id="getInstLockByInstId" resultMap="lockOfFormSetInstResult"
+		parameterClass="int">
+		select FORMSET_INST_ID,LOCKER_ID,LOCKER,LOCK_TIME from
+		MV_FORMSET_INST where FORMSET_INST_ID=#value#
+	</select>
+
+	<select id="isExistInstById" resultClass="java.lang.Integer"
+		parameterClass="int">
+		select COUNT(*) from MV_FORMSET_INST where
+		FORMSET_INST_ID=#value#
+	</select>
+	<!-- 
+	<select id="getAssignmentListByInstIdList" resultClass="java.lang.Integer"
+		parameterClass="list">
+		select * from mv_formset_inst where status=2 and formset_inst_id in 
+		<iterate open="(" close=")" conjunction=",">#[]#</iterate>
+	</select>-->
+
+	<update id="updateForAddLockByLockOfFormSetInst"
+		parameterClass="lockOfFormSetInst">
+		update MV_FORMSET_INST set LOCKER_ID=#lockerId:NUMERIC#,
+		LOCKER=#locker:VARCHAR#,LOCK_TIME=#lockTime:TIMESTAMP#
+		<isEmpty prepend="," property="lockingActivity">
+			LOCKING_ACTIVITY=#lockingActivity:VARCHAR#
+		</isEmpty>
+		where FORMSET_INST_ID=#instId#
+	</update>
+
+	<update id="updateStatusByInstId" parameterClass="java.util.Map">
+		update MV_FORMSET_INST set STATUS=#status:NUMERIC# where
+		FORMSET_INST_ID=#instId#
+	</update>
+
+	<delete id="delFormSetInstById" parameterClass="int">
+		delete from MV_FORMSET_INST where FORMSET_INST_ID=#value#
+	</delete>
+
+
+</sqlMap>

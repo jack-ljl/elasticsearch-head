@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Class-Path: common.jar 
+ package/jdom.jar 
+ package/js.jar 
+ package/spring-mock.jar 
+ package/spring.jar 
+ user.jar 
+ package/easymock.jar 
+ package/commons-beanutils.jar 
+ package/commons-collections.jar 
+ package/commons-digester.jar 
+ package/commons-lang.jar 
+ package/ibatis-2.3.0.677.jar 
+ package/json.jar 
+ package/httpclient-4.3.6.jar 
+ package/httpcore-4.3.3.jar 
+ package/httpmime-4.3.6.jar 
+ package/commons-codec-1.3-dev.jar 
+ package/commons-io.jar
+

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="DataTranDetail">
+
+	<typeAlias alias="datatrandetail"
+		type="com.excellence.platform.missive.vo.DataTranDetailVO" />
+
+	<resultMap id="datatrandetailResult" class="datatrandetail">
+		<result property="id" column="DETAIL_ID" />
+		<result property="mainId" column="MAIN_ID" />
+		<result property="oriDataName" column="ORI_DATA_NAME" />
+		<result property="aimDataName" column="AIM_DATA_NAME" />
+		<result property="mapControl" column="MAP_CONTROL"  nullValue="0"/>
+		<result property="fileControl" column="FILE_CONTROL" nullValue="0" />
+	</resultMap>
+
+	<delete id="delDataTranDetailByMainId" parameterClass="int">
+		delete from mv_datatran_detail where MAIN_ID=#value#
+	</delete>
+
+	<insert id="insertDataTranDetail" parameterClass="datatrandetail">
+		INSERT INTO mv_datatran_detail
+		(DETAIL_ID,MAIN_ID,ORI_DATA_NAME,AIM_DATA_NAME,MAP_CONTROL,FILE_CONTROL)
+		values
+		(#id#,#mainId:NUMERIC#,#oriDataName:VARCHAR#,#aimDataName:VARCHAR#,#mapControl:NUMERIC#,#fileControl:NUMERIC#)
+	</insert>
+
+	<select id="getDataTranDetailVOByMainId" parameterClass="int" resultMap="datatrandetailResult">
+		select * from mv_datatran_detail where MAIN_ID = #value#
+	</select>
+
+</sqlMap>

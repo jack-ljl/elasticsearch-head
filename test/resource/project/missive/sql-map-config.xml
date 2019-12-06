@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN" "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>	
+
+	<sqlMap resource="com/excellence/platform/missive/dao/ibatis/sql/Sequence.xml"/>	
+    <sqlMap resource="com/excellence/platform/missive/dao/ibatis/sql/Activity.xml"/>
+    <sqlMap resource="com/excellence/platform/missive/dao/ibatis/sql/Transition.xml"/>
+    <sqlMap resource="com/excellence/platform/missive/dao/ibatis/sql/Participant.xml"/>
+    <sqlMap resource="com/excellence/platform/missive/dao/ibatis/sql/ProcInfo.xml"/>
+    <sqlMap resource="com/excellence/platform/missive/dao/ibatis/sql/Flow.xml"/>
+    <sqlMap resource="com/excellence/platform/missive/dao/ibatis/sql/AppFolder.xml"/>
+    <sqlMap resource="com/excellence/platform/missive/dao/ibatis/sql/SpecialRoute.xml"/>
+    <sqlMap resource="com/excellence/platform/missive/dao/ibatis/sql/FlowInst.xml"/>
+    <sqlMap resource="com/excellence/platform/missive/dao/ibatis/sql/Form.xml"/>
+    <sqlMap resource="com/excellence/platform/missive/dao/ibatis/sql/FormSetInst.xml"/>
+    <sqlMap resource="com/excellence/platform/missive/dao/ibatis/sql/Formset.xml"/>
+    <sqlMap resource="com/excellence/platform/missive/dao/ibatis/sql/ObjectRight.xml"/>
+    <sqlMap resource="com/excellence/platform/missive/dao/ibatis/sql/ObjectPdaRight.xml"/>
+    <sqlMap resource="com/excellence/platform/missive/dao/ibatis/sql/FormRight.xml"/>
+    <sqlMap resource="com/excellence/platform/missive/dao/ibatis/sql/DocAttributes.xml"/>
+    <sqlMap resource="com/excellence/platform/missive/dao/ibatis/sql/FormData.xml"/>
+    <sqlMap resource="com/excellence/platform/missive/dao/ibatis/sql/SubForm.xml"/>
+    <sqlMap resource="com/excellence/platform/missive/dao/ibatis/sql/FormObject.xml"/>
+    <sqlMap resource="com/excellence/platform/missive/dao/ibatis/sql/DataHistory.xml"/>
+    <sqlMap resource="com/excellence/platform/missive/dao/ibatis/sql/Delegate.xml"/>
+    <sqlMap resource="com/excellence/platform/missive/dao/ibatis/sql/ExProperty.xml"/>
+    <sqlMap resource="com/excellence/platform/missive/dao/ibatis/sql/ExternalProgram.xml"/>
+    <sqlMap resource="com/excellence/platform/missive/dao/ibatis/sql/OpinionInst.xml"/>
+    <sqlMap resource="com/excellence/platform/missive/dao/ibatis/sql/WorkItem.xml"/>
+    <sqlMap resource="com/excellence/platform/missive/dao/ibatis/sql/UsualTarget.xml"/> 
+    <sqlMap resource="com/excellence/platform/missive/dao/ibatis/sql/File.xml"/>
+    <sqlMap resource="com/excellence/platform/missive/dao/ibatis/sql/FormDataInst.xml"/>        
+    <sqlMap resource="com/excellence/platform/missive/dao/ibatis/sql/WorkLog.xml"/>
+    <sqlMap resource="com/excellence/platform/missive/dao/ibatis/sql/TimeLimit.xml"/>
+    <sqlMap resource="com/excellence/platform/missive/dao/ibatis/sql/DocTransferBase.xml"/>
+    <sqlMap resource="com/excellence/platform/missive/dao/ibatis/sql/DocTransferMap.xml"/>        
+    <sqlMap resource="com/excellence/platform/missive/dao/ibatis/sql/DataTranDetail.xml"/>
+    <sqlMap resource="com/excellence/platform/missive/dao/ibatis/sql/DataTranMain.xml"/>
+    <sqlMap resource="com/excellence/platform/missive/dao/ibatis/sql/DataTranWorkItemRela.xml"/>
+</sqlMapConfig>

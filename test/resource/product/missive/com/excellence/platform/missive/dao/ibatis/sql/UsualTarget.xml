@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="UsualTarget">
+	<typeAlias alias="usualTarget"
+		type="com.excellence.platform.missive.vo.UsualTargetVO" />
+
+	<resultMap id="usualTargetResult" class="usualTarget">
+		<result property="id" column="TARGET_ID" />
+		<result property="formId" column="FORM_ID" />
+		<result property="srcActId" column="SRC_ACT_ID" />
+		<result property="destActId" column="DEST_ACT_ID" />
+		<result property="userId" column="USER_ID" />
+		<result property="ids" column="PARTICIPANT_IDS" />
+		<result property="names" column="PARTICIPANT_NAMES" />
+		<result property="useCount" column="USE_COUNT" />
+	</resultMap>
+
+	<resultMap id="idsResult" class="java.lang.Integer">
+		<result property="id" column="FORM_DATA_ID" />
+	</resultMap>
+
+	<insert id="insertUsualTarget" parameterClass="usualTarget">
+		INSERT INTO mv_usual_target ( TARGET_ID, FORM_ID, SRC_ACT_ID,
+		DEST_ACT_ID, USER_ID, PARTICIPANT_IDS, PARTICIPANT_NAMES,
+		USE_COUNT ) VALUES
+		(#id#,#formId:NUMERIC#,#srcActId:NUMERIC#,#destActId:NUMERIC#,
+		#userId:NUMERIC#,#ids:VARCHAR#,#names:VARCHAR#,1)
+	</insert>
+
+
+	<select id="getUsualTargetCount" resultClass="java.lang.Integer"
+		parameterClass="usualTarget">
+		select Count(*) from mv_usual_target where FORM_ID=#formId# and
+		SRC_ACT_ID=#srcActId# and DEST_ACT_ID=#destActId# and
+		USER_ID=#userId# and PARTICIPANT_IDS=#ids:VARCHAR# and
+		PARTICIPANT_NAMES=#names:VARCHAR#
+	</select>
+
+	<select id="getUsualTargetById" resultMap="usualTargetResult"
+		parameterClass="int">
+		select * from mv_usual_target where TARGET_ID=#value#
+	</select>
+
+	<update id="updateUsualTarget" parameterClass="usualTarget">
+		update mv_usual_target  set 
+		use_count=use_count+1 where form_id=#formId# and
+		user_id=#userId# and src_act_id=#srcActId# and
+		dest_act_id=#destActId# and participant_ids=#ids:VARCHAR# and
+		participant_names=#names:VARCHAR#
+	</update>
+
+	<delete id="delUsualTargetById" parameterClass="int">
+		delete from mv_usual_target where TARGET_ID=#value#
+	</delete>
+
+
+
+</sqlMap>

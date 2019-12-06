@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Participant">
+ <typeAlias alias="participant" type="com.excellence.platform.missive.vo.ParticipantVO"/>
+  
+   <resultMap id="participantResult" class="participant">
+    <result property="id" column="PART_ID" />
+    <result property="actId"  column="ACT_ID"/>
+    <result property="name" column="NAME" />
+    <result property="objectId" column="OBJECT_ID"/>
+    <result property="objectType" column="OBJECT_TYPE"/>
+  </resultMap>
+  
+   <resultMap id="idsResult" class="java.lang.Integer">
+  <result property="id" column="PART_ID" />
+  </resultMap>
+  
+<insert id="insertParticipant" parameterClass="participant">
+INSERT INTO mv_participant ( PART_ID, ACT_ID, NAME, OBJECT_ID,
+OBJECT_TYPE ) values
+  (#id#,#actId:NUMERIC#,#name:VARCHAR#,#objectId:NUMERIC#,#objectType:NUMERIC#)
+</insert>
+
+
+<insert id="insertParticipantByOldpartId" parameterClass="java.util.Map">
+INSERT INTO mv_participant ( PART_ID, ACT_ID, NAME, OBJECT_ID,
+OBJECT_TYPE ) 
+SELECT  #newId#, #newActId#, NAME, OBJECT_ID,OBJECT_TYPE
+FROM mv_participant WHERE PART_ID=#oldPartId#
+</insert>
+
+ <select id="getParticipantById" resultMap="participantResult" parameterClass="int">
+    select * from mv_participant where PART_ID=#value#    
+  </select>
+  
+   <select id="getParticipantByActId" resultMap="idsResult" parameterClass="int">
+    select PART_ID from mv_participant where ACT_ID=#value#    
+  </select>
+  
+   <select id="getParticipantListByActId" resultMap="participantResult" parameterClass="int">
+    select * from mv_participant where ACT_ID=#value#    
+  </select>
+  
+   <select id="getParticipantListByProcId" resultMap="participantResult" parameterClass="int">
+    select mv_participant.* from mv_participant,mv_activity where mv_participant.ACT_ID=mv_activity.ACT_ID and mv_activity.PROC_ID=#value#    
+  </select>
+ 
+
+ <update id="updateParticipant"  parameterClass="participant">
+   update mv_participant set ACT_ID=#actId:NUMERIC#,NAME=#name:VARCHAR#,
+   OBJECT_ID=#objectId:NUMERIC#,OBJECT_TYPE=#objectType:NUMERIC#
+    where PART_ID=#id#    
+ </update> 
+
+  
+  <delete id="delParticipant"  parameterClass="int">
+    delete from mv_participant where PART_ID=#value#    
+  </delete>
+  <!-- 
+   <delete id="delParticipantByActId"  parameterClass="string">
+    delete from mv_participant where ACT_ID in (#value#)    
+  </delete>-->
+
+ <delete id="delParticipantsByFlowId"  parameterClass="int">
+    delete from mv_participant where ACT_ID in 
+    (select ACT_ID from mv_activity where PROC_ID IN 
+    (select PROC_ID from mv_proc_info where FLOW_ID=#value#))    
+  </delete>
+  
+   <delete id="delParticipantsByProcId"  parameterClass="int">
+    delete from mv_participant where ACT_ID in 
+    (select ACT_ID from mv_activity where PROC_ID=#value#)    
+  </delete>
+</sqlMap>

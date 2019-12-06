@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ObjectRight">
+	<typeAlias alias="objectRight"
+		type="com.excellence.platform.missive.vo.ObjectRightVO" />
+
+	<resultMap id="objectRightResult" class="objectRight">
+		<result property="id" column="OBJECT_RIGHT_ID" />
+		<result property="objectId" column="OBJECT_ID" />
+		<result property="attributeId" column="ATTRIBUTE_ID" />
+		<result property="right" column="RIGHT" />
+		<result property="printable" column="PRINTABLE" />
+	</resultMap>
+
+	<resultMap id="idsResult" class="java.lang.Integer">
+		<result property="id" column="OBJECT_RIGHT_ID" />
+	</resultMap>
+
+	<insert id="insertObjectRight" parameterClass="objectRight">
+		INSERT INTO MV_OBJECT_RIGHT ( OBJECT_RIGHT_ID, OBJECT_ID,
+		ATTRIBUTE_ID, "RIGHT", PRINTABLE ) VALUES
+		(#id#,#objectId:NUMERIC#,#attributeId:NUMERIC#,#right:NUMERIC#,#printable:NUMERIC#)
+	</insert>
+
+
+	<select id="getObjectRightById" resultMap="objectRightResult"
+		parameterClass="int">
+		select * from MV_OBJECT_RIGHT where OBJECT_RIGHT_ID=#value#
+	</select>
+
+	<select id="getObjectRightListByDocAttId"
+		resultMap="objectRightResult" parameterClass="int">
+		select * from MV_OBJECT_RIGHT where ATTRIBUTE_ID=#value#
+	</select>
+
+	<select id="getObjectRightListByFormId" resultMap="objectRightResult"
+		parameterClass="int">
+		select MV_OBJECT_RIGHT.* from mv_doc_attributes,MV_OBJECT_RIGHT 
+		where MV_OBJECT_RIGHT.ATTRIBUTE_ID=mv_doc_attributes.ATTRIBUTE_ID and mv_doc_attributes.OBJECT_ID=#value#
+	</select>
+
+	<delete id="delObjectRightsByFormId" parameterClass="int">
+		delete from MV_OBJECT_RIGHT where ATTRIBUTE_ID In (select
+		ATTRIBUTE_ID from MV_DOC_ATTRIBUTES where OBJECT_ID=#value#)
+	</delete>
+
+	<delete id="delObjectRight" parameterClass="int">
+		delete from MV_OBJECT_RIGHT where OBJECT_RIGHT_ID=#value#
+	</delete>
+
+
+</sqlMap>

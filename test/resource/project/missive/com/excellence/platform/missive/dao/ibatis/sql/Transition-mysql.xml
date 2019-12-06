@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Transition">
+	<typeAlias alias="transition"
+		type="com.excellence.platform.missive.vo.TransitionVO" />
+
+	<resultMap id="transitionResult" class="transition">
+		<result property="id" column="TRA_ID" />
+		<result property="procInfoId" column="PROC_ID" />
+		<result property="fromActId" column="FROM_ACT_ID" />
+		<result property="toActId" column="TO_ACT_ID" />
+		<result property="name" column="NAME" />
+		<result property="desc" column="DESCRI" />
+		<result property="priority" column="PRIORITY" />
+		<result property="filter" column="FILTER" />
+		<result property="condition" column="CONDITION" />
+		<result property="fromFlag" column="FROM_FLAG" />
+		<result property="toFlag" column="TO_FLAG" />
+		<result property="points" column="POINTS" />
+		<result property="tranDesc" column="tran_desc" />
+	</resultMap>
+
+	<resultMap id="transitionResult1" class="transition">
+		<result property="fromActId" column="FROM_ACT_ID" />
+		<result property="toActId" column="TO_ACT_ID" />
+	</resultMap>
+
+	<resultMap id="idsResult" class="java.lang.Integer">
+		<result property="id" column="TRA_ID" />
+	</resultMap>
+
+	<insert id="insertTransition" parameterClass="transition">
+		INSERT INTO MV_TRANSITION (TRA_ID,PROC_ID, FROM_ACT_ID,
+		TO_ACT_ID, NAME, DESCRI, PRIORITY, FILTER, `CONDITION`, FROM_FLAG,
+		TO_FLAG, POINTS,tran_desc) values
+		(#id#,#procInfoId:NUMERIC#,#fromActId:NUMERIC#,#toActId:NUMERIC#,#name:VARCHAR#,
+		#desc:VARCHAR#,#priority:NUMERIC#,#filter:NUMERIC#,#condition:VARCHAR#,#fromFlag:NUMERIC#,
+		#toFlag:NUMERIC#,#points:VARCHAR#,#tranDesc:VARCHAR#)
+	</insert>
+
+	<insert id="insertTransitionByProcId"
+		parameterClass="java.util.Map">
+		INSERT INTO MV_TRANSITION (TRA_ID,PROC_ID, FROM_ACT_ID,
+		TO_ACT_ID, NAME, DESCRI, PRIORITY, FILTER, `CONDITION`, FROM_FLAG,
+		TO_FLAG, POINTS,tran_desc) SELECT #newId#,#newProcId#, #newFromActId#,
+		#newToActId#, NAME, DESCRI, PRIORITY, FILTER, `CONDITON`, FROM_FLAG,
+		TO_FLAG, POINTS,tran_desc FROM MV_TRANSITION WHERE TRA_ID=#oldTranId#
+	</insert>
+
+	<select id="getTransitionById" resultMap="transitionResult"
+		parameterClass="int">
+		select * from MV_TRANSITION where TRA_ID=#value#
+	</select>
+
+	<select id="getTransitionActIdsById" resultMap="transitionResult1"
+		parameterClass="int">
+		select * from MV_TRANSITION where TRA_ID=#value#
+	</select>
+
+	<select id="getTransitionsByProcId" resultMap="idsResult"
+		parameterClass="int">
+		select TRA_ID from MV_TRANSITION where PROC_ID=#value#
+	</select>
+
+	<select id="getTransitionListByProcId" resultMap="transitionResult"
+		parameterClass="int">
+		select * from MV_TRANSITION where PROC_ID=#value#
+	</select>
+
+	<update id="updateTransition" parameterClass="transition">
+		update MV_transition set
+		PROC_ID=#procInfoId:NUMERIC#,FROM_ACT_ID=#fromActId:NUMERIC#,TO_ACT_ID=#toActId:NUMERIC#,NAME=#name:VARCHAR#,
+		DESCRI=#desc:VARCHAR#,PRIORITY=#priority:NUMERIC#,FILTER=#filter:NUMERIC#,`CONDITON`=#condition:VARCHAR#,
+		FROM_FLAG=#fromFlag:NUMERIC#,TO_FLAG=#toFlag:NUMERIC#,POINTS=#points:VARCHAR#,tran_desc=#tranDesc:VARCHAR#
+		where TRA_ID=#id#
+	</update>
+
+
+	<update id="updateFromActIdByOldAndNew"
+		parameterClass="java.util.Map">
+		update MV_transition set FROM_ACT_ID=#newActId:NUMERIC# where
+		FROM_ACT_ID=#oldActId# and PROC_ID=#newProcId#
+	</update>
+
+	<update id="updateToActIdByOldAndNew" parameterClass="map">
+		update MV_transition set TO_ACT_ID=#newActId:NUMERIC# where
+		TO_ACT_ID=#oldActId# and PROC_ID=#newProcId#
+	</update>
+
+
+	<delete id="delTransition" parameterClass="int">
+		delete from MV_TRANSITION where TRA_ID=#value#
+	</delete>
+	<delete id="delTransitionByProcId" parameterClass="int">
+		delete from MV_TRANSITION where PROC_ID=#value#
+	</delete>
+	<delete id="delTransitionsByFlowId" parameterClass="int">
+		delete from MV_TRANSITION where PROC_ID IN (select PROC_ID from
+		MV_PROC_INFO where FLOW_ID=#value#)
+	</delete>
+
+
+</sqlMap>

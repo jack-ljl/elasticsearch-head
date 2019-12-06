@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SubForm">
+	<typeAlias alias="subForm"
+		type="com.excellence.platform.missive.vo.SubFormVO" />
+
+	<resultMap id="subFormResult" class="subForm">
+		<result property="id" column="SUBFORM_ID" />
+		<result property="formId" column="FORM_ID" />
+		<result property="name" column="NAME" />
+		<result property="contentPath" column="CONTENT_PATH" />
+		<result property="orientation" column="ORIENTATION" />
+		<result property="isShowText" column="IS_SHOW_TEXT" />
+		<result property="gutter" column="GUTTER" />
+		<result property="gutterType" column="GUTTER_TYPE" />
+		<result property="pageWidth" column="PAGE_WIDTH" />
+		<result property="pageHeight" column="PAGE_HEIGHT" />
+		<result property="pageImageableX" column="PAGE_IMAGEABLE_X" />
+		<result property="pageImageableY" column="PAGE_IMAGEABLE_Y" />
+		<result property="pageImageableWidth"
+			column="PAGE_IMAGEABLE_WIDTH" />
+		<result property="pageImageableHeight"
+			column="PAGE_IMAGEABLE_HEIGHT" />
+		<result property="enName" column="EN_NAME" />
+		<result property="url" column="URL" />
+		<result property="params" column="PARAMS" />
+	</resultMap>
+
+	<resultMap id="idsResult" class="java.lang.Integer">
+		<result property="id" column="SUBFORM_ID" />
+	</resultMap>
+
+	<insert id="insertSubForm" parameterClass="subForm">
+		INSERT INTO MV_SUBFORM ( SUBFORM_ID, FORM_ID, NAME,
+		CONTENT_PATH, ORIENTATION, IS_SHOW_TEXT, GUTTER, GUTTER_TYPE,
+		PAGE_WIDTH, PAGE_HEIGHT, PAGE_IMAGEABLE_X, PAGE_IMAGEABLE_Y,
+		PAGE_IMAGEABLE_WIDTH, PAGE_IMAGEABLE_HEIGHT, EN_NAME, URL,
+		PARAMS ) VALUES
+		(#id#,#formId:NUMERIC#,#name:VARCHAR#,#contentPath:VARCHAR#,
+		#orientation:VARCHAR#,#isShowText:NUMERIC#,#gutter:VARCHAR#,
+		#gutterType:VARCHAR#,#pageWidth:VARCHAR#,#pageHeight:VARCHAR#,
+		#pageImageableX:VARCHAR#,#pageImageableY:VARCHAR#,#pageImageableWidth:VARCHAR#,
+		#pageImageableHeight:VARCHAR#,#enName:VARCHAR#,#url:VARCHAR#,
+		#params:VARCHAR#)
+	</insert>
+	
+	<insert id="insertSubFormByOldIdAndFormId" parameterClass="java.util.Map">
+		INSERT INTO MV_SUBFORM ( SUBFORM_ID, FORM_ID, NAME,
+		CONTENT_PATH, ORIENTATION, IS_SHOW_TEXT, GUTTER, GUTTER_TYPE,
+		PAGE_WIDTH, PAGE_HEIGHT, PAGE_IMAGEABLE_X, PAGE_IMAGEABLE_Y,
+		PAGE_IMAGEABLE_WIDTH, PAGE_IMAGEABLE_HEIGHT, EN_NAME, URL,
+		PARAMS ) Select 
+		#newId:NUMERIC#,#formId:NUMERIC#,NAME,
+		CONTENT_PATH, ORIENTATION, IS_SHOW_TEXT, GUTTER, GUTTER_TYPE,
+		PAGE_WIDTH, PAGE_HEIGHT, PAGE_IMAGEABLE_X, PAGE_IMAGEABLE_Y,
+		PAGE_IMAGEABLE_WIDTH, PAGE_IMAGEABLE_HEIGHT, EN_NAME, URL,
+		PARAMS from  MV_SUBFORM where SUBFORM_ID=#oldSubFormId#
+	</insert>
+
+	<select id="getSubFormById" resultMap="subFormResult"
+		parameterClass="int">
+		select * from MV_SUBFORM where SUBFORM_ID=#value#
+	</select>
+	
+	<select id="getSubFormIdListByFormId" resultMap="idsResult"
+		parameterClass="int">
+		select SUBFORM_ID from MV_SUBFORM where FORM_ID=#value# order by SUBFORM_ID
+	</select>
+
+	<select id="getSubFormListByFormId" resultMap="subFormResult"
+		parameterClass="int">
+		select * from MV_SUBFORM where FORM_ID=#value#
+	</select>
+
+	<delete id="delSubFormById" parameterClass="int">
+		delete from MV_SUBFORM where SUBFORM_ID=#value#
+	</delete>
+
+	<delete id="delSubFormByFormId" parameterClass="int">
+		delete from MV_SUBFORM where FORM_ID=#value#
+	</delete>
+
+
+</sqlMap>

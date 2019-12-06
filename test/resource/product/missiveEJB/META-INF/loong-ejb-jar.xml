@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<loong-ejb-jar>
+	<enterprise-beans>
+	<ejb>
+      <ejb-name>MissiveAdmin</ejb-name>
+      <jndi-name>ejb/missive/MissiveAdminRemote</jndi-name>
+	  <local-jndi-name>ejb/missive/MissiveAdmin</local-jndi-name>
+  </ejb>
+
+  	<ejb>
+      <ejb-name>MissiveProcessor</ejb-name>
+      <jndi-name>ejb/missive/MissiveProcessorRemote</jndi-name>
+	  <local-jndi-name>ejb/missive/MissiveProcessor</local-jndi-name>
+  </ejb>
+	</enterprise-beans>
+</loong-ejb-jar>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+
+<beans>
+
+	<bean id="sendTargetCollection" 
+		class="com.excellence.platform.missive.plugin.SendTargetCollection" autowire="byName">
+	</bean>
+	
+	<bean id="participantCollection" 
+		class="com.excellence.platform.missive.plugin.ParticipantCollection" autowire="byName">
+	</bean>
+	
+	<bean id="ProductManagerCollection" 
+		class="com.excellence.platform.missive.plugin.ProductManagerCollection" autowire="byName">
+	</bean>
+
+	<bean id="MainOrgMemberCollection" 
+		class="com.excellence.platform.missive.plugin.MainOrgMemberCollection" autowire="byName">
+	</bean>
+</beans>

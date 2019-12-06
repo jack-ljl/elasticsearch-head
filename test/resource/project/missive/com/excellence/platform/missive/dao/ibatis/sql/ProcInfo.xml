@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ProcInfo">
+	<typeAlias alias="procInfo"
+		type="com.excellence.platform.missive.vo.ProcInfoVO" />
+
+	<resultMap id="procInfoResult" class="procInfo">
+		<result property="id" column="PROC_ID" />
+		<result property="flowId" column="FLOW_ID" />
+		<result property="version" column="VERSION" />
+		<result property="status" column="STATUS" />
+		<result property="defaultStartActivityId"
+			column="DEFAULT_START_ACTIVITY_ID" />
+		<result property="creator" column="CREATOR" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="editor" column="EDITOR" />
+		<result property="editTime" column="EDIT_TIME" />
+	</resultMap>
+
+	<resultMap id="idsResult" class="java.lang.Integer">
+		<result property="id" column="PROC_ID" />
+	</resultMap>
+
+	<insert id="insertProcInfo" parameterClass="procInfo">
+		INSERT INTO MV_PROC_INFO ( PROC_ID, FLOW_ID, VERSION, STATUS,
+		DEFAULT_START_ACTIVITY_ID, CREATOR, CREATE_TIME, EDITOR,
+		EDIT_TIME ) values
+		(#id#,#flowId:NUMERIC#,#version:VARCHAR#,#status:NUMERIC#,#defaultStartActivityId:NUMERIC#,#creator:VARCHAR#,
+		#createTime:TIMESTAMP#,#editor:VARCHAR#,#editTime:TIMESTAMP#)
+	</insert>
+
+	<insert id="insertProcInfoByOldId" parameterClass="java.util.Map">
+		INSERT INTO MV_PROC_INFO ( PROC_ID, FLOW_ID, VERSION, STATUS,
+		DEFAULT_START_ACTIVITY_ID, CREATOR, CREATE_TIME, EDITOR,
+		EDIT_TIME ) SELECT #newId#,FLOW_ID, VERSION, STATUS,
+		DEFAULT_START_ACTIVITY_ID, CREATOR, CREATE_TIME, EDITOR,
+		EDIT_TIME FROM MV_PROC_INFO WHERE PROC_ID=#oldId#
+	</insert>
+
+	<select id="getProcInfoById" resultMap="procInfoResult"
+		parameterClass="int">
+		select * from MV_PROC_INFO where PROC_ID=#value#
+	</select>
+
+	<select id="getProcIdListByFlowId" resultMap="idsResult"
+		parameterClass="int">
+		select PROC_ID from MV_PROC_INFO where FLOW_ID=#value#
+	</select>
+	
+	<select id="getDefaultActIdById" resultClass="java.lang.Integer"
+		parameterClass="int">
+		select DEFAULT_START_ACTIVITY_ID from MV_PROC_INFO where PROC_ID=#value#
+	</select>
+
+
+	<update id="updateProcInfo" parameterClass="procInfo">
+		update MV_PROC_INFO set
+		FLOW_ID=#flowId:NUMERIC#,VERSION=#version:VARCHAR#,STATUS=#status:NUMERIC#,
+		DEFAULT_START_ACTIVITY_ID=#defaultStartActivityId:NUMERIC#,CREATOR=#creator:VARCHAR#,
+		CREATE_TIME=#createTime:TIMESTAMP#,EDITOR=#editor:VARCHAR#,EDIT_TIME=#editTime:TIMESTAMP#
+		where PROC_ID=#id#
+	</update>
+
+	<update id="updateProcStatus" parameterClass="java.util.Map">
+		update MV_PROC_INFO set STATUS=#newStatus:NUMERIC# where
+		PROC_ID=#id#
+	</update>
+	
+		<update id="updateProcDefaultActId" parameterClass="java.util.Map">
+		update MV_PROC_INFO set DEFAULT_START_ACTIVITY_ID=#actId:NUMERIC# where
+		PROC_ID=#id#
+	</update>
+
+	<delete id="delProcInfo" parameterClass="int">
+		delete from MV_PROC_INFO where PROC_ID=#value#
+	</delete>
+	<delete id="delProcInfoByFormId" parameterClass="int">
+		delete from MV_PROC_INFO where FLOW_ID=#value#
+	</delete>
+
+</sqlMap>

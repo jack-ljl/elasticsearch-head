@@ -1,0 +1,515 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<!--
+	- Application context definition for exoa2004 data access layer.
+	- Accessed by business layer objects defined in "applicationContext.xml"
+	- (see web.xml's "contextConfigLocation").
+	-
+	- This version of the data access layer works on a combined database,
+	- using a local DataSource with DataSourceTransactionManager. It does not
+	- need any JTA support in the container: It will run as-is in plain Tomcat.
+-->
+<beans>
+
+<!-- ========================= RESOURCE DEFINITIONS ========================= -->
+
+	<!-- Local DataSource that refers to a combined database -->
+	<!-- (see dataAccessContext-jta.xml for an alternative) -->
+	<!-- The placeholders are resolved from jdbc.properties through -->
+	<!-- the PropertyPlaceholderConfigurer in applicationContext.xml
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName">
+			<value>${jdbc.driverClassName}</value>
+		</property>
+		<property name="url">
+			<value>${jdbc.url}</value>
+		</property>
+		<property name="username">
+			<value>${jdbc.username}</value>
+		</property>
+		<property name="password">
+			<value>${jdbc.password}</value>
+		</property>
+	</bean>
+	 -->
+	
+	 <bean id="dataSource" class="com.excellence.platform.missive.util.ExcellenceJndiObjectFactoryBean">
+    <property name="jndiName" value="jdbc/exoa"/>
+  </bean>
+
+	<!-- Transaction manager for a single JDBC DataSource -->
+	<!-- (see dataAccessContext-jta.xml for an alternative) -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+	</bean>
+
+	<!-- SqlMap setup for iBATIS Database Layer -->
+	<bean id="sqlMapClient"
+		class="com.excellence.platform.missive.dao.ibatis.MultiDBSqlMapClientFactoryBean">
+		<property name="commonConfigLocation">
+			<value>sql-map-config.xml</value>
+		</property>
+		<property name="sqlServerConfigLocation">
+			<value>sql-map-config-sqlserver.xml</value>
+		</property>
+		<property name="mySqlConfigLocation">
+			<value>sql-map-config-mysql.xml</value>
+		</property>
+	</bean>
+
+
+	<!-- ========================= DAO DEFINITIONS: IBATIS IMPLEMENTATIONS ========================= -->
+
+	<!-- Need to set the singleton attributr of sequenceDao to false ... er ... for efficiency -->
+	<!-- The synchronizing problem is handled by class com.excellence.platform.missive.util.SequenceFactory -->
+	<bean id="sequenceDao"
+		class="com.excellence.platform.missive.dao.ibatis.SequenceSqlMapDao"
+		 singleton="false">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="sqlMapClient">
+			<ref local="sqlMapClient" />
+		</property>
+	</bean>
+
+	<bean id="activityDao"
+		class="com.excellence.platform.missive.dao.ibatis.ActivitySqlMapDao">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="sqlMapClient">
+			<ref local="sqlMapClient" />
+		</property>
+	</bean>
+
+	<bean id="transitionDao"
+		class="com.excellence.platform.missive.dao.ibatis.TransitionSqlMapDao">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="sqlMapClient">
+			<ref local="sqlMapClient" />
+		</property>
+	</bean>
+
+	<bean id="participantDao"
+		class="com.excellence.platform.missive.dao.ibatis.ParticipantSqlMapDao">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="sqlMapClient">
+			<ref local="sqlMapClient" />
+		</property>
+	</bean>
+
+	<bean id="procInfoDao"
+		class="com.excellence.platform.missive.dao.ibatis.ProcInfoSqlMapDao">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="sqlMapClient">
+			<ref local="sqlMapClient" />
+		</property>
+	</bean>
+
+	<bean id="flowDao"
+		class="com.excellence.platform.missive.dao.ibatis.FlowSqlMapDao">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="sqlMapClient">
+			<ref local="sqlMapClient" />
+		</property>
+	</bean>
+
+	<bean id="appFolderDao"
+		class="com.excellence.platform.missive.dao.ibatis.AppFolderSqlMapDao">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="sqlMapClient">
+			<ref local="sqlMapClient" />
+		</property>
+	</bean>
+
+	<bean id="specialRouteDao"
+		class="com.excellence.platform.missive.dao.ibatis.SpecialRouteSqlMapDao">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="sqlMapClient">
+			<ref local="sqlMapClient" />
+		</property>
+	</bean>
+	<bean id="formDao"
+		class="com.excellence.platform.missive.dao.ibatis.FormSqlMapDao">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="sqlMapClient">
+			<ref local="sqlMapClient" />
+		</property>
+	</bean>
+	
+	
+	<bean id="flowInstDaoTarget"
+		class="com.excellence.platform.missive.dao.ibatis.FlowInstSqlMapDao">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="sqlMapClient">
+			<ref local="sqlMapClient" />
+		</property>
+	</bean>
+	
+	<bean id="flowInstDaoAdvice"
+		class="com.excellence.platform.missive.util.event.FlowInstDaoAdvice">
+	</bean>
+
+	<bean id="flowInstDaoAdvisor"
+		class="org.springframework.aop.support.NameMatchMethodPointcutAdvisor">
+		<property name="mappedNames">
+			<list>
+				<value>insertFlowInst</value>
+				<value>updateStatusByInstId</value>
+				<value>delFlowInstById</value>
+			</list>
+		</property>
+		<property name="advice">
+			<ref bean="flowInstDaoAdvice"/>
+		</property>
+	</bean>
+	
+	<bean id="flowInstDao"
+		class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="proxyInterfaces">
+			<value>com.excellence.platform.missive.idao.FlowInstDao</value>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>flowInstDaoAdvisor</value>
+			</list>
+		</property>
+		<property name="target">
+			<ref bean="flowInstDaoTarget"/>
+		</property>
+	</bean>
+	
+	
+	<bean id="formSetInstDaoTarget"
+		class="com.excellence.platform.missive.dao.ibatis.FormSetInstSqlMapDao">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="sqlMapClient">
+			<ref local="sqlMapClient" />
+		</property>
+	</bean>
+	
+	<bean id="formSetInstDaoAdvice"
+		class="com.excellence.platform.missive.util.event.FormSetInstDaoAdvice">
+	</bean>
+
+	<bean id="formSetInstDaoAdvisor"
+		class="org.springframework.aop.support.NameMatchMethodPointcutAdvisor">
+		<property name="mappedNames">
+			<list>
+				<value>insertFormSetInst</value>
+				<value>updateStatusByInstId</value>
+				<value>delFormSetInstById</value>
+			</list>
+		</property>
+		<property name="advice">
+			<ref bean="formSetInstDaoAdvice"/>
+		</property>
+	</bean>
+	
+	<bean id="formSetInstDao"
+		class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="proxyInterfaces">
+			<value>com.excellence.platform.missive.idao.FormSetInstDao</value>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>formSetInstDaoAdvisor</value>
+			</list>
+		</property>
+		<property name="target">
+			<ref bean="formSetInstDaoTarget"/>
+		</property>
+	</bean>
+	
+	
+	<bean id="formsetDao"
+		class="com.excellence.platform.missive.dao.ibatis.FormsetSqlMapDao">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="sqlMapClient">
+			<ref local="sqlMapClient" />
+		</property>
+	</bean>
+	<bean id="objectRightDao"
+		class="com.excellence.platform.missive.dao.ibatis.ObjectRightSqlMapDao">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="sqlMapClient">
+			<ref local="sqlMapClient" />
+		</property>
+	</bean>
+	
+	<bean id="objectPdaRightDao"
+		class="com.excellence.platform.missive.dao.ibatis.ObjectPdaRightSqlMapDao">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="sqlMapClient">
+			<ref local="sqlMapClient" />
+		</property>
+	</bean>
+
+	<bean id="formRightDao"
+		class="com.excellence.platform.missive.dao.ibatis.FormRightSqlMapDao">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="sqlMapClient">
+			<ref local="sqlMapClient" />
+		</property>
+	</bean>
+	<bean id="docAttributesDao"
+		class="com.excellence.platform.missive.dao.ibatis.DocAttributesSqlMapDao">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="sqlMapClient">
+			<ref local="sqlMapClient" />
+		</property>
+	</bean>
+
+	<bean id="formDataDao"
+		class="com.excellence.platform.missive.dao.ibatis.FormDataSqlMapDao">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="sqlMapClient">
+			<ref local="sqlMapClient" />
+		</property>
+	</bean>
+
+	<bean id="formObjectDao"
+		class="com.excellence.platform.missive.dao.ibatis.FormObjectSqlMapDao">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="sqlMapClient">
+			<ref local="sqlMapClient" />
+		</property>
+	</bean>
+
+	<bean id="subFormDao"
+		class="com.excellence.platform.missive.dao.ibatis.SubFormSqlMapDao">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="sqlMapClient">
+			<ref local="sqlMapClient" />
+		</property>
+	</bean>
+
+	<bean id="dataHistoryDao"
+		class="com.excellence.platform.missive.dao.ibatis.DataHistorySqlMapDao">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="sqlMapClient">
+			<ref local="sqlMapClient" />
+		</property>
+	</bean>
+	<bean id="delegateDao"
+		class="com.excellence.platform.missive.dao.ibatis.DelegateSqlMapDao">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="sqlMapClient">
+			<ref local="sqlMapClient" />
+		</property>
+	</bean>
+	<bean id="externalProgramPropertyDao"
+		class="com.excellence.platform.missive.dao.ibatis.ExternalProgramPropertySqlMapDao">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="sqlMapClient">
+			<ref local="sqlMapClient" />
+		</property>
+	</bean>
+
+	<bean id="opinionInstDao"
+		class="com.excellence.platform.missive.dao.ibatis.OpinionInstSqlMapDao">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="sqlMapClient">
+			<ref local="sqlMapClient" />
+		</property>
+	</bean>
+
+	<bean id="workItemDaoTarget"
+		class="com.excellence.platform.missive.dao.ibatis.WorkItemSqlMapDao">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="sqlMapClient">
+			<ref local="sqlMapClient" />
+		</property>
+	</bean>
+	
+	<bean id="workItemDaoAdvice"
+		class="com.excellence.platform.missive.util.event.WorkItemDaoAdvice">
+		<property name="dao">
+			<ref bean="missiveProcessorDao"/>
+		</property>
+	</bean>
+
+	<bean id="workItemDaoAdvisor"
+		class="org.springframework.aop.support.NameMatchMethodPointcutAdvisor">
+		<property name="mappedNames">
+			<list>
+				<value>insertWorkItem</value>
+				<value>delWorkItemsByInstId</value>
+				<value>updateWorkItemStatusNewById</value>
+			</list>
+		</property>
+		<property name="advice">
+			<ref bean="workItemDaoAdvice"/>
+		</property>
+	</bean>
+	
+	<bean id="workItemDao"
+		class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="proxyInterfaces">
+			<value>com.excellence.platform.missive.idao.WorkItemDao</value>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>workItemDaoAdvisor</value>
+			</list>
+		</property>
+		<property name="target">
+			<ref bean="workItemDaoTarget"/>
+		</property>
+	</bean>
+		
+	<bean id="usualTargetDao"
+		class="com.excellence.platform.missive.dao.ibatis.UsualTargetSqlMapDao">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="sqlMapClient">
+			<ref local="sqlMapClient" />
+		</property>
+	</bean>
+	<bean id="fileDao"
+		class="com.excellence.platform.missive.dao.ibatis.FileSqlMapDao">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="sqlMapClient">
+			<ref local="sqlMapClient" />
+		</property>
+	</bean>
+	<bean id="formDataInstDao"
+		class="com.excellence.platform.missive.dao.ibatis.FormDataInstSqlMapDao">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="sqlMapClient">
+			<ref local="sqlMapClient" />
+		</property>
+	</bean>
+	<bean id="workLogDao"
+		class="com.excellence.platform.missive.dao.ibatis.WorkLogSqlMapDao">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="sqlMapClient">
+			<ref local="sqlMapClient" />
+		</property>
+	</bean>
+
+	<bean id="timeLimitDao"
+		class="com.excellence.platform.missive.dao.ibatis.TimeLimitSqlMapDao">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="sqlMapClient">
+			<ref local="sqlMapClient" />
+		</property>
+	</bean>
+
+	<bean id="externalProgramDao"
+		class="com.excellence.platform.missive.dao.ibatis.ExternalProgramSqlMapDao">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="sqlMapClient">
+			<ref local="sqlMapClient" />
+		</property>
+	</bean>
+
+	<bean id="docTransferBaseDao"
+		class="com.excellence.platform.missive.dao.ibatis.DocTransferBaseSqlMapDao">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="sqlMapClient">
+			<ref local="sqlMapClient" />
+		</property>
+	</bean>
+	
+	<bean id="docTransferMapDao"
+		class="com.excellence.platform.missive.dao.ibatis.DocTransferMapSqlMapDao">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="sqlMapClient">
+			<ref local="sqlMapClient" />
+		</property>
+	</bean>
+	<bean id="dataTranWorkItemRelaDao"
+		class="com.excellence.platform.missive.dao.ibatis.DataTranWorkItemRelaSqlMapDao">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="sqlMapClient">
+			<ref local="sqlMapClient" />
+		</property>
+	</bean>
+	<bean id="dataTranDetailDao"
+		class="com.excellence.platform.missive.dao.ibatis.DataTranDetailSqlMapDao">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="sqlMapClient">
+			<ref local="sqlMapClient" />
+		</property>
+	</bean>
+	<bean id="dataTranMainDao"
+		class="com.excellence.platform.missive.dao.ibatis.DataTranMainSqlMapDao">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="sqlMapClient">
+			<ref local="sqlMapClient" />
+		</property>
+	</bean>
+</beans>

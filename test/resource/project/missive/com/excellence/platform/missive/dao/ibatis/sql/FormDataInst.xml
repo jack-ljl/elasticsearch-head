@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="FormDataInst">
+	<typeAlias alias="formDataInst"
+		type="com.excellence.platform.missive.vo.FormDataInstVO" />
+
+	<resultMap id="formDataInstResult" class="formDataInst">
+		<result property="id" column="FORM_DATA_INST_ID" nullValue="0" />
+		<result property="formsetInstId" column="FORMSET_INST_ID" nullValue="0" />
+		<result property="name" column="NAME" nullValue="" />
+		<result property="type" column="TYPE" nullValue="0" />
+		<result property="value" column="VALUE" nullValue="" />
+		<result property="desc" column="DESCRI" nullValue="" />
+		<result property="guid" column="GUID" nullValue="" />
+		<result property="ext1" column="EXT1" nullValue="" />
+		<result property="ext2" column="EXT2" nullValue="0" />
+		<result property="ext3" column="EXT3" nullValue="0" />
+		<result property="ext4" column="EXT4"/>
+		<result property="ext5" column="EXT5" nullValue="" />
+	</resultMap>
+
+	<resultMap id="idsResult" class="java.lang.Integer">
+		<result property="id" column="FORM_DATA_INST_ID" />
+	</resultMap>
+
+	<insert id="insertFormDataInst" parameterClass="formDataInst">
+		INSERT INTO MV_FORM_DATA_INST ( FORM_DATA_INST_ID,
+		FORMSET_INST_ID, NAME, TYPE, VALUE, DESCRI, GUID, EXT1, EXT2,
+		EXT3, EXT4, EXT5 ) values
+		(#id#,#formsetInstId:NUMERIC#,#name:VARCHAR#,#type:NUMERIC#,#value:VARCHAR#,
+		#desc:VARCHAR#,#guid:VARCHAR#,#ext1:VARCHAR#,#ext2:VARCHAR#,#ext3:NUMERIC#,
+		#ext4:TIMESTAMP#,#ext5:VARCHAR#)
+	</insert>
+	
+	<update id="updateFormDataInst" parameterClass="formDataInst">
+	update MV_FORM_DATA_INST set FORMSET_INST_ID=#formsetInstId:NUMERIC#, NAME=#name:VARCHAR#,
+	 TYPE=#type:NUMERIC#, VALUE=#value:VARCHAR#, DESCRI=#desc:VARCHAR#, GUID=#guid:VARCHAR#,
+	  EXT1=#ext1:VARCHAR#, EXT2=#ext2:VARCHAR#,EXT3=#ext3:VARCHAR#, EXT4=#ext4:VARCHAR#,
+	   EXT5=#ext5:VARCHAR#  where  FORM_DATA_INST_ID=#id#
+	</update>
+	
+	<update id="updateContentById" parameterClass="java.util.Map">
+	update MV_FORM_DATA_INST set VALUE=#content:VARCHAR#  where  FORM_DATA_INST_ID=#id#
+	</update>
+
+	<select id="getFormDataInstById" resultMap="formDataInstResult"
+		parameterClass="int">
+		select * from MV_FORM_DATA_INST where FORM_DATA_INST_ID=#value#
+	</select>
+	
+	<select id="getFormDataInstByFormsetInstId" resultMap="formDataInstResult"
+		parameterClass="int">
+		select * from MV_FORM_DATA_INST where FORMSET_INST_ID=#value#
+	</select>
+
+	<delete id="delFormDataInst" parameterClass="int">
+		delete from MV_FORM_DATA_INST where FORM_DATA_INST_ID=#value#
+	</delete>
+	
+	<delete id="delFormDataInstsByInstId" parameterClass="int">
+		delete from MV_FORM_DATA_INST where FORMSET_INST_ID=#value#
+	</delete>
+
+
+</sqlMap>

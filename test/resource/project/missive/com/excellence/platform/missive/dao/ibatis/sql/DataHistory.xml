@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="DataHistory">
+	<typeAlias alias="dataHistory"
+		type="com.excellence.platform.missive.vo.DataHistoryVO" />
+
+	<resultMap id="dataHistoryResult" class="dataHistory">
+		<result property="id" column="DATA_HISTORY_ID" />
+		<result property="formDataInstId" column="FORM_DATA_INST_ID" />
+		<result property="formObjectId" column="FORM_OBJECT_ID" />
+		<result property="workitemId" column="WORKITEM_ID" />
+		<result property="activityId" column="ACTIVITY_ID" />
+		<result property="activityName" column="ACTIVITY_NAME" />
+		<result property="username" column="USERNAME" />
+		<result property="editor" column="EDITOR" />
+		<result property="editTime" column="EDIT_TIME" />
+		<result property="content" column="CONTENT" />
+		<result property="bindingDataName" column="BINDING_DATA_NAME" />
+		<result property="status" column="STATUS" />
+	</resultMap>
+
+	<resultMap id="idsResult" class="java.lang.Integer">
+		<result property="id" column="DATA_HISTORY_ID" />
+	</resultMap>
+
+	<insert id="insertDataHistory" parameterClass="dataHistory">
+		INSERT INTO MV_DATA_HISTORY ( DATA_HISTORY_ID,
+		FORM_DATA_INST_ID, FORM_OBJECT_ID, WORKITEM_ID, ACTIVITY_ID,
+		ACTIVITY_NAME, USERNAME, EDITOR, EDIT_TIME, CONTENT,
+		BINDING_DATA_NAME, STATUS ) VALUES
+		(#id#,#formDataInstId:NUMERIC#,#formObjectId:NUMERIC#,#workitemId:NUMERIC#,
+		#activityId:NUMERIC#,#activityName:VARCHAR#,#username:VARCHAR#,#editor:VARCHAR#,
+		#editTime:TIMESTAMP#,#content:VARCHAR#,#bindingDataName:VARCHAR#,#status:NUMERIC#)
+	</insert>
+
+	<update id="updateDataHistory" parameterClass="dataHistory">
+		update MV_DATA_HISTORY set
+		FORM_DATA_INST_ID=#formDataInstId:NUMERIC#,
+		FORM_OBJECT_ID=#formObjectId:NUMERIC#,WORKITEM_ID=#workitemId:NUMERIC#,
+		ACTIVITY_ID=#activityId:NUMERIC#,ACTIVITY_NAME=#activityName:VARCHAR#,
+		USERNAME=#username:VARCHAR#,EDITOR=#editor:VARCHAR#,
+		EDIT_TIME=#editTime:TIMESTAMP#,
+		CONTENT=#content:VARCHAR#,BINDING_DATA_NAME=#bindingDataName:VARCHAR#,
+		STATUS=#status:NUMERIC# where DATA_HISTORY_ID=#id#
+	</update>
+
+	<select id="getDateHistoryById" resultMap="dataHistoryResult"
+		parameterClass="int">
+		select * from MV_DATA_HISTORY where DATA_HISTORY_ID=#value#
+	</select>
+
+	<delete id="delDataHistoryById" parameterClass="int">
+		delete from MV_DATA_HISTORY where DATA_HISTORY_ID=#value#
+	</delete>
+
+	<delete id="delDataHistorysByInstId" parameterClass="int">
+		delete from MV_DATA_HISTORY where FORM_DATA_INST_ID=#value#
+	</delete>
+
+</sqlMap>

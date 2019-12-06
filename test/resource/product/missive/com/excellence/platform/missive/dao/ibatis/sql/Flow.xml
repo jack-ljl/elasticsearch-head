@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Flow">
+	<typeAlias alias="flow"
+		type="com.excellence.platform.missive.vo.FlowVO" />
+
+	<resultMap id="flowResult" class="flow">
+		<result property="id" column="FLOW_ID" />
+		<result property="folderId" column="FOLDER_ID" nullValue="-1" />
+		<result property="name" column="NAME" />
+		<result property="desc" column="DESCRI" nullValue="" />
+		<result property="creatorId" column="CREATOR_ID" nullValue="-1" />
+		<result property="creator" column="CREATOR" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="editVersionId" column="EDIT_VERSION_ID"
+			nullValue="-1" />
+		<result property="pubVersionId" column="PUB_VERSION_ID"
+			nullValue="-1" />
+		<result property="guid" column="GUID" nullValue="" />
+		<result property="orgId" column="ORG_ID" nullValue="0" />
+		<result property="orgName" column="ORG_NAME" nullValue="" />  
+	
+	</resultMap>
+
+<!--
+	<insert id="insertFlow" parameterClass="flow">
+		INSERT INTO mv_flow ( FLOW_ID, FOLDER_ID, NAME, DESCRI,
+		CREATOR_ID, CREATOR, CREATE_TIME, EDIT_VERSION_ID,
+		PUB_VERSION_ID, GUID ) values
+		(#id#,#folderId:NUMERIC#,#name:VARCHAR#,#desc:VARCHAR#,#creatorId:NUMERIC#,
+		#creator:VARCHAR#,#createTime:TIMESTAMP#,#editVersionId:NUMERIC#,#pubVersionId:NUMERIC#,#guid:VARCHAR#)
+	</insert>
+-->
+	<insert id="insertFlow" parameterClass="flow">
+		INSERT INTO mv_flow ( FLOW_ID, FOLDER_ID, NAME, DESCRI,
+		CREATOR_ID, CREATOR, CREATE_TIME, EDIT_VERSION_ID,
+		PUB_VERSION_ID, GUID , ORG_ID, ORG_NAME) values
+		(#id#,#folderId:NUMERIC#,#name:VARCHAR#,#desc:VARCHAR#,#creatorId:NUMERIC#,
+		#creator:VARCHAR#,#createTime:TIMESTAMP#,#editVersionId:NUMERIC#,#pubVersionId:NUMERIC#,
+		#guid:VARCHAR#,#orgId:NUMERIC#,#orgName:VARCHAR#)
+	</insert>
+
+<!-- 
+	<insert id="insertFlowByMap" parameterClass="java.util.Map">
+		INSERT INTO mv_flow ( FLOW_ID, FOLDER_ID, NAME, DESCRI,
+		CREATOR_ID, CREATOR ,CREATE_TIME) values
+		(#id#,#folderId:NUMERIC#,#name:VARCHAR#,#desc:VARCHAR#,#creatorId:NUMERIC#,#creator:VARCHAR#,#createTime:TIMESTAMP#)
+	</insert>
+-->
+	<insert id="insertFlowByMap" parameterClass="java.util.Map">
+		INSERT INTO mv_flow ( FLOW_ID, FOLDER_ID, NAME, DESCRI,
+		CREATOR_ID, CREATOR ,CREATE_TIME , ORG_ID, ORG_NAME) values
+		(#id#,#folderId:NUMERIC#,#name:VARCHAR#,#desc:VARCHAR#,#creatorId:NUMERIC#,#creator:VARCHAR#,
+		 #createTime:TIMESTAMP# ,#orgId:NUMERIC#,#orgName:VARCHAR#)
+	</insert>
+	
+	<select id="getFlowById" resultMap="flowResult"
+		parameterClass="int">
+		select * from mv_flow where FLOW_ID=#value#
+	</select>
+
+	<select id="getFlowByProcId" resultMap="flowResult"
+		parameterClass="int">
+		select mv_flow.* from mv_flow,mv_proc_info 
+		where mv_flow.FLOW_ID=mv_proc_info.FLOW_ID 
+		and mv_proc_info.PROC_ID=#value#
+	</select>
+	
+	<select id="getFlowList" resultMap="flowResult">
+		select * from mv_flow
+	</select>
+	
+	<select id="getFlowListByFolderId" resultMap="flowResult" parameterClass="int">
+		select * from mv_flow where FOLDER_ID=#value#
+	</select>
+	
+	<select id="getAllFlowList" resultMap="flowResult">
+		select * from mv_flow
+	</select>
+
+	<select id="getEditProcIdByFlowId" resultClass="java.lang.Integer"
+		parameterClass="int">
+		select EDIT_VERSION_ID from mv_flow where FLOW_ID=#value#
+	</select>
+
+	<select id="getPublishProcIdByFlowId"
+		resultClass="java.lang.Integer" parameterClass="int">
+		select PUB_VERSION_ID from mv_flow where FLOW_ID=#value#
+	</select>
+<!-- 
+	<update id="updateFlow" parameterClass="flow">
+		update mv_flow set
+		FOLDER_ID=#folderId:NUMERIC#,NAME=#name:VARCHAR#,DESCRI=#desc:VARCHAR#,CREATOR_ID=#creatorId:NUMERIC#,
+		CREATOR=#creator:VARCHAR#,CREATE_TIME=#createTime:TIMESTAMP#,
+		EDIT_VERSION_ID=#editVersionId:NUMERIC#,PUB_VERSION_ID=#pubVersionId:NUMERIC#,
+		GUID=#guid:VARCHAR# where FLOW_ID=#id#
+	</update>
+-->
+	<update id="updateFlow" parameterClass="flow">
+		update mv_flow set
+		FOLDER_ID=#folderId:NUMERIC#,NAME=#name:VARCHAR#,DESCRI=#desc:VARCHAR#,CREATOR_ID=#creatorId:NUMERIC#,
+		CREATOR=#creator:VARCHAR#,CREATE_TIME=#createTime:TIMESTAMP#,
+		EDIT_VERSION_ID=#editVersionId:NUMERIC#,PUB_VERSION_ID=#pubVersionId:NUMERIC#,
+		GUID=#guid:VARCHAR#,ORG_ID=#orgId:NUMERIC#,ORG_NAME=#orgName:VARCHAR# where FLOW_ID=#id#
+	</update>
+	
+	<update id="updateFlowNameAndDescById"
+		parameterClass="java.util.Map">
+		update mv_flow set NAME=#name:VARCHAR#,DESCRI=#desc:VARCHAR#,
+		EDIT_VERSION_ID=#editVersionId:NUMERIC#
+		<isNotNull prepend="," property="pubVersionId">
+			PUB_VERSION_ID=#pubVersionId:NUMERIC#
+		</isNotNull>
+		where FLOW_ID=#id#
+	</update>
+
+	<update id="updateFlowWhenPublish" parameterClass="java.util.Map">
+		update mv_flow set PUB_VERSION_ID=#newProcId:NUMERIC# where
+		FLOW_ID=#flowId#
+	</update>
+
+	<update id="updateFlowFolder" parameterClass="java.util.Map">
+		update mv_flow set FOLDER_ID=#folderId:NUMERIC# where
+		FLOW_ID=#flowId#
+	</update>
+
+	<update id="updateFlowEditVersion" parameterClass="int">
+		update mv_flow set EDIT_VERSION_ID=#value:NUMERIC# where FLOW_ID
+		in (select FLOW_ID from mv_proc_info where PROC_ID=#value#)
+	</update>
+
+	<delete id="delFlow" parameterClass="int">
+		delete from mv_flow where FLOW_ID=#value#
+	</delete>
+
+</sqlMap>

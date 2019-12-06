@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="OpinionInst">
+	<typeAlias alias="opinionInst"
+		type="com.excellence.platform.missive.vo.OpinionInstVO" />
+
+	<resultMap id="opinionInstResult" class="opinionInst">
+		<result property="id" column="OPINION_INST_ID" />
+		<result property="formsetInstId" column="FORMSET_INST_ID" />
+		<result property="editorId" column="EDITOR_ID" />
+		<result property="editor" column="EDITOR" />
+		<result property="editTime" column="EDIT_TIME" />
+		<result property="content" column="CONTENT" />
+		<result property="formObjectId" column="FORM_OBJECT_ID" />
+		<result property="workitemId" column="WORKITEM_ID" />
+		<result property="activityId" column="ACTIVITY_ID" />
+		<result property="activityName" column="ACTIVITY_NAME" />
+		<result property="bindingDataName" column="BINDING_DATA_NAME" />
+		<result property="opinionType" column="OPINION_TYPE" />
+		<result property="editorDept" column="EDITOR_DEPT" />
+		<result property="editorDeptId" column="EDITOR_DEPT_ID" />
+		<result property="leaderId" column="LEADER_ID" />
+		<result property="leader" column="LEADER" />
+		<result property="leaderDeptId" column="LEADER_DEPT_ID" />
+		<result property="leaderDept" column="LEADER_DEPT" />
+		<result property="leaderEditDt" column="LEADER_EDIT_DT" />
+		<result property="guid" column="GUID" />
+	</resultMap>
+
+	<resultMap id="opinionInstResult1" class="opinionInst">
+		<result property="id" column="OPINION_INST_ID" />
+		<result property="formsetInstId" column="FORMSET_INST_ID" />
+		<result property="editorId" column="EDITOR_ID" />
+		<result property="editor" column="EDITOR" />
+		<result property="editTime" column="EDIT_TIME" />
+		<result property="content" column="CONTENT" />
+		<result property="formObjectId" column="FORM_OBJECT_ID" />
+		<result property="workitemId" column="WORKITEM_ID" />
+		<result property="activityId" column="ACTIVITY_ID" />
+		<result property="activityName" column="ACTIVITY_NAME" />
+		<result property="bindingDataName" column="BINDING_DATA_NAME" />
+		<result property="opinionType" column="OPINION_TYPE" />
+		<result property="editorDept" column="EDITOR_DEPT" />
+		<result property="editorDeptId" column="EDITOR_DEPT_ID" />
+		<result property="leaderId" column="LEADER_ID" />
+		<result property="leader" column="LEADER" />
+		<result property="leaderDeptId" column="LEADER_DEPT_ID" />
+		<result property="leaderDept" column="LEADER_DEPT" />
+		<result property="leaderEditDt" column="LEADER_EDIT_DT" />
+		<result property="guid" column="GUID" />
+		<result property="activityDesc" column="descri" />
+	</resultMap>
+
+	<resultMap id="idsResult" class="java.lang.Integer">
+		<result property="id" column="OPINION_INST_ID" />
+	</resultMap>
+
+	<insert id="insertOpinionInst" parameterClass="opinionInst">
+		INSERT INTO MV_OPINION_INST ( OPINION_INST_ID, FORMSET_INST_ID,
+		EDITOR_ID, EDITOR, EDIT_TIME, CONTENT, FORM_OBJECT_ID,
+		WORKITEM_ID, ACTIVITY_ID, ACTIVITY_NAME, BINDING_DATA_NAME,
+		OPINION_TYPE, EDITOR_DEPT, EDITOR_DEPT_ID, LEADER_ID, LEADER,
+		LEADER_DEPT_ID, LEADER_DEPT, LEADER_EDIT_DT, GUID ) VALUES (
+		#id#,#formsetInstId:NUMERIC#,#editorId:NUMERIC#,#editor:VARCHAR#,
+		#editTime:TIMESTAMP#,#content:VARCHAR#,#formObjectId:NUMERIC#,#workitemId:NUMERIC#,
+		#activityId:NUMERIC#,#activityName:VARCHAR#,#bindingDataName:VARCHAR#,#opinionType:NUMERIC#,
+		#editorDept:VARCHAR#,#editorDeptId:NUMERIC#,#leaderId:NUMERIC#,#leader:VARCHAR#,
+		#leaderDeptId:NUMERIC#,#leaderDept:VARCHAR#,#leaderEditDt:TIMESTAMP#,#guid:VARCHAR#)
+	</insert>
+
+	<select id="getOpinionInstById" resultMap="opinionInstResult"
+		parameterClass="int">
+		select * from MV_OPINION_INST where OPINION_INST_ID=#value#
+	</select>
+
+	<select id="getOpinionInstListByInstIdAndEditorIdAndDsName"
+		resultMap="opinionInstResult1" parameterClass="java.util.Map">
+		select a.*,b.descri from MV_OPINION_INST a, MV_ACTIVITY b where
+		b.act_id =a.activity_id and a.formset_inst_id=#docInstId#
+		<isNotNull prepend="and" property="delegantId">
+			a.editor_id=#delegantId:NUMERIC#
+		</isNotNull>
+		<isNotNull prepend="and" property="dsName">
+			a.binding_data_name=#dsName:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="and" property="actId">
+			a.activity_id=#actId:NUMERIC#
+		</isNotNull>
+		order by a.binding_data_name,a.edit_time
+	</select>
+
+	<select id="getOpinionInstByWorkItemIdAndFormObjId"
+		resultMap="opinionInstResult" parameterClass="java.util.Map">
+		select * from MV_OPINION_INST where WORKITEM_ID=#workItemId# and
+		FORM_OBJECT_ID=#formOjbId#
+	</select>
+	
+	<select id="getOpinionInstListByInstId"
+		resultMap="opinionInstResult" parameterClass="int">
+		select * from MV_OPINION_INST where FORMSET_INST_ID=#value# 
+	</select>
+	
+	<select id="getSameOpinionInstId"
+		resultClass="java.lang.Integer" parameterClass="java.util.Map">		
+		select OPINION_INST_ID from MV_OPINION_INST
+		 where editor_id =#userId# and leader_id=0 and workitem_id=#workItemId# and binding_data_name=#dsName#
+	</select>
+
+	<update id="updateOpinionInst" parameterClass="opinionInst">
+		update MV_OPINION_INST set
+		FORMSET_INST_ID=#formsetInstId:NUMERIC#,
+		EDITOR_ID=#editorId:NUMERIC#, EDITOR=#editor:VARCHAR#,
+		EDIT_TIME=#editTime:TIMESTAMP#, CONTENT=#content:VARCHAR#,
+		FORM_OBJECT_ID=#formObjectId:NUMERIC#,WORKITEM_ID=#workitemId:NUMERIC#,
+		ACTIVITY_ID=#activityId:NUMERIC#,
+		ACTIVITY_NAME=#activityName:VARCHAR#,
+		BINDING_DATA_NAME=#bindingDataName:VARCHAR#,OPINION_TYPE=#opinionType:NUMERIC#,
+		EDITOR_DEPT=#editorDept:VARCHAR#,
+		EDITOR_DEPT_ID=#editorDeptId:NUMERIC#,
+		LEADER_ID=#leaderId:NUMERIC#,
+		LEADER=#leader:VARCHAR#,LEADER_DEPT_ID=#leaderDeptId:NUMERIC#,
+		LEADER_DEPT=#leaderDept:VARCHAR#,
+		LEADER_EDIT_DT=#leaderEditDt:TIMESTAMP#, GUID=#guid:VARCHAR#
+		where OPINION_INST_ID=#id#
+	</update>
+
+	<update id="updateContent" parameterClass="java.util.Map">
+		update MV_OPINION_INST set CONTENT=#content:VARCHAR# where
+		OPINION_INST_ID=#id#
+	</update>
+
+	<delete id="delOpinionInstById" parameterClass="int">
+		delete from MV_OPINION_INST where OPINION_INST_ID=#value#
+	</delete>
+
+	<delete id="delOpinionInstsByInstId" parameterClass="int">
+		delete from MV_OPINION_INST where FORMSET_INST_ID=#value#
+	</delete>
+
+
+</sqlMap>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="TimeLimit">
+	<typeAlias alias="timeLimit"
+		type="com.excellence.platform.missive.vo.TimeLimitVO" />
+
+	<resultMap id="timeLimitResult" class="timeLimit">
+		<result property="id" column="TIMELIMIT_ID" />
+		<result property="deadlineType" column="DEADLINE_TYPE" />
+		<result property="deadlineDate" column="DEADLINE_DATE" />
+		<result property="deadlineInterval" column="DEADLINE_INTERVAL" />
+		<result property="deadlineApplication" column="DEADLINE_APP" />
+		<result property="urgencyType" column="URGENCY_TYPE" />
+		<result property="urgencyDate" column="URGENCY_DATE" />
+		<result property="urgencyInterval" column="URGENCY_INTERVAL" />
+		<result property="urgencyApplication" column="URGENCY_APP" />
+		<result property="urger" column="URGER" />
+		<result property="remindUser" column="REMIND_USER" />
+		<result property="remindTitle" column="REMIND_TITLE" />
+		<result property="remindContent" column="REMIND_CONTENT" />
+		<result property="objectType" column="OBJECT_TYPE" />
+		<result property="objectId" column="OBJECT_ID" />
+		<result property="objectActivityId" column="OBJECT_ACT_ID" />
+	</resultMap>
+
+	<resultMap id="idsResult" class="java.lang.Integer">
+		<result property="id" column="TIMELIMIT_ID" />
+	</resultMap>
+
+	<insert id="insertTimeLimit" parameterClass="timeLimit">
+		INSERT INTO MV_TIMELIMIT ( TIMELIMIT_ID, DEADLINE_TYPE,
+		DEADLINE_DATE, DEADLINE_INTERVAL, DEADLINE_APP, URGENCY_TYPE,
+		URGENCY_DATE, URGENCY_INTERVAL, URGENCY_APP, URGER, REMIND_USER,
+		REMIND_TITLE, REMIND_CONTENT, OBJECT_TYPE, OBJECT_ID,
+		OBJECT_ACT_ID ) VALUES
+		(#id#,#deadlineType:NUMERIC#,#deadlineDate:TIMESTAMP#,#deadlineInterval:NUMERIC#,
+		#deadlineApplication:VARCHAR#,#urgencyType:NUMERIC#,#urgencyDate:TIMESTAMP#,#urgencyInterval:NUMERIC#,
+		#urgencyApplication:VARCHAR#,#urger:VARCHAR#,#remindUser:VARCHAR#,#remindTitle:VARCHAR#,
+		#remindContent:VARCHAR#,#objectType:NUMERIC#,#objectId:NUMERIC#,#objectActivityId:NUMERIC#)
+	</insert>
+	
+	<update id="updateTimeLimit" parameterClass="timeLimit">
+	  update MV_TIMELIMIT set DEADLINE_TYPE=#deadlineType:NUMERIC#,
+		DEADLINE_DATE=#deadlineDate:TIMESTAMP#, DEADLINE_INTERVAL=#deadlineInterval:NUMERIC#,
+		DEADLINE_APP=#deadlineApplication:VARCHAR#, URGENCY_TYPE=#urgencyType:NUMERIC#,URGENCY_DATE=#urgencyDate:TIMESTAMP#,
+		URGENCY_INTERVAL=#urgencyInterval:NUMERIC#, URGENCY_APP=#urgencyApplication:VARCHAR#,
+		 URGER=#urger:VARCHAR#, REMIND_USER=#remindUser:VARCHAR#,REMIND_TITLE=#remindTitle:VARCHAR#, 
+		 REMIND_CONTENT=#remindContent:VARCHAR#, OBJECT_TYPE=#objectType:NUMERIC#, OBJECT_ID=#objectId:NUMERIC#,
+		OBJECT_ACT_ID=#objectActivityId:NUMERIC# where TIMELIMIT_ID=#id#
+	</update>
+
+	<select id="getTimeLimitById" resultMap="timeLimitResult"
+		parameterClass="int">
+		select * from MV_TIMELIMIT where TIMELIMIT_ID=#value#
+	</select>
+
+	<select id="getByTypeAndObjectAndActId" resultMap="timeLimitResult"
+		parameterClass="java.util.Map">
+		select * from MV_TIMELIMIT where OBJECT_TYPE =#type# and
+		OBJECT_ID=#objectId# and OBJECT_ACT_ID=#actId#
+	</select>
+
+	<select id="isHasTimeLimitById" resultClass="java.lang.Integer"
+		parameterClass="int">
+		select COUNT(*) from MV_TIMELIMIT where TIMELIMIT_ID=#value#
+	</select>
+
+	<delete id="delTimeLimitById" parameterClass="int">
+		delete from MV_TIMELIMIT where TIMELIMIT_ID=#value#
+	</delete>
+
+</sqlMap>

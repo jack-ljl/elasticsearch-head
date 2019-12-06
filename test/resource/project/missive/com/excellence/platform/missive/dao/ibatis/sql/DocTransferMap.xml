@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="DocTransferMap">
+
+	<delete id="delDocTransferMapByBaseId" parameterClass="int">
+		delete from MV_DocTransfer_Map where BASE_ID=#value#
+	</delete>
+
+	<delete id="delDocTransferMapByBaseIdList" parameterClass="list">
+		delete from MV_DocTransfer_Map where BASE_ID In
+		<iterate open="(" close=")" conjunction=",">#[]#</iterate>
+	</delete>
+
+</sqlMap>

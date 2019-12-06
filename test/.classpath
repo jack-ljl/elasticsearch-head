@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry including="product/missive/com/excellence/platform/missive/dao/MissiveAdminDAO.class" kind="src" path="resource"/>
+	<classpathentry kind="lib" path="/exoa2/package/commons-io.jar" sourcepath="/exoa2/package/commons-io.jar"/>
+	<classpathentry kind="lib" path="/exoa2/package/commons-lang.jar" sourcepath="/exoa2/package/commons-lang.jar"/>
+	<classpathentry kind="lib" path="/exoa2/package/json-lib-2.4-jdk13-new.jar" sourcepath="/exoa2/package/json-lib-2.4-jdk13-new.jar"/>
+	<classpathentry kind="lib" path="/exoa2/package/ognl.jar"/>
+	<classpathentry kind="lib" path="/exoa2/package/retrotranslator-runtime-1.2.9.jar" sourcepath="/exoa2/package/retrotranslator-runtime-1.2.9.jar"/>
+	<classpathentry kind="lib" path="/exoa2/package/commons-logging.jar" sourcepath="/exoa2/package/commons-logging.jar"/>
+	<classpathentry kind="lib" path="/exoa2/package/log4j-core.jar" sourcepath="/exoa2/package/log4j-core.jar"/>
+	<classpathentry kind="lib" path="/exoa2/package/log4j.jar" sourcepath="/exoa2/package/log4j.jar"/>
+	<classpathentry kind="lib" path="/exoa2/package/ezmorph-1.0.6.jar" sourcepath="C:/Users/45035/AppData/Local/Temp/.org.sf.feeling.decompiler1560324644633/source/ezmorph-1.0.6-sources.jar"/>
+	<classpathentry kind="lib" path="/exoa2/package/commons-collections.jar" sourcepath="/exoa2/package/commons-collections.jar"/>
+	<classpathentry kind="lib" path="/exoa2/package/commons-beanutils.jar" sourcepath="/exoa2/package/commons-beanutils.jar"/>
+	<classpathentry kind="lib" path="/exoa2/package/commons-beanutils-bean-collections.jar" sourcepath="/exoa2/package/commons-beanutils-bean-collections.jar"/>
+	<classpathentry kind="lib" path="/exoa2/package/backport-util-concurrent-3.1.jar"/>
+	<classpathentry kind="lib" path="/exoa2/package/httpclient-4.3.6.jar" sourcepath="C:/Users/MSI/AppData/Local/Temp/.org.sf.feeling.decompiler1551077121664/source/httpclient-4.3.6-sources.jar"/>
+	<classpathentry kind="lib" path="/exoa2/package/httpcore-4.3.3.jar"/>
+	<classpathentry kind="lib" path="/exoa2/package/httpmime-4.3.6.jar" sourcepath="C:/Users/MSI/AppData/Local/Temp/.org.sf.feeling.decompiler1542720812929/source/httpmime-4.3.6-sources.jar"/>
+	<classpathentry kind="lib" path="/exoa2/package/commons-digester.jar" sourcepath="/exoa2/package/commons-digester.jar"/>
+	<classpathentry kind="lib" path="/exoa2/package/jxl.jar" sourcepath="/exoa2/package/jxl.jar"/>
+	<classpathentry kind="lib" path="/exoa2/package/itext-2.0.1.jar"/>
+	<classpathentry kind="src" path=".apt_generated">
+		<attributes>
+			<attribute name="optional" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry combineaccessrules="false" kind="src" path="/common"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/user"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.8.0_131">
+		<attributes>
+			<attribute name="owner.project.facets" value="java"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

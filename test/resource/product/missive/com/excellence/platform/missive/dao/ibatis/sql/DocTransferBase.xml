@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="DocTransferBase">
+
+	<resultMap id="idsResult" class="java.lang.Integer">
+		<result property="id" column="BASE_ID" />
+	</resultMap>
+	
+	<select id="getDocTransferBaseIdByFormsetId" resultMap="idsResult"
+		parameterClass="int">
+		select  BASE_ID from mv_doctransfer_base 
+			where ORI_FORMSET_ID=#value# or AIM_FORMSET_ID=#value#
+	</select>
+	
+	<delete id="delDocTransferBaseByFormsetId" parameterClass="int">
+		delete from mv_doctransfer_base where ORI_FORMSET_ID=#value# or AIM_FORMSET_ID=#value#
+	</delete>
+
+
+</sqlMap>

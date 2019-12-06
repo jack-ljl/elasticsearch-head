@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Class-Path:  common.jar package/axis.jar package/jaxrpc.jar user.jar p
+ ackage/wsdl4j.jar missive.jar package/spring.jar
+

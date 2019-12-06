@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Activity">
+	<typeAlias alias="activity"
+		type="com.excellence.platform.missive.vo.ActivityVO" />
+
+	<resultMap id="activityResult" class="activity">
+		<result property="id" column="ACT_ID" />
+		<result property="procInfoId" column="PROC_ID" />
+		<result property="name" column="NAME" />
+		<result property="desc" column="DESCRI" />
+		<result property="type" column="TYPE" />
+		<result property="priority" column="PRIORITY" />
+		<result property="extJsp" column="EXT_JSP" />
+		<result property="firstApplication" column="FIRST_APP" />
+		<result property="finishApplication" column="FINISH_APP" />
+		<result property="filter" column="FILTER" />
+		<result property="transitionLimit" column="TRANSITION_LIMIT"
+			nullValue="0" />
+		<result property="countLimit" column="COUNT_LIMIT"
+			nullValue="0" />
+		<result property="limitStatus" column="LIMIT_STATUS"
+			nullValue="0" />
+		<result property="percent" column="PERCENT" nullValue="0" />
+		<result property="humanCount" column="HUMAN_COUNT"
+			nullValue="0" />
+		<result property="extCount1" column="EXT_COUNT1" nullValue="0" />
+		<result property="extCount2" column="EXT_COUNT2" nullValue="0" />
+		<result property="extCount3" column="EXT_COUNT3" nullValue="0" />
+		<result property="subFlow" column="SUBFLOW_ID" nullValue="0" />
+		<result property="subFlowName" column="SUBFLOW_NAME" />
+		<result property="x" column="X" nullValue="0" />
+		<result property="y" column="Y" nullValue="0" />
+		<result property="ext1" column="EXT1" />
+		<result property="ext2" column="EXT2" />
+		<result property="ext3" column="EXT3" />
+	</resultMap>
+
+	<resultMap id="activityResult1" class="activity">
+		<result property="id" column="ACT_ID" />
+		<result property="procInfoId" column="PROC_ID" />
+		<result property="name" column="NAME" />
+		<result property="desc" column="DESCRI" />
+		<result property="type" column="TYPE" />
+		<result property="priority" column="PRIORITY" />
+		<result property="extJsp" column="EXT_JSP" />
+		<result property="firstApplication" column="FIRST_APP" />
+		<result property="finishApplication" column="FINISH_APP" />
+		<result property="filter" column="FILTER" />
+		<result property="transitionLimit" column="TRANSITION_LIMIT"
+			nullValue="0" />
+		<result property="countLimit" column="COUNT_LIMIT"
+			nullValue="0" />
+		<result property="limitStatus" column="LIMIT_STATUS"
+			nullValue="0" />
+		<result property="percent" column="PERCENT" nullValue="0" />
+		<result property="humanCount" column="HUMAN_COUNT"
+			nullValue="0" />
+		<result property="extCount1" column="EXT_COUNT1" nullValue="0" />
+		<result property="extCount2" column="EXT_COUNT2" nullValue="0" />
+		<result property="extCount3" column="EXT_COUNT3" nullValue="0" />
+		<result property="subFlow" column="SUBFLOW_ID" nullValue="0" />
+		<result property="subFlowName" column="SUBFLOW_NAME" />
+		<result property="x" column="X" nullValue="0" />
+		<result property="y" column="Y" nullValue="0" />
+		<result property="ext1" column="EXT1" />
+		<result property="ext2" column="EXT2" />
+		<result property="ext3" column="EXT3" />
+		<result property="toFlag" column="to_flag" />
+	</resultMap>
+
+	<resultMap id="activityResult2" class="activity">
+		<result property="id" column="ACT_ID" />
+		<result property="type" column="TYPE" />
+		<result property="subFlow" column="SUBFLOW_ID" nullValue="0" />
+	</resultMap>
+
+	<resultMap id="idsResult" class="java.lang.Integer">
+		<result property="id" column="ACT_ID" />
+	</resultMap>
+
+	<insert id="insertActivity" parameterClass="activity">
+		INSERT INTO MV_ACTIVITY
+		(ACT_ID,PROC_ID,NAME,DESCRI,"TYPE",PRIORITY,EXT_JSP,FIRST_APP,
+		FINISH_APP,FILTER,TRANSITION_LIMIT,COUNT_LIMIT,LIMIT_STATUS,"PERCENT",HUMAN_COUNT,
+		EXT_COUNT1,
+		EXT_COUNT2,EXT_COUNT3,SUBFLOW_ID,SUBFLOW_NAME,X,Y,EXT1,EXT2,EXT3)
+		values
+		(#id#,#procInfoId:NUMERIC#,#name:VARCHAR#,#desc:VARCHAR#,#type:NUMERIC#,#priority:NUMERIC#,#extJsp:VARCHAR#,'','','',#transitionLimit:NUMERIC#,#countLimit:NUMERIC#,#limitStatus:NUMERIC#,#percent:NUMERIC#,#humanCount:NUMERIC#,#extCount1:NUMERIC#,#extCount2:NUMERIC#,#extCount3:NUMERIC#,#subFlow:NUMERIC#,#subFlowName:VARCHAR#,#x:NUMERIC#,#y:NUMERIC#,#ext1:VARCHAR#,#ext2:VARCHAR#,#ext3:VARCHAR#)
+	</insert>
+
+	<insert id="insertActivityByProcId"
+		parameterClass="java.util.Map">
+		INSERT INTO MV_ACTIVITY
+		(ACT_ID,PROC_ID,NAME,DESCRI,"TYPE",PRIORITY,EXT_JSP,FIRST_APP,
+		FINISH_APP,FILTER,TRANSITION_LIMIT,COUNT_LIMIT,LIMIT_STATUS,"PERCENT",HUMAN_COUNT,
+		EXT_COUNT1,
+		EXT_COUNT2,EXT_COUNT3,SUBFLOW_ID,SUBFLOW_NAME,X,Y,EXT1,EXT2,EXT3)
+		SELECT
+		#newId#,#newProcId#,NAME,DESCRI,TYPE,PRIORITY,EXT_JSP,FIRST_APP,
+		FINISH_APP,FILTER,TRANSITION_LIMIT,COUNT_LIMIT,LIMIT_STATUS,"PERCENT",HUMAN_COUNT,
+		EXT_COUNT1,
+		EXT_COUNT2,EXT_COUNT3,SUBFLOW_ID,SUBFLOW_NAME,X,Y,EXT1,EXT2,EXT3
+		FROM MV_ACTIVITY WHERE ACT_ID=#oldActId#
+	</insert>
+
+	<select id="getActivityById" resultMap="activityResult"
+		parameterClass="int">
+		select * from MV_ACTIVITY where ACT_ID=#value#
+	</select>
+
+	<select id="getActivitiesByProcId" resultMap="idsResult"
+		parameterClass="int">
+		select ACT_ID from MV_ACTIVITY where PROC_ID=#value#
+	</select>
+
+	<select id="getActivityListByProcId" resultMap="activityResult"
+		parameterClass="int">
+		select * from MV_ACTIVITY where PROC_ID=#value#
+	</select>
+
+	<select id="getActivityIdListByProcIdList" resultMap="idsResult"
+		parameterClass="list">
+		select ACT_ID from MV_ACTIVITY Where PROC_ID In
+		<iterate open="(" close=")" conjunction=",">#[]#</iterate>
+	</select>
+
+	<select id="isHasActivityById" resultClass="java.lang.Integer"
+		parameterClass="int">
+		select COUNT(*) from MV_ACTIVITY Where PROC_ID=(select procinfo_id from MV_FORM where form_id=#value#)
+	</select>
+
+	<select id="hasActivityByFormsetInstId" resultClass="java.lang.Integer"
+		parameterClass="int">
+		select COUNT(*) from MV_ACTIVITY Where PROC_ID=(select proc_id from MV_FORMSET_INST where formset_inst_id=#value#)
+	</select>
+	
+	<select id="getActivityListByToActIdFull"
+		resultMap="activityResult1" parameterClass="int">
+		select a.*,t.to_flag from MV_TRANSITION t,MV_ACTIVITY a where
+		t.from_act_id=a.act_id and t.to_act_id=#value#
+	</select>
+
+	<select id="getActivityListByToActIdPart"
+		resultMap="activityResult2" parameterClass="int">
+		select ACT_ID,TYPE,SUBFLOW_ID from MV_TRANSITION t,MV_ACTIVITY a
+		where t.from_act_id=a.act_id and t.to_act_id=#value#
+	</select>
+	
+	<select id="getActivityListByFromActIdFull"
+		resultMap="activityResult1" parameterClass="int">
+		select a.*,t.to_flag from MV_TRANSITION t,MV_ACTIVITY a where
+		t.to_act_id=a.act_id and t.from_act_id=#value#
+	</select>
+
+	<select id="getActivityListByFromActIdPart"
+		resultMap="activityResult2" parameterClass="int">
+		select ACT_ID,TYPE,SUBFLOW_ID from MV_TRANSITION t,MV_ACTIVITY a
+		where t.to_act_id=a.act_id and t.from_act_id=#value#
+	</select>
+	
+	<select id="getParentActByParActIdAndSubFlowId"
+		resultMap="activityResult" parameterClass="java.util.Map">
+		select a.* from MV_TRANSITION t,MV_ACTIVITY a where
+		t.to_act_id=a.act_id and t.from_act_id=#parentActId# and
+		a.SUBFLOW_ID=#subFlowId#
+	</select>
+
+	<select id="getActIdListBySubFlowIdList" resultMap="idsResult"
+		parameterClass="list">
+		select fa.act_id from MV_ACTIVITY fa,MV_TRANSITION t,MV_ACTIVITY
+		ta where t.from_act_id=fa.act_id and t.to_act_id=ta.act_id and
+		ta.type=6 and fa.proc_id IN
+		<iterate open="(" close=")" conjunction=",">#[]#</iterate>
+	</select>
+	
+	<select id="getActIdByParentFlowAndSubFlowId"
+		resultClass="java.lang.Integer" parameterClass="java.util.Map">
+		select act_id from MV_ACTIVITY  where
+		subflow_id=#subFlowId# and proc_id=#parentFlowId# 
+	</select>
+	
+	<select id="getActIdListByFlowId" resultMap="idsResult"
+		parameterClass="int">
+		select ACT_ID from MV_ACTIVITY where PROC_ID IN (select PROC_ID from
+		MV_PROC_INFO where FLOW_ID=#value#)
+	</select>
+	
+	<select id="isStartActivity" resultClass="java.lang.Integer"
+		parameterClass="int">
+		select COUNT(*) from MV_ACTIVITY a,MV_PROC_INFO p
+		 where a.proc_id=p.proc_id and a.act_id=#value# and p.default_start_activity_id=a.act_id
+	</select>	
+
+	<update id="updateActivity" parameterClass="activity">
+		update MV_ACTIVITY set PROC_ID=#procInfoId:NUMERIC#,
+		name=#name:VARCHAR#,DESCRI=#desc:VARCHAR#,"type"=#type:NUMERIC#,
+		PRIORITY=#priority:NUMERIC#,EXT_JSP=#extJsp:VARCHAR#,FIRST_APP='',
+		FINISH_APP='',
+		TRANSITION_LIMIT=#transitionLimit:NUMERIC#,COUNT_LIMIT=#countLimit:NUMERIC#,LIMIT_STATUS=#limitStatus:NUMERIC#,
+		"PERCENT"=#percent:NUMERIC#,HUMAN_COUNT=#humanCount:NUMERIC#,EXT_COUNT1=#extCount1:NUMERIC#,
+		EXT_COUNT2=#extCount2:NUMERIC#,EXT_COUNT3=#extCount3:NUMERIC#,SUBFLOW_ID=#subFlow:NUMERIC#,
+		SUBFLOW_NAME=#subFlowName:VARCHAR#,X=#x:NUMERIC#,Y=#y:NUMERIC#,EXT1=#ext1:VARCHAR#,
+		EXT2=#ext2:VARCHAR#,EXT3=#ext3:VARCHAR# where ACT_ID=#id#
+	</update>
+
+	<delete id="delActivity" parameterClass="int">
+		delete from MV_ACTIVITY where ACT_ID=#value#
+	</delete>
+	<delete id="delActivityByProcId" parameterClass="int">
+		delete from MV_ACTIVITY where PROC_ID=#value#
+	</delete>
+	<delete id="delActivitiesByFlowId" parameterClass="int">
+		delete from MV_ACTIVITY where PROC_ID IN (select PROC_ID from
+		MV_PROC_INFO where FLOW_ID=#value#)
+	</delete>
+
+
+</sqlMap>

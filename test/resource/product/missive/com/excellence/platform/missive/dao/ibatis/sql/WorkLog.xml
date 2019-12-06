@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="WorkLog">
+	<typeAlias alias="workLog"
+		type="com.excellence.platform.missive.vo.WorkLogVO" />
+
+	<resultMap id="workLogResult" class="workLog">
+		<result property="id" column="LOG_ID" />
+		<result property="formsetInstId" column="FORMSETINST_ID" />
+		<result property="workItemId" column="WORKITEM_ID" />
+		<result property="opType" column="OP_TYPE" />
+		<result property="userId" column="USER_ID" />
+		<result property="userName" column="USER_NAME" />
+		<result property="title" column="TITLE" />
+		<result property="content" column="CONTENT" />
+		<result property="info1" column="INFO1" />
+		<result property="info2" column="INFO2" />
+		<result property="createDt" column="CREATE_DT" />
+		<result property="ipAddress" column="STRIP" />
+	</resultMap>
+
+	<resultMap id="idsResult" class="java.lang.Integer">
+		<result property="id" column="LOG_ID" />
+	</resultMap>
+
+	<insert id="insertWorkLog" parameterClass="workLog">
+		INSERT INTO mv_work_log ( LOG_ID, FORMSETINST_ID, WORKITEM_ID,
+		OP_TYPE, USER_ID, USER_NAME, TITLE, CONTENT, INFO1, INFO2,
+		CREATE_DT, STRIP ) VALUES
+		(#id#,#formsetInstId:NUMERIC#,#workItemId:NUMERIC#,#opType:NUMERIC#,
+		#userId:NUMERIC#,#userName:VARCHAR#,#title:VARCHAR#,#content:VARCHAR#,
+		#info1:VARCHAR#,#info2:VARCHAR#,#createDt:TIMESTAMP#,#ipAddress:VARCHAR#)
+	</insert>
+
+
+
+	<select id="getWorkLogById" resultMap="workLogResult"
+		parameterClass="int">
+		select * from mv_work_log where LOG_ID=#value#
+	</select>
+
+	<delete id="delWorkLogById" parameterClass="int">
+		delete from mv_work_log where LOG_ID=#value#
+	</delete>
+
+	<delete id="delWorkLogByFormId" parameterClass="int">
+		delete from mv_work_log where LOG_ID=#value#
+	</delete>
+	
+	<delete id="delWorkLogsByInstId" parameterClass="int">
+		delete from mv_work_log where FORMSETINST_ID=#value#
+	</delete>
+
+
+</sqlMap>

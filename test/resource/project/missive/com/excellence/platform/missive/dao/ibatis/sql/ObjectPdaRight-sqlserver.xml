@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ObjectPdaRight">
+	<typeAlias alias="objectPdaRight"
+		type="com.excellence.platform.missive.vo.ObjectPdaRightVO" />
+
+	<resultMap id="objectPdaRightResult" class="objectPdaRight">
+		<result property="id" column="OBJECT_PDA_RIGHT_ID" />
+		<result property="objectId" column="OBJECT_ID" />
+		<result property="attributeId" column="ATTRIBUTE_ID" />
+		<result property="right" column="RIGHT" />
+		<result property="displaySeq" column="DISPLAYSEQ" />
+	</resultMap>
+
+	<resultMap id="idsResult" class="java.lang.Integer">
+		<result property="id" column="OBJECT_PDA_RIGHT_ID" />
+	</resultMap>
+
+	<insert id="insertObjectPdaRight" parameterClass="objectPdaRight">
+		INSERT INTO MV_OBJECT_PDA_RIGHT ( OBJECT_PDA_RIGHT_ID, OBJECT_ID,
+		ATTRIBUTE_ID, [RIGHT], DISPLAYSEQ ) VALUES
+		(#id#,#objectId:NUMERIC#,#attributeId:NUMERIC#,#right:NUMERIC#,#displaySeq:NUMERIC#)
+	</insert>
+
+
+	<select id="getObjectPdaRightById" resultMap="objectPdaRightResult"
+		parameterClass="int">
+		select * from MV_OBJECT_PDA_RIGHT where OBJECT_PDA_RIGHT_ID=#value#
+	</select>
+
+	<select id="getObjectPdaRightListByDocAttId"
+		resultMap="objectPdaRightResult" parameterClass="int">
+		select * from MV_OBJECT_PDA_RIGHT where ATTRIBUTE_ID=#value#
+	</select>
+
+	<select id="getObjectPdaRightListByFormId" resultMap="objectPdaRightResult"
+		parameterClass="int">
+		select MV_OBJECT_PDA_RIGHT.* from mv_doc_attributes,MV_OBJECT_PDA_RIGHT 
+		where MV_OBJECT_PDA_RIGHT.ATTRIBUTE_ID=mv_doc_attributes.ATTRIBUTE_ID and mv_doc_attributes.OBJECT_ID=#value#
+	</select>
+
+	<delete id="delObjectPdaRightsByFormId" parameterClass="int">
+		delete from MV_OBJECT_PDA_RIGHT where ATTRIBUTE_ID In (select
+		ATTRIBUTE_ID from MV_DOC_ATTRIBUTES where OBJECT_ID=#value#)
+	</delete>
+
+	<delete id="delObjectPdaRight" parameterClass="int">
+		delete from MV_OBJECT_PDA_RIGHT where OBJECT_PDA_RIGHT_ID=#value#
+	</delete>
+
+
+</sqlMap>

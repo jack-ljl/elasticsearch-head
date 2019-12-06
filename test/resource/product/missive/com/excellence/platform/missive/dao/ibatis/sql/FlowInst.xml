@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="FlowInst">
+	<typeAlias alias="flowInst"
+		type="com.excellence.platform.missive.vo.FlowInstVO" />
+	<typeAlias alias="lockOfFlowInst"
+		type="com.excellence.platform.missive.vo.LockOfFormSetInstVO" />
+			
+
+	<resultMap id="flowInstResult" class="flowInst">
+		<result property="id" column="FLOW_INST_ID" />
+		<result property="flowId" column="FLOW_ID" />
+		<result property="procInfoId" column="PROC_ID" />
+		<result property="folderId" column="FOLDER_ID" />
+		<result property="name" column="NAME" />
+		<result property="status" column="STATUS" />
+		<result property="folderName" column="FOLDER_NAME" />
+		<result property="creatorId" column="CREATOR_ID" />
+		<result property="creator" column="CREATOR" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="lockerId" column="LOCKER_ID" />
+		<result property="locker" column="LOCKER" />
+		<result property="lockTime" column="LOCK_TIME" />
+		<result property="guid" column="GUID" />
+		<result property="creatorDept" column="CREATOR_DEPT" />
+		<result property="creatorDeptId" column="CREATOR_DEPT_ID" nullValue="0"/>
+		<result property="creatorUnit" column="CREATOR_UNIT" />
+		<result property="creatorUnitId" column="CREATOR_UNIT_ID" nullValue="0"/>
+	</resultMap>
+
+	<resultMap id="lockOfFlowInstResult" class="lockOfFlowInst">
+		<result property="instId" column="FLOW_INST_ID" />
+		<result property="lockerId" column="LOCKER_ID" />
+		<result property="locker" column="LOCKER" />
+		<result property="lockTime" column="LOCK_TIME" />
+	</resultMap>
+	<!-- 
+	<resultMap id="idsResult" class="java.lang.Integer">
+		<result property="id" column="ACT_ID" />
+	</resultMap>
+	-->
+	<insert id="insertFlowInst" parameterClass="flowInst">
+		INSERT INTO mv_flow_inst ( FLOW_INST_ID, FLOW_ID, PROC_ID,
+		FOLDER_ID, NAME, STATUS, 
+		FOLDER_NAME, CREATOR_ID, CREATOR, CREATE_TIME, LOCKER_ID,
+		LOCKER, LOCK_TIME, GUID, CREATOR_DEPT,CREATOR_DEPT_ID, CREATOR_UNIT, CREATOR_UNIT_ID ) 
+		VALUES
+		(#id#,#flowId:NUMERIC#,#procInfoId:NUMERIC#,#folderId:NUMERIC#,
+		#name:VARCHAR#,#status:NUMERIC#,
+		#folderName:VARCHAR#,#creatorId:NUMERIC#,#creator:VARCHAR#,#createTime:TIMESTAMP#,
+		#lockerId:NUMERIC#,#locker:VARCHAR#,#lockTime:TIMESTAMP#,
+		#guid:NUMERIC#,#creatorDept:VARCHAR#,#creatorDeptId:NUMERIC#,
+		#creatorUnit:VARCHAR#,#creatorUnitId:NUMERIC#)
+	</insert>
+
+
+	<select id="getFlowInstById" resultMap="flowInstResult"
+		parameterClass="int">
+		select * from mv_flow_inst where FLOW_INST_ID=#value#
+	</select>
+
+	<select id="getFlowInstCountByProcId"
+		resultClass="java.lang.Integer" parameterClass="int">
+		select COUNT(*) from mv_flow_inst where PROC_ID=#value#
+	</select>
+
+	<select id="getFlowInstLockByInstId" resultMap="lockOfFlowInstResult"
+		parameterClass="int">
+		select FLOW_INST_ID,LOCKER_ID,LOCKER,LOCK_TIME from
+		mv_flow_inst where FLOW_INST_ID=#value#
+	</select>
+
+	<select id="isExistFlowInstById" resultClass="java.lang.Integer"
+		parameterClass="int">
+		select COUNT(*) from mv_flow_inst where
+		FLOW_INST_ID=#value#
+	</select>
+
+	<update id="updateForAddLock"
+		parameterClass="lockOfFlowInst">
+		update mv_flow_inst set LOCKER_ID=#lockerId:NUMERIC#,
+		LOCKER=#locker:VARCHAR#,LOCK_TIME=#lockTime:TIMESTAMP#
+		where FLOW_INST_ID=#instId#
+	</update>
+
+	<update id="updateFlowInstStatusByInstId" parameterClass="java.util.Map">
+		update mv_flow_inst set STATUS=#status# where
+		FLOW_INST_ID=#instId#
+	</update>
+
+	<delete id="delFlowInstById" parameterClass="int">
+		delete from mv_flow_inst where FLOW_INST_ID=#value#
+	</delete>
+
+
+</sqlMap>

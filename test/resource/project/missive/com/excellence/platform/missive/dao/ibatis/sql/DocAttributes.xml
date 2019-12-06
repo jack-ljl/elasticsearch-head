@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="DocAttributes">
+	<typeAlias alias="docAttributes"
+		type="com.excellence.platform.missive.vo.DocAttributesVO" />
+
+	<resultMap id="docAttributesResult" class="docAttributes">
+		<result property="id" column="ATTRIBUTE_ID" />
+		<result property="activityId" column="ACT_ID" />
+		<result property="roleControllerObjectId"
+			column="ROLE_CONTROLLER_OBJECT_ID" />
+		<result property="docRight" column="DOC_RIGHT" />
+		<result property="redHeader" column="RED_HEAD" />
+		<result property="attRight" column="ATT_RIGHT" />
+		<result property="passAround" column="PASS_AROUND" />
+		<result property="pigeonhole" column="PIGEONHOLE" />
+		<result property="lock" column="LOCKABLE" />
+		<result property="activityType" column="ACTIVITY_DOCTYPE" />
+		<result property="type" column="OBJECT_TYPE" />
+		<result property="appId" column="OBJECT_ID" />
+		<result property="pdaEnable" column="PDAENABLE" nullValue="0"/>
+		<result property="noMergeWorkitem" column="no_merge_workitem" nullValue="0"/>
+	</resultMap>
+
+	<resultMap id="idsResult" class="java.lang.Integer">
+		<result property="id" column="ATTRIBUTE_ID" />
+	</resultMap>
+
+	<insert id="insertDocAttributes" parameterClass="docAttributes">
+		INSERT INTO MV_DOC_ATTRIBUTES ( ATTRIBUTE_ID, ACT_ID,
+		ROLE_CONTROLLER_OBJECT_ID, DOC_RIGHT, RED_HEAD, ATT_RIGHT,
+		PASS_AROUND, PIGEONHOLE, LOCKABLE, ACTIVITY_DOCTYPE,
+		OBJECT_TYPE, OBJECT_ID , PDAENABLE , no_merge_workitem) VALUES
+		(#id#,#activityId:NUMERIC#,#roleControllerObjectId:NUMERIC#,#docRight:NUMERIC#,
+		#redHeader:NUMERIC#,#attRight:NUMERIC#,#passAround:NUMERIC#,#pigeonhole:NUMERIC#,
+		#lock:NUMERIC#,#activityType:NUMERIC#,#type:NUMERIC#,#appId:NUMERIC# , #pdaEnable:NUMERIC#,
+		#noMergeWorkitem:NUMERIC# )
+	</insert>
+
+
+	<select id="getDocAttById" resultMap="docAttributesResult"
+		parameterClass="int">
+		select * from MV_DOC_ATTRIBUTES where ATTRIBUTE_ID=#value#
+	</select>
+
+	<select id="getDocAttListByFormId" resultMap="docAttributesResult"
+		parameterClass="int">
+		select * from MV_DOC_ATTRIBUTES where OBJECT_ID=#value#
+	</select>
+
+	<select id="getDocAttByFormIdAndActId"
+		resultMap="docAttributesResult" parameterClass="java.util.Map">
+		select * from MV_DOC_ATTRIBUTES where OBJECT_ID=#formId# and
+		ACT_ID=#actId#
+	</select>
+
+	<select id="getRedHeadByWorkItemId" resultClass="java.lang.Integer"
+		parameterClass="int">
+		select d.red_head from MV_WORKITEM w,
+		MV_FORMSET_INST f, MV_DOC_ATTRIBUTES d where 
+		w.act_id=d.act_id 
+		and f.formset_inst_id=w.formset_inst_id
+		and f.form_id=d.object_id 
+		and w.workitem_id=#value#
+	</select>
+	
+	<delete id="delDocAttByFormId" parameterClass="int">
+		delete from MV_DOC_ATTRIBUTES where OBJECT_ID=#value#
+	</delete>
+
+	<delete id="delDocAttributesById" parameterClass="int">
+		delete from MV_DOC_ATTRIBUTES where ATTRIBUTE_ID=#value#
+	</delete>
+</sqlMap>

@@ -1,0 +1,617 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="WorkItem">
+	<typeAlias alias="workItem"
+		type="com.excellence.platform.missive.vo.WorkItemVO" />
+	<typeAlias alias="workItemGroup"
+		type="com.excellence.platform.missive.vo.WorkItemGroupVO" />
+	<typeAlias alias="assignment"
+		type="com.excellence.platform.missive.vo.AssignmentVO" />
+
+	<resultMap id="workItemResult" class="workItem">
+		<result property="id" column="WORKITEM_ID" />
+		<result property="activityId" column="ACT_ID" />
+		<result property="activityType" column="ACTIVITY_TYPE" />
+		<result property="formSetInstId" column="FORMSET_INST_ID" nullValue="-1" />
+		<result property="status" column="STATUS" />
+		<result property="parentActId" column="PARENT_ACT_ID" />
+		<result property="srcActivityId" column="SRC_ACTIVITY_ID" />
+		<result property="senderId" column="SENDER_ID" />
+		<result property="receiverId" column="RECEIVER_ID" />
+		<result property="receiverDept" column="RECEIVER_DEPT" />
+		<result property="delegantId" column="DELEGANT_ID" />
+		<result property="sender" column="SENDER" />
+		<result property="receiver" column="RECEIVER" nullValue="" />
+		<result property="delegant" column="DELEGANT" nullValue="" />
+		<result property="jobName" column="JOB_NAME" />
+		<result property="receiveTime" column="RECEIVE_TIME" />
+		<result property="openTime" column="OPEN_TIME" />
+		<result property="saveTime" column="SAVE_TIME" />
+		<result property="completeTime" column="COMPLETE_TIME" />
+		<result property="expireDate" column="EXPIRE_DATE" />
+		<result property="urgentStatus" column="URGENT_STATUS" />
+		<result property="urgeDate" column="URGE_DATE" />
+		<result property="appTypeName" column="APP_TYPE_NAME" />
+		<result property="dest" column="DEST" nullValue="" />
+		<result property="formsetId" column="FORMSET_ID" nullValue="-1" />
+		<result property="flowId" column="FLOW_ID" nullValue="-1" />
+		<result property="workType" column="WORK_TYPE" />
+		<result property="srcWorkItemId" column="SRC_WORKITEM_ID" />
+		<result property="flowInstId" column="FLOW_INST_ID" nullValue="-1" />
+		<result property="noticeFlag" column="NOTICE_FLAG" />
+	</resultMap>
+
+	<resultMap id="workItemGroupResult" class="workItemGroup">
+		<result property="workItemId" column="WORKITEM_ID" />
+		<result property="userId" column="USER_ID" />
+		<result property="groupOrgId" column="GROUP_ORG_ID" />
+		<result property="formsetInstId" column="FORMSET_INST_ID" />
+		<result property="flowInstId" column="FLOW_INST_ID" />
+		<result property="delegantId" column="DELEGANT_ID"  nullValue="-1"/>
+		<result property="formsetId" column="FORMSET_ID"  nullValue="-1"/>
+		<result property="flowId" column="FLOW_ID"  nullValue="-1"/>
+	</resultMap>
+	
+	<resultMap id="idsResult" class="java.lang.Integer">
+		<result property="id" column="WORKITEM_ID" />
+	</resultMap>
+
+	<resultMap id="idsResult1" class="java.lang.Integer">
+		<result property="id" column="FORMSET_INST_ID" />
+	</resultMap>
+	
+	<resultMap id="idsResult2" class="java.lang.Integer">
+		<result property="id" column="FLOW_INST_ID" />
+	</resultMap>
+
+	<resultMap id="mapResult" class="java.util.HashMap">
+		<result property="id" javaType="java.lang.Integer"
+			column="WORKITEM_ID" />
+		<result property="status" javaType="java.lang.Short"
+			column="STATUS" />
+		<result property="act_id" javaType="java.lang.Integer"
+			column="ACT_ID" />
+	</resultMap>
+
+	<resultMap id="mapResult1" class="java.util.HashMap">
+		<result property="workItem_number" javaType="java.lang.Integer"
+			column="workItem_number" />
+		<result property="status" javaType="java.lang.Short"
+			column="STATUS" />
+	</resultMap>
+
+	<resultMap id="mapResult2" class="java.util.HashMap">
+		<result property="delegant_id" javaType="java.lang.Integer"
+			column="delegant_id" />
+		<result property="receiver_id" javaType="java.lang.Integer"
+			column="receiver_id" />
+	</resultMap>
+
+	<resultMap id="mapResult3" class="java.util.HashMap">
+		<result property="workitem_id" javaType="java.lang.Integer"
+			column="WORKITEM_ID" />
+		<result property="user_id" javaType="java.lang.Integer"
+			column="USER_ID" />
+		<result property="group_org_id" javaType="java.lang.Integer"
+			column="GROUP_ORG_ID" />		
+		<result property="formset_inst_id" javaType="java.lang.Integer"
+			column="FORMSET_INST_ID" />		
+		<result property="flow_inst_id" javaType="java.lang.Integer"
+			column="FLOW_INST_ID" />
+	</resultMap>
+
+	<insert id="insertWorkItem" parameterClass="workItem">
+		INSERT INTO MV_WORKITEM ( WORKITEM_ID, ACT_ID, ACTIVITY_TYPE,
+		FORMSET_INST_ID, STATUS, PARENT_ACT_ID, SRC_ACTIVITY_ID,
+		SENDER_ID, RECEIVER_ID, RECEIVER_DEPT, DELEGANT_ID, SENDER,
+		RECEIVER, DELEGANT, JOB_NAME, RECEIVE_TIME, OPEN_TIME,
+		SAVE_TIME, COMPLETE_TIME, EXPIRE_DATE, URGENT_STATUS, URGE_DATE,
+		APP_TYPE_NAME, DEST, FORMSET_ID, FLOW_ID, 
+		WORK_TYPE, SRC_WORKITEM_ID, FLOW_INST_ID, NOTICE_FLAG)
+		VALUES (
+		#id#,#activityId:NUMERIC#,#activityType:NUMERIC#,#formSetInstId:NUMERIC#,#status:NUMERIC#,
+		#parentActId:NUMERIC#,#srcActivityId:NUMERIC#,#senderId:NUMERIC#,#receiverId:NUMERIC#,#receiverDept:VARCHAR#,
+		#delegantId:NUMERIC#,#sender:VARCHAR#,#receiver:VARCHAR#,#delegant:VARCHAR#,#jobName:VARCHAR#,
+		#receiveTime:TIMESTAMP#,#openTime:TIMESTAMP#,#saveTime:TIMESTAMP#,#completeTime:TIMESTAMP#,#expireDate:TIMESTAMP#,
+		#urgentStatus:VARCHAR#,#urgeDate:TIMESTAMP#,#appTypeName:VARCHAR#,#dest:VARCHAR#,#formsetId:NUMERIC#,#flowId:NUMERIC#,
+		#workType:NUMERIC#,#srcWorkItemId:NUMERIC#,#flowInstId:NUMERIC#,#noticeFlag:VARCHAR#)
+	</insert>
+
+	<insert id="insertWorkItemGroupByMap" parameterClass="workItemGroup">
+		insert into MV_WORKITEM_GROUP 
+		(WORKITEM_ID, USER_ID, GROUP_ORG_ID, FORMSET_INST_ID, FLOW_INST_ID, DELEGANT_ID, FORMSET_ID, FLOW_ID) 
+		VALUES (
+			#workItemId:NUMERIC#,
+			#userId:NUMERIC#,
+			#groupOrgId:NUMERIC#,
+			#formsetInstId:NUMERIC#,
+			#flowInstId:NUMERIC#,
+			#delegantId:NUMERIC#,
+			#formsetId:NUMERIC#,
+			#flowId:NUMERIC#
+		)
+	</insert>
+
+
+	<select id="getWorkItemById" resultMap="workItemResult"
+		parameterClass="int">
+		select * from MV_WORKITEM where WORKITEM_ID=#value#
+	</select>
+
+	<select id="isWorkItemExists" resultClass="java.lang.Integer"
+		parameterClass="int">
+		select Count(*) from MV_WORKITEM where WORKITEM_ID=#value#
+	</select>
+
+	<select id="getSentWorkItemsBySrcWorkItemId"
+		resultMap="workItemResult" parameterClass="int">
+		select * from MV_WORKITEM where SRC_WORKITEM_ID=#value#
+	</select>
+
+	<!-- and receive_time=#completeTime#		-->
+	<select id="getSentWorkItemsByActAndRecAndInstId"
+		resultMap="workItemResult" parameterClass="java.util.Map">
+		select * from MV_WORKITEM where src_activity_id=#actId# and
+		sender_id=#receiverId# 
+		<isPropertyAvailable prepend="and" property="formsetInstId">
+			formset_inst_id=#formsetInstId#
+		</isPropertyAvailable> 
+		<isPropertyAvailable prepend="and" property="flowInstId">
+			flow_inst_id=#flowInstId#
+		</isPropertyAvailable> 
+	</select>
+
+	<select id="getStatusNumListByActIdListAndFrmsetInstId"
+		resultMap="mapResult1" parameterClass="java.util.Map">
+		select count(w.workItem_id) as workItem_number,status from
+		MV_WORKITEM w where w.act_id in
+		<iterate property="idList" open="(" close=")" conjunction=",">
+			#idList[]#
+		</iterate>
+		<isPropertyAvailable prepend="and" property="formsetInstId">
+			w.formset_inst_id=#formsetInstId#
+		</isPropertyAvailable> 
+		<isPropertyAvailable prepend="and" property="flowInstId">
+			w.flow_inst_id=#flowInstId#
+		</isPropertyAvailable> 
+		group by w.status
+	</select>
+
+	<select id="getCompletedMapListByScrAcAndInstAndActId"
+		resultMap="mapResult" parameterClass="java.util.Map">
+		select WORKITEM_ID,status , ACT_ID from MV_WORKITEM m1 where
+		src_activity_id=#srcActId# 
+		<isPropertyAvailable prepend="and" property="formsetInstId">
+			formset_inst_id=#formsetInstId#
+		</isPropertyAvailable> 
+		<isPropertyAvailable prepend="and" property="flowInstId">
+			flow_inst_id=#flowInstId#
+		</isPropertyAvailable> 
+		and ACT_ID=#actId# 
+		and (
+			sender_id=#sendId# or 
+			exists (
+				select m2.WORKITEM_ID from  MV_WORKITEM m2 where 
+				m2.WORKITEM_ID=m1.src_workitem_id 
+				and (m2.receiver_id=#sendId# or m2.delegant_id=#sendId# )
+			)
+		)
+	</select>
+
+	<select id="getMapListByJobNameList" resultMap="mapResult"
+		parameterClass="list">
+		select WORKITEM_ID,status , ACT_ID from MV_WORKITEM where JOB_NAME in
+		<iterate open="(" close=")" conjunction=",">#[]#</iterate>
+	</select>
+
+
+	<select id="getDeleIdAndReceiIDByMap" resultMap="mapResult2"
+		parameterClass="java.util.Map">
+		select w.delegant_id,w.receiver_id from MV_WORKITEM w where
+		(w.delegant_id in
+		<iterate property="idList" open="(" close=")" conjunction=",">
+			#idList[]#
+		</iterate>
+		or w.receiver_id in
+		<iterate property="idList" open="(" close=")" conjunction=",">
+			#idList[]#
+		</iterate>
+		) 
+		<isPropertyAvailable prepend="and" property="formsetInstId">
+			w.formset_inst_id=#formsetInstId:NUMERIC#
+		</isPropertyAvailable> 
+		<isPropertyAvailable prepend="and" property="flowInstId">
+			w.flow_inst_id=#flowInstId:NUMERIC#
+		</isPropertyAvailable> 
+		<isNotNull prepend="and" property="actType">
+			w.activity_type=#actType:NUMERIC#
+		</isNotNull>
+		<isNotNull prepend="and" property="actId">
+			w.act_id=#actId:NUMERIC#
+		</isNotNull>
+		and status!=9 and status!=8 and status!=7
+
+	</select>
+
+
+	<select id="getWorkItemListByIdMap" resultMap="workItemResult"
+		parameterClass="java.util.Map">
+		select * from MV_WORKITEM where 
+		act_id=#actId:NUMERIC# 
+		<isPropertyAvailable prepend="and" property="formsetInstId">
+			formset_inst_id=#formsetInstId#
+		</isPropertyAvailable> 
+		<isPropertyAvailable prepend="and" property="flowInstId">
+			flow_inst_id=#flowInstId#
+		</isPropertyAvailable> 
+		and (receiver_id in
+		<iterate property="idList" open="(" close=")" conjunction=",">
+			#idList[]#
+		</iterate>
+		or delegant_id in
+		<iterate property="idList" open="(" close=")" conjunction=",">
+			#idList[]#
+		</iterate>
+		)
+		and ( status=0 or status=1 or status=2 or status=3  or status=4 or status=5 )
+	</select>
+
+	<!--
+	<select id="getWorkItemByActIdAndInstId1" resultMap="workItemResult"
+		parameterClass="java.util.Map">
+		select w.* from MV_WORKITEM w,MV_FORMSET_INST f where
+		(w.receiver_id =#receiverId# or w.delegant_id=#delegantId#) and
+		(w.status=1 or w.status=3 or w.status=2 or w.status=4 or
+		w.status=5) and w.activity_type=#actType# and w.workitem_id=#id#
+		and w.FORMSET_INST_ID=f.FORMSET_INST_ID and f.STATUS=2
+	</select>
+	-->
+
+	<select id="getWorkItemByActIdAndInstId" resultMap="workItemResult"
+		parameterClass="java.util.Map">
+		select * from MV_WORKITEM where act_id=#actId:NUMERIC# 
+		<isPropertyAvailable prepend="and" property="formsetInstId">
+			formset_inst_id=#formsetInstId#
+		</isPropertyAvailable> 
+		<isPropertyAvailable prepend="and" property="flowInstId">
+			flow_inst_id=#flowInstId#
+		</isPropertyAvailable> 
+		<isPropertyAvailable prepend="and" property="status">
+			status=#status#
+		</isPropertyAvailable> 	
+		 order by workitem_id
+	</select>
+
+	<select id="getCompleteCountByInstId"
+		resultClass="java.lang.Integer" parameterClass="java.util.Map">
+		select Count(*) from MV_WORKITEM where 
+		status!=9 and status!=8 and status!=7 
+		<isPropertyAvailable prepend="and" property="formsetInstId">
+			formset_inst_id=#formsetInstId#
+		</isPropertyAvailable> 
+		<isPropertyAvailable prepend="and" property="flowInstId">
+			flow_inst_id=#flowInstId#
+		</isPropertyAvailable> 
+	</select>
+
+	<select id="getJobNameListByActIdAndRecIdAndInstId"
+		resultClass="java.lang.String" parameterClass="java.util.Map">
+		select job_name from MV_WORKITEM where act_id=#actId# and
+		receiver_id=#receiverId# 
+		<isPropertyAvailable prepend="and" property="formsetInstId">
+			formset_inst_id=#formsetInstId#
+		</isPropertyAvailable> 
+		<isPropertyAvailable prepend="and" property="flowInstId">
+			flow_inst_id=#flowInstId#
+		</isPropertyAvailable> 
+	</select>
+
+	<select id="getWorkItemListByInstId"
+		resultMap="workItemResult" parameterClass="java.util.Map">
+		select * from MV_WORKITEM where 1=1  
+		<isPropertyAvailable prepend="and" property="formsetInstId">
+			formset_inst_id=#formsetInstId#
+		</isPropertyAvailable> 
+		<isPropertyAvailable prepend="and" property="flowInstId">
+			flow_inst_id=#flowInstId#
+		</isPropertyAvailable> 
+	</select>
+
+	<select id="getWorkItemByIdList" resultMap="workItemResult"
+		parameterClass="java.util.Map">
+		select * from MV_WORKITEM where 1=1 
+		<isPropertyAvailable prepend="and" property="idList">
+			WORKITEM_ID in
+			<iterate property="idList" open="(" close=")" conjunction=",">
+				#idList[]#
+			</iterate>
+		</isPropertyAvailable>
+		<isPropertyAvailable prepend="and" property="formsetInstId">
+			formset_inst_id=#formsetInstId#
+		</isPropertyAvailable> 
+		<isPropertyAvailable prepend="and" property="flowInstId">
+			flow_inst_id=#flowInstId#
+		</isPropertyAvailable> 
+		<isPropertyAvailable prepend="and" property="receiveTime">
+			<![CDATA[receive_time<#receiveTime#]]>
+		</isPropertyAvailable>
+	</select>
+
+
+	<select id="getWorkItemIdByInstIdAndReceiverId"
+		resultMap="idsResult" parameterClass="java.util.Map">
+		select WORKITEM_ID from MV_WORKITEM where
+		RECEIVER_ID=#receiverId# 
+		<isPropertyAvailable prepend="and" property="formsetInstId">
+			formset_inst_id=#formsetInstId#
+		</isPropertyAvailable> 
+		<isPropertyAvailable prepend="and" property="flowInstId">
+			flow_inst_id=#flowInstId#
+		</isPropertyAvailable> 
+	</select>
+
+
+	<select id="getFormSetInstIdListByUserIdAndType"
+		resultMap="idsResult1" parameterClass="java.util.Map">
+		select FORMSET_INST_ID from MV_WORKITEM activity_type=#type# and 
+		(not FORMSET_INST_ID = -1) and 
+		(status=1 or status=3 or status=2 or status=4 or status=5) and
+		(receiver_id =#userId# or delegant_id=#userId#) order by
+		formset_inst_id desc,receive_time
+	</select>
+	
+	<select id="getFlowInstIdListByUserIdAndType"
+		resultMap="idsResult2" parameterClass="java.util.Map">
+		select FLOW_INST_ID from MV_WORKITEM activity_type=#type# and 
+		FORMSET_INST_ID = -1 and 
+		(status=1 or status=3 or status=2 or status=4 or status=5) and
+		(receiver_id =#userId# or delegant_id=#userId#) order by
+		FLOW_INST_ID desc,receive_time
+	</select>
+
+	<select id="getWorkItemGroupByMap"
+		resultMap="workItemGroupResult" parameterClass="java.util.Map">
+		select * from MV_WORKITEM_GROUP where 1=1 
+		<isPropertyAvailable prepend="and" property="workItemId">
+			workitem_id=#workItemId#
+		</isPropertyAvailable> 
+		<isPropertyAvailable prepend="and" property="userId">
+			user_id=#userId#
+		</isPropertyAvailable> 
+		<isPropertyAvailable prepend="and" property="groupOrgId">
+			group_org_id=#groupOrgId#
+		</isPropertyAvailable> 
+		<isPropertyAvailable prepend="and" property="formsetInstId">
+			formset_inst_id=#formsetInstId#
+		</isPropertyAvailable> 
+		<isPropertyAvailable prepend="and" property="flowInstId">
+			flow_inst_id=#flowInstId#
+		</isPropertyAvailable> 
+		<isPropertyAvailable prepend="and" property="delegantId">
+			delegant_id=#delegantId#
+		</isPropertyAvailable> 
+		<isPropertyAvailable prepend="and" property="formsetId">
+			formset_id=#formsetId#
+		</isPropertyAvailable> 
+		<isPropertyAvailable prepend="and" property="flowId">
+			flow_id=#flowId#
+		</isPropertyAvailable> 
+	</select>
+
+	<update id="updateEncyclicWorkItemsByInstIdAndReceivId"
+		parameterClass="java.util.Map">
+		update MV_WORKITEM set status=9 where
+		(delegant_id in
+		<iterate property="idList" open="(" close=")" conjunction=",">
+			#idList[]#
+		</iterate>
+		or receiver_id in
+		<iterate property="idList" open="(" close=")" conjunction=",">
+			#idList[]#
+		</iterate>
+		)
+		<isPropertyAvailable prepend="and" property="formsetInstId">
+			formset_inst_id=#formsetInstId:NUMERIC#
+		</isPropertyAvailable> 
+		<isPropertyAvailable prepend="and" property="flowInstId">
+			flow_inst_id=#flowInstId:NUMERIC#
+		</isPropertyAvailable> 
+		<![CDATA[
+		     and status<6 and activity_type=2
+		]]>
+	</update>
+
+
+	<update id="updateForReclaimWorkItems"
+		parameterClass="java.util.List">
+		update MV_WORKITEM set status=7,dest='Reclaim' where workitem_id
+		in
+		<iterate open="(" close=")" conjunction=",">#[]#</iterate>
+	</update>
+
+	<update id="updateWorkItemByMap" parameterClass="java.util.Map">
+		update MV_WORKITEM set workitem_id=#id#
+		<isPropertyAvailable prepend="," property="status">
+			status=#status:NUMERIC#
+		</isPropertyAvailable>
+		<isPropertyAvailable prepend="," property="completeTime">
+			COMPLETE_TIME=#completeTime:TIMESTAMP#
+		</isPropertyAvailable>
+		<isNotNull prepend="," property="receivedTime">
+			RECEIVE_TIME=#receivedTime:TIMESTAMP#
+		</isNotNull>
+		<isNotNull prepend="," property="dest">
+			dest=#dest:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="receiver">
+			RECEIVER=#receiver:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="receiverId">
+			RECEIVER_ID=#receiverId:NUMERIC#
+		</isNotNull>
+		<isPropertyAvailable prepend="," property="delegant">
+			DELEGANT=#delegant:VARCHAR#
+		</isPropertyAvailable>
+		<isPropertyAvailable prepend="," property="delegantId">
+			DELEGANT_ID=#delegantId:NUMERIC#
+		</isPropertyAvailable>
+		<isNotNull prepend="," property="jobName">
+			JOB_NAME=#jobName:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="sender">
+			SENDER=#sender:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="senderId">
+			SENDER_ID=#senderId:NUMERIC#
+		</isNotNull>
+		<isNotNull prepend="," property="srcWorkItemId">
+			SRC_WORKITEM_ID=#srcWorkItemId:NUMERIC#
+		</isNotNull>
+		<isNotNull prepend="," property="srcActivityId">
+			SRC_ACTIVITY_ID=#srcActivityId:NUMERIC#
+		</isNotNull>
+		<isNotNull prepend="," property="noticeFlag">
+			NOTICE_FLAG=#noticeFlag:VARCHAR#
+		</isNotNull>
+		where workitem_id=#id#
+	</update>
+
+	<update id="updateStatusWhenInstAwaked"
+		parameterClass="java.util.Map">
+		update MV_WORKITEM set status=2,dest='',complete_time=null 
+		where workitem_id in (
+			select workitem_id from MV_WORKITEM 
+			where receive_time=(
+				select max(receive_time) from MV_WORKITEM where 
+				<isPropertyAvailable property="formsetInstId">
+					formset_inst_id=#formsetInstId#
+				</isPropertyAvailable> 
+				<isPropertyAvailable property="flowInstId">
+					flow_inst_id=#flowInstId#
+				</isPropertyAvailable> 
+			)
+			<isPropertyAvailable prepend="and" property="formsetInstId">
+				formset_inst_id=#formsetInstId#
+			</isPropertyAvailable> 
+			<isPropertyAvailable prepend="and" property="flowInstId">
+				flow_inst_id=#flowInstId#
+			</isPropertyAvailable> 
+		)
+	</update>
+	
+	<update id="updateForCompleteByInstAndScrActId"
+		parameterClass="java.util.Map">
+		update MV_WORKITEM set status=#status:NUMERIC#
+		<isPropertyAvailable prepend="," property="completeTime">
+			COMPLETE_TIME=#completeTime:TIMESTAMP#
+		</isPropertyAvailable>
+		,dest=#dest:VARCHAR# where src_workitem_id=#scrWorkItemId# 
+		<isPropertyAvailable prepend="and" property="formsetInstId">
+			formset_inst_id=#formsetInstId#
+		</isPropertyAvailable> 
+		<isPropertyAvailable prepend="and" property="flowInstId">
+			flow_inst_id=#flowInstId#
+		</isPropertyAvailable> 
+		and (receiver_id=#receiverId# or
+		delegant_id=#delegantId#)
+	</update>
+
+	<update id="updateJobNameByActIdAndReceivedIdList"
+		parameterClass="java.util.Map">
+		update MV_WORKITEM set job_name=job_name||','||#id#
+		<isPropertyAvailable prepend="," property="status">
+			status=#status#
+		</isPropertyAvailable> 
+		,RECEIVE_TIME=#receiveTime# where act_id=#actId# 
+		<isPropertyAvailable prepend="and" property="formsetInstId">
+			formset_inst_id=#formsetInstId#
+		</isPropertyAvailable> 
+		<isPropertyAvailable prepend="and" property="flowInstId">
+			flow_inst_id=#flowInstId#
+		</isPropertyAvailable> 
+		and 
+		<![CDATA[ status<6 and ]]>
+		(receiver_id in
+		<iterate property="idList" open="(" close=")" conjunction=",">
+			#idList[]#
+		</iterate>
+		or delegant_id in
+		<iterate property="idList" open="(" close=")" conjunction=",">
+			#idList[]#
+		</iterate>
+		)
+	</update>
+
+	<update id="updateForCompleteCountByInstId" parameterClass="java.util.Map">
+		update MV_WORKITEM set status=9 where 
+		<isPropertyAvailable property="formsetInstId">
+			formset_inst_id=#formsetInstId#
+		</isPropertyAvailable> 
+		<isPropertyAvailable property="flowInstId">
+			flow_inst_id=#flowInstId#
+		</isPropertyAvailable> 
+	</update>
+
+	<update id="updateForUnDelgant" parameterClass="int">
+		update MV_WORKITEM set
+		RECEIVER_ID=DELEGANT_ID,receiver=delegant,delegant='',DELEGANT_ID=0
+		where workitem_id=#value#
+	</update>
+
+	<delete id="delWorkItemById" parameterClass="int">
+		delete from MV_WORKITEM where WORKITEM_ID=#value#
+	</delete>
+	
+	<delete id="removeReclaimWorkItems"
+		parameterClass="java.util.List">
+		delete from MV_WORKITEM where WORKITEM_ID IN
+		<iterate open="(" close=")" conjunction=",">#[]#</iterate>
+	</delete>
+
+	<delete id="delWorkItemsByInstId" parameterClass="java.util.Map">
+		delete from MV_WORKITEM where 
+		<isPropertyAvailable property="formsetInstId">
+			formset_inst_id=#formsetInstId#
+		</isPropertyAvailable> 
+		<isPropertyAvailable property="flowInstId">
+			flow_inst_id=#flowInstId#
+		</isPropertyAvailable> 
+	</delete>
+	
+	<delete id="delWorkItemGroups" parameterClass="java.util.Map">
+		delete from MV_WORKITEM_GROUP where 1=1
+		<isPropertyAvailable prepend="and" property="formsetInstId">
+			formset_inst_id=#formsetInstId#
+		</isPropertyAvailable> 
+		<isPropertyAvailable prepend="and" property="flowInstId">
+			flow_inst_id=#flowInstId#
+		</isPropertyAvailable> 
+		<isPropertyAvailable prepend="and" property="workItemId">
+			workitem_id=#workItemId#
+		</isPropertyAvailable> 
+		<isPropertyAvailable prepend="and" property="userId">
+			user_id=#userId#
+		</isPropertyAvailable> 
+		<isPropertyAvailable prepend="and" property="groupOrgId">
+			group_org_id=#groupOrgId#
+		</isPropertyAvailable> 
+		<isPropertyAvailable prepend="and" property="delegantId">
+			delegant_id=#delegantId#
+		</isPropertyAvailable> 
+		<isPropertyAvailable prepend="and" property="formsetId">
+			formset_id=#formsetId#
+		</isPropertyAvailable> 
+		<isPropertyAvailable prepend="and" property="flowId">
+			flow_id=#flowId#
+		</isPropertyAvailable> 
+	</delete>
+	
+	<delete id="delWorkItemGroupsByWorkItemIdList"
+		parameterClass="java.util.List">
+		delete from MV_WORKITEM_GROUP where WORKITEM_ID IN
+		<iterate open="(" close=")" conjunction=",">#[]#</iterate>
+	</delete>
+</sqlMap>

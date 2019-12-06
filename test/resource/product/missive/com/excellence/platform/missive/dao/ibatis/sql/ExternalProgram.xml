@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ExternalProgram">
+	<typeAlias alias="externalProgram"
+		type="com.excellence.platform.missive.vo.ExternalProgramVO" />
+
+	<resultMap id="externalProgramResult" class="externalProgram">
+		<result property="id" column="APP_ID" />
+		<result property="appFolderId" column="FOLDER_ID" />
+		<result property="name" column="NAME" />
+		<result property="pluginClassName" column="PLUGIN_CLASSNAME" />
+	</resultMap>
+
+	<resultMap id="idsResult" class="java.lang.Integer">
+		<result property="id" column="APP_ID" />
+	</resultMap>
+
+	<insert id="insertExternalProgram"
+		parameterClass="externalProgram">
+		INSERT INTO mv_external_program ( APP_ID, FOLDER_ID, NAME,
+		PLUGIN_CLASSNAME) VALUES
+		(#id#,#appFolderId:NUMERIC#,#name:VARCHAR#,#pluginClassName:VARCHAR#)
+	</insert>
+	<update id="updateProgram" parameterClass="externalProgram">
+	update mv_external_program set FOLDER_ID=#appFolderId:NUMERIC#, NAME=#name:VARCHAR#,
+		PLUGIN_CLASSNAME=#pluginClassName:VARCHAR# where APP_ID=#id#
+	</update>
+
+	<select id="getExternalProgramById"
+		resultMap="externalProgramResult" parameterClass="int">
+		select * from mv_external_program where APP_ID=#value#
+	</select>
+
+	<select id="getListByFolderId" resultMap="externalProgramResult"
+		parameterClass="int">
+		select * from mv_external_program where
+		FOLDER_ID=#value#
+	</select>
+
+	<select id="getListByFolderIdAndType"
+		resultMap="externalProgramResult" parameterClass="java.util.Map">
+		select * from mv_external_program where FOLDER_ID=#folderId#
+		<isEqual prepend="AND" property="type" compareValue="1">
+			<![CDATA[PLUGIN_CLASSNAME<>'com.excellence.platform.missive.plugin.ScriptPlugin']]>
+		</isEqual>		
+		<isEqual prepend="AND" property="type" compareValue="2">
+			PLUGIN_CLASSNAME='com.excellence.platform.missive.plugin.ScriptPlugin'
+		</isEqual>		
+	</select>
+	
+	<select id="getAllPrograms" resultMap="externalProgramResult" >
+		select * from mv_external_program
+	</select>
+	
+	<select id="isHasName" resultClass="java.lang.Integer" parameterClass="string">
+		select COUNT(*) from mv_external_program where name=#value#
+	</select>
+
+	<delete id="delExternalProgramById" parameterClass="int">
+		delete from mv_external_program where APP_ID=#value#
+	</delete>
+	
+	<delete id="delProgramByIds" parameterClass="list">
+		delete from mv_external_program where APP_ID in 
+		<iterate open="(" close=")" conjunction=",">#[]#</iterate>
+	</delete>
+
+</sqlMap>

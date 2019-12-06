@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="File">
+	<typeAlias alias="file"
+		type="com.excellence.platform.missive.vo.FileVO" />
+
+	<typeAlias alias="formDraftfile"
+		type="com.excellence.platform.missive.vo.FormDraftOfFormInstVO" />
+
+	<typeAlias alias="formAttfile"
+		type="com.excellence.platform.missive.vo.FormAttachmentOfFormInstVO" />
+
+	<typeAlias alias="formPreviewfile"
+		type="com.excellence.platform.missive.vo.FormPreviewOfFormInstVO" />
+
+	<resultMap id="fileResult" class="file">
+		<result property="id" column="FILE_ID" />
+		<result property="filename" column="FILE_NAME" />
+		<result property="contentType" column="CONTENT_TYPE" />
+		<result property="title" column="TITLE" />
+		<result property="realPath" column="REAL_PATH" />
+		<result property="version" column="VERSION" />
+		<result property="uploaderId" column="UPLOADER_ID" />
+		<result property="uploader" column="UPLOADER" />
+		<result property="uploadTime" column="UPLOAD_TIME" />
+		<result property="objectType" column="OBJECT_TYPE" />
+		<result property="objectId" column="OBJECT_ID" />
+		<result property="encryptType" column="ENCRYPT_TYPE" />
+		<result property="guid" column="GUID" />
+		<result property="passKey" column="PASSKEY" />
+	</resultMap>
+
+	<resultMap id="formDraftfileResult" class="formDraftfile">
+		<result property="id" column="FILE_ID" />
+		<result property="filename" column="FILE_NAME" />
+		<result property="contentType" column="CONTENT_TYPE" />
+		<result property="title" column="TITLE" />
+		<result property="realPath" column="REAL_PATH" />
+		<result property="version" column="VERSION" />
+		<result property="uploaderId" column="UPLOADER_ID" />
+		<result property="uploader" column="UPLOADER" />
+		<result property="uploadTime" column="UPLOAD_TIME" />
+		<result property="objectType" column="OBJECT_TYPE" />
+		<result property="formSetInstId" column="OBJECT_ID" />
+		<result property="objectId" column="OBJECT_ID" />
+		<result property="encryptType" column="ENCRYPT_TYPE" />
+		<result property="guid" column="GUID" />
+		<result property="passKey" column="PASSKEY" />
+	</resultMap>
+
+	<resultMap id="formAttfileResult" class="formAttfile">
+		<result property="id" column="FILE_ID" />
+		<result property="filename" column="FILE_NAME" />
+		<result property="contentType" column="CONTENT_TYPE" />
+		<result property="title" column="TITLE" />
+		<result property="realPath" column="REAL_PATH" />
+		<result property="version" column="VERSION" />
+		<result property="uploaderId" column="UPLOADER_ID" />
+		<result property="uploader" column="UPLOADER" />
+		<result property="uploadTime" column="UPLOAD_TIME" />
+		<result property="objectType" column="OBJECT_TYPE" />
+		<result property="formSetInstId" column="OBJECT_ID" />
+		<result property="objectId" column="OBJECT_ID" />
+		<result property="encryptType" column="ENCRYPT_TYPE" />
+		<result property="guid" column="GUID" />
+		<result property="passKey" column="PASSKEY" />
+	</resultMap>
+
+	<resultMap id="formPreviewResult" class="formPreviewfile">
+		<result property="id" column="FILE_ID" />
+		<result property="filename" column="FILE_NAME" />
+		<result property="contentType" column="CONTENT_TYPE" />
+		<result property="title" column="TITLE" />
+		<result property="realPath" column="REAL_PATH" />
+		<result property="version" column="VERSION" />
+		<result property="uploaderId" column="UPLOADER_ID" />
+		<result property="uploader" column="UPLOADER" />
+		<result property="uploadTime" column="UPLOAD_TIME" />
+		<result property="objectType" column="OBJECT_TYPE" />
+		<result property="formSetInstId" column="OBJECT_ID" />
+		<result property="objectId" column="OBJECT_ID" />
+		<result property="encryptType" column="ENCRYPT_TYPE" />
+		<result property="guid" column="GUID" />
+		<result property="passKey" column="PASSKEY" />
+	</resultMap>
+
+	<resultMap id="idsResult" class="java.lang.Integer">
+		<result property="id" column="FILE_ID" />
+	</resultMap>
+
+	<insert id="insertFile" parameterClass="file">
+		INSERT INTO MV_FORM_FILE ( FILE_ID, FILE_NAME, CONTENT_TYPE,
+		TITLE, REAL_PATH, VERSION, UPLOADER_ID,UPLOADER, UPLOAD_TIME,
+		OBJECT_TYPE, OBJECT_ID, ENCRYPT_TYPE, GUID, PASSKEY) VALUES
+		(#id#,#filename:VARCHAR#,#contentType:VARCHAR#,#title:VARCHAR#,
+		#realPath:VARCHAR#,#version:NUMERIC#,#uploaderId:NUMERIC#,#uploader:VARCHAR#,
+		#uploadTime:TIMESTAMP#,#objectType:NUMERIC#,#objectId:NUMERIC#,#encryptType:NUMERIC#,
+		#guid:VARCHAR#,#passKey:VARCHAR#)
+	</insert>
+
+	<select id="getFileById" resultMap="fileResult"
+		parameterClass="int">
+		select * from MV_FORM_FILE where FILE_ID=#value#
+	</select>
+
+	<select id="getFileByObjectIdAndType" resultMap="fileResult"
+		parameterClass="java.util.Map">
+		select * from MV_FORM_FILE where OBJECT_ID=#objId#
+		<isPropertyAvailable prepend="and" property="objectType">
+			OBJECT_TYPE=#objectType#
+		</isPropertyAvailable>
+	</select>
+
+	<select id="getFormDraftByObjectId" resultMap="formDraftfileResult"
+		parameterClass="int">
+		select * from MV_FORM_FILE where OBJECT_ID=#value# and
+		OBJECT_TYPE=3
+	</select>
+
+	<select id="getFormPreviewByObjectId" resultMap="formPreviewResult"
+		parameterClass="int">
+		select * from MV_FORM_FILE where OBJECT_ID=#value# and
+		OBJECT_TYPE=6
+	</select>
+
+	<select id="getAttachListByObjectId" resultMap="formAttfileResult"
+		parameterClass="int">
+		select * from MV_FORM_FILE where OBJECT_ID=#value# and
+		OBJECT_TYPE=4 order by file_id asc
+	</select>
+
+	<update id="updateFile" parameterClass="file">
+		update MV_FORM_FILE set FILE_NAME=#filename:VARCHAR#,
+		CONTENT_TYPE=#contentType:VARCHAR#, TITLE=#title:VARCHAR#,
+		REAL_PATH=#realPath:VARCHAR# ,VERSION=#version:NUMERIC#,
+		UPLOADER_ID=#uploaderId:NUMERIC#,UPLOADER=#uploader:VARCHAR#,
+		UPLOAD_TIME=#uploadTime:TIMESTAMP#,OBJECT_TYPE=#objectType:NUMERIC#,
+		OBJECT_ID=#objectId:NUMERIC#,ENCRYPT_TYPE=#encryptType:NUMERIC#,
+		GUID=#guid:VARCHAR#,PASSKEY=#passKey:VARCHAR# where FILE_ID=#id#
+	</update>
+
+	<update id="updateTitleById" parameterClass="java.util.Map">
+		update MV_FORM_FILE set TITLE=#title:VARCHAR# where FILE_ID=#id#
+	</update>
+
+	<delete id="delFileById" parameterClass="int">
+		delete from MV_FORM_FILE where FILE_ID=#value#
+	</delete>
+
+	<delete id="delByObjectIdAndType" parameterClass="java.util.Map">
+		delete from MV_FORM_FILE where OBJECT_ID=#objId# and
+		OBJECT_TYPE=#objectType#
+	</delete>
+
+	<delete id="delFilesByInstId" parameterClass="int">
+		delete from MV_FORM_FILE where OBJECT_ID=#value#
+	</delete>
+
+	<delete id="delReferencesWhenInstDeleted" parameterClass="java.lang.String">
+		delete from MV_FORM_FILE where REAL_PATH=#value# and OBJECT_TYPE=8
+	</delete>
+</sqlMap>

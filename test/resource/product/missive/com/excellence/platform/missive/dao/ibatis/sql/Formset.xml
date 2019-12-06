@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Formset">
+	<typeAlias alias="formset"
+		type="com.excellence.platform.missive.vo.FormsetVO" />
+
+	<resultMap id="formsetResult" class="formset">
+		<result property="id" column="FORMSET_ID" />
+		<result property="folderId" column="FOLDER_ID" />
+		<result property="name" column="NAME" />
+		<result property="desc" column="DESCRI" nullValue="" />
+		<result property="creatorId" column="CREATOR_ID" />
+		<result property="creator" column="CREATOR" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="editVersionId" column="EDIT_VERSION_ID" />
+		<result property="pubVersionId" column="PUB_VERSION_ID" />
+		<result property="guid" column="GUID" nullValue="" />
+		<result property="saveEntry" column="SAVE_ENTRY" />
+		<result property="dataprocessorClass"
+			column="DATAPROCESSOR_CLASS" />
+		
+		<result property="orgId" column="ORG_ID" nullValue="0"/>
+		<result property="orgName" column="ORG_NAME" nullValue=""/>
+	</resultMap>
+
+	<resultMap id="idsResult" class="java.lang.Integer">
+		<result property="id" column="FORMSET_ID" />
+	</resultMap>
+	
+	<resultMap id="idsResult1" class="java.lang.Integer">
+		<result property="id" column="VERSION_ID" />
+	</resultMap>
+<!-- 
+	<insert id="insertFormset" parameterClass="formset">
+		INSERT INTO mv_formset ( FORMSET_ID, FOLDER_ID, NAME, DESCRI,
+		CREATOR_ID, CREATOR, CREATE_TIME, EDIT_VERSION_ID,
+		PUB_VERSION_ID, GUID, SAVE_ENTRY, DATAPROCESSOR_CLASS ) VALUES
+		(#id#,#folderId:NUMERIC#,#name:VARCHAR#,#desc:VARCHAR#,
+		#creatorId:NUMERIC#,#creator:VARCHAR#,#createTime:TIMESTAMP#,#editVersionId:NUMERIC#,
+		#pubVersionId:NUMERIC#,#guid:VARCHAR#,#saveEntry:VARCHAR#,#dataprocessorClass:VARCHAR#)
+	</insert>
+-->
+	<insert id="insertFormset" parameterClass="formset">
+		INSERT INTO mv_formset ( FORMSET_ID, FOLDER_ID, NAME, DESCRI,
+		CREATOR_ID, CREATOR, CREATE_TIME, EDIT_VERSION_ID,
+		PUB_VERSION_ID, GUID, SAVE_ENTRY, DATAPROCESSOR_CLASS , ORG_ID, ORG_NAME) VALUES
+		(#id#,#folderId:NUMERIC#,#name:VARCHAR#,#desc:VARCHAR#,
+		#creatorId:NUMERIC#,#creator:VARCHAR#,#createTime:TIMESTAMP#,#editVersionId:NUMERIC#,
+		#pubVersionId:NUMERIC#,#guid:VARCHAR#,#saveEntry:VARCHAR#,#dataprocessorClass:VARCHAR#,#orgId:NUMERIC#,#orgName:VARCHAR#)
+	</insert>
+
+	<select id="getFormsetById" resultMap="formsetResult"
+		parameterClass="int">
+		select * from mv_formset where FORMSET_ID=#value#
+	</select>
+	
+	<select id="getFormsetByFormId" resultMap="formsetResult"
+		parameterClass="int">
+		select mv_formset.* from mv_formset,mv_form 
+		where mv_formset.FORMSET_ID=mv_form.FORMSET_ID 
+		and mv_form.FORM_ID=#value#
+	</select>
+
+	<select id="getGUIDById" resultClass="java.lang.String"
+		parameterClass="int">
+		select GUID from mv_formset where FORMSET_ID=#value#
+	</select>
+
+	<select id="isHasFormset" resultClass="java.lang.Integer"
+		parameterClass="int">
+		select COUNT(*) from mv_formset where FORMSET_ID=#value#
+	</select>
+
+	<select id="getFormVerIdByIdAndFlag" resultMap="idsResult1"
+		parameterClass="java.util.Map">
+		select  1,
+		<isNotNull  property="edit">EDIT_VERSION_ID</isNotNull>
+		<isNull  property="edit">PUB_VERSION_ID</isNull> VERSION_ID
+		from mv_formset where FORMSET_ID=#formsetId#
+	</select>
+
+	<select id="getFormsetListByFolderId" resultMap="formsetResult"
+		parameterClass="int">
+		select * from mv_formset where FOLDER_ID=#value#
+	</select>
+
+	<select id="getAllFormsetList" resultMap="formsetResult">
+		select * from mv_formset
+	</select>
+
+	<update id="updateByMap" parameterClass="java.util.Map">
+		update mv_formset set NAME=#name:VARCHAR#,DESCRI=#desc:VARCHAR#,
+		EDIT_VERSION_ID=#editVersionId:NUMERIC#
+		<isNotNull prepend="," property="pubVersionId">
+			PUB_VERSION_ID=#pubVersionId:NUMERIC#
+		</isNotNull>
+		<isNotNull prepend="," property="guid">
+			GUID=#guid:VARCHAR#
+		</isNotNull>
+		where FORMSET_ID=#id#
+	</update>
+
+	<update id="updateVerByFormIdAndFlag"
+		parameterClass="java.util.Map">
+		update mv_formset set
+		<isEqual property="flag" compareValue="publish">
+			PUB_VERSION_ID=#newFormId:NUMERIC#
+		</isEqual>
+		<isEqual property="flag" compareValue="edit">
+			EDIT_VERSION_ID=#newFormId:NUMERIC#
+		</isEqual>
+		where FORMSET_ID=(select FORMSET_ID from mv_form where
+		FORM_ID=#formId#)
+	</update>
+
+	<update id="updateFolder" parameterClass="java.util.Map">
+		update mv_formset set FOLDER_ID=#folderId# where
+		FORMSET_ID=#formsetId#
+	</update>
+
+	<delete id="delFormsetById" parameterClass="int">
+		delete from mv_formset where FORMSET_ID=#value#
+	</delete>
+
+
+</sqlMap>

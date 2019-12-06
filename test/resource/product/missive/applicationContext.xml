@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<!--
+	- Application context definition for JPetStore's business layer.
+	- Contains bean references to the transaction manager and to the DAOs in
+	- dataAccessContext-local/jta.xml (see web.xml's "contextConfigLocation").
+-->
+<beans>
+
+	<!-- ========================= GENERAL DEFINITIONS ========================= -->
+
+	<!-- Configurer that replaces ${...} placeholders with values from properties files -->
+	<!-- (in this case, mail and JDBC related properties) 
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>jdbc.properties</value>
+			</list>
+		</property>
+	</bean>-->
+
+
+
+	<!-- ========================= BUSINESS OBJECT DEFINITIONS ========================= -->
+
+
+	<!--  primary business object: default implementation -->
+	<bean id="flowManager"
+		class="com.excellence.platform.missive.domain.logic.FlowManagerImpl" autowire="byName">		
+	</bean>
+	<bean id="appFolderManager" class="com.excellence.platform.missive.domain.logic.AppFolderManagerImpl" autowire="byName">
+	</bean>
+	<bean id="formManager" class="com.excellence.platform.missive.domain.logic.FormManagerImpl" autowire="byName" />	
+
+	<bean id="formSetInstManagerTarget"
+		class="com.excellence.platform.missive.domain.logic.FormSetInstManagerImpl" autowire="byName">
+	</bean>
+	
+	<bean id="formSetInstManagerAdvice"
+		class="com.excellence.platform.missive.util.event.FormSetInstManagerAdvice"  autowire="byName">
+	</bean>
+
+	<bean id="formSetInstManagerAdvisor"
+		class="org.springframework.aop.support.NameMatchMethodPointcutAdvisor">
+		<property name="mappedNames">
+			<list>
+				<value>removeInst</value>
+			</list>
+		</property>
+		<property name="advice">
+			<ref bean="formSetInstManagerAdvice"/>
+		</property>
+	</bean>
+	
+	<bean id="formSetInstManager"
+		class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="proxyInterfaces">
+			<value>com.excellence.platform.missive.domain.logic.FormSetInstManager</value>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>formSetInstManagerAdvisor</value>
+			</list>
+		</property>
+		<property name="target">
+			<ref bean="formSetInstManagerTarget"/>
+		</property>
+	</bean>
+	
+
+	<bean id="workFlowTarget" class="com.excellence.platform.missive.domain.logic.WorkFlowImpl" autowire="byName">
+	</bean>	
+
+	<bean id="workFlowAdvice"
+		class="com.excellence.platform.missive.util.event.WorkFlowAdvice">
+	</bean>
+	
+	<bean id="workFlowAdvisor"
+		class="org.springframework.aop.support.NameMatchMethodPointcutAdvisor">
+		<property name="mappedName">
+			<value>openWorkItem</value>
+		</property>
+		<property name="advice">
+			<ref bean="workFlowAdvice"/>
+		</property>
+	</bean>
+
+	<bean id="workFlow"
+		class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="proxyInterfaces">
+			<value>com.excellence.platform.missive.domain.logic.WorkFlow</value>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>workFlowAdvisor</value>
+			</list>
+		</property>
+		<property name="target">
+			<ref bean="workFlowTarget"/>
+		</property>
+	</bean>
+
+	
+	<bean id="workItemManagerTarget" class="com.excellence.platform.missive.domain.logic.WorkItemManagerImpl" autowire="byName">
+	</bean>
+	
+	<bean id="workItemManagerAdvice"
+		class="com.excellence.platform.missive.util.event.WorkItemManagerAdvice">
+	</bean>
+
+	<bean id="workItemManagerAdvisor"
+		class="org.springframework.aop.support.NameMatchMethodPointcutAdvisor">
+		<property name="mappedName">
+			<value>completeLastWorkItem</value>
+		</property>
+		<property name="advice">
+			<ref bean="workItemManagerAdvice"/>
+		</property>
+	</bean>
+
+	<bean id="workItemManager"
+		class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="proxyInterfaces">
+			<value>com.excellence.platform.missive.domain.logic.WorkItemManager</value>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>workItemManagerAdvisor</value>
+			</list>
+		</property>
+		<property name="target">
+			<ref bean="workItemManagerTarget"/>
+		</property>
+	</bean>
+	
+
+	<!--  primary business object: service -->
+	<bean id="dataTranService"
+		class="com.excellence.platform.missive.service.DataTranServiceImpl" autowire="byName">	
+	</bean>
+	<bean id="dataTranWorkItemRelaService"
+		class="com.excellence.platform.missive.service.DataTranWorkItemRelaServiceImpl" autowire="byName">	
+	</bean>
+	
+	<bean id="flowService"
+		class="com.excellence.platform.missive.service.FlowServiceImpl" autowire="byName">	
+	</bean>
+
+	<bean id="delegateService"
+		class="com.excellence.platform.missive.service.DelegateServiceImpl" autowire="byName">
+	</bean>
+	<bean id="formInstService"
+		class="com.excellence.platform.missive.service.FormInstServiceImpl" autowire="byName">
+	</bean>
+	<bean id="flowInstService"
+		class="com.excellence.platform.missive.service.FlowInstServiceImpl" autowire="byName">
+	</bean>
+	<bean id="formService"
+		class="com.excellence.platform.missive.service.FormServiceImpl" autowire="byName">
+	</bean>
+	
+	<bean id="missiveFileService"
+		class="com.excellence.platform.missive.service.MissiveFileServiceImpl" autowire="byName">
+	</bean>
+	<bean id="opinionService"
+		class="com.excellence.platform.missive.service.OpinionServiceImpl" autowire="byName">
+	</bean>
+	<bean id="timeLimitService"
+		class="com.excellence.platform.missive.service.TimeLimitServiceImpl" autowire="byName">
+	</bean>
+	
+	
+	<bean id="workItemServiceTarget"
+		class="com.excellence.platform.missive.service.WorkItemServiceImpl" autowire="byName">
+	</bean>
+	
+	<bean id="workItemServiceAdvice"
+		class="com.excellence.platform.missive.util.event.WorkItemServiceAdvice" autowire="byName">
+	</bean>
+	
+	<bean id="workItemServiceAdvisor"
+		class="org.springframework.aop.support.NameMatchMethodPointcutAdvisor">
+		<property name="mappedName">
+			<value>recallWorkItem</value>
+		</property>
+		<property name="advice">
+			<ref bean="workItemServiceAdvice"/>
+		</property>
+	</bean>
+	
+	<bean id="workItemService"
+		class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="proxyInterfaces">
+			<value>com.excellence.platform.missive.service.WorkItemService</value>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>workItemServiceAdvisor</value>
+			</list>
+		</property>
+		<property name="target">
+			<ref bean="workItemServiceTarget"/>
+		</property>
+	</bean>
+	
+	
+	<bean id="missiveAdminDao"
+		class="com.excellence.platform.missive.dao.MissiveAdminDAO" autowire="byName">
+	</bean>
+	
+	<bean id="missiveProcessorDao"
+		class="com.excellence.platform.missive.dao.MissiveProcessorDAO" autowire="byName">
+	</bean>
+	
+	<!-- utilities -->
+	<bean id="workItemDistributor"
+		class="com.excellence.platform.missive.util.WorkItemDistributor" autowire="byName">
+	</bean>	
+
+
+	<bean id="workItemDistributorThread"
+		class="com.excellence.platform.missive.util.WorkItemDistributorThread" 
+		autowire="byName"
+		singleton="false">
+	</bean>	
+	
+	<bean id="cacheManager"
+		class="com.excellence.platform.missive.domain.logic.CacheManagerImpl" autowire="byName">	
+	</bean>
+</beans>

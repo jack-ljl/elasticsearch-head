@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.5.3 
+Created-By: 2.1 (IBM Corporation)
+Class-Path: common.jar package/jdom.jar package/js.jar package/spring-
+ mock.jar package/spring.jar user.jar package/easymock.jar package/com
+ mons-beanutils.jar package/commons-collections.jar package/commons-di
+ gester.jar package/commons-lang.jar package/ibatis-2.3.0.677.jar pack
+ age/cglib-full-2.0.1.jar package/json.jar scriptEJBClient.jar mainfra
+ me.jar
+

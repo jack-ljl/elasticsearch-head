@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Exproperty">
+	<typeAlias alias="exproperty"
+		type="com.excellence.platform.missive.domain.ExProperty" />
+
+	<resultMap id="expropertyResult" class="exproperty">
+		<result property="id" column="PROPERTY_ID" />
+		<result property="appId" column="APPLICATION_ID" />
+		<result property="name" column="NAME" />
+		<result property="value" column="VALUE" />
+	</resultMap>
+
+	<resultMap id="idsResult" class="java.lang.Integer">
+		<result property="id" column="PROPERTY_ID" />
+	</resultMap>
+
+	<insert id="insertExternalProgramProperty" parameterClass="exproperty">
+		INSERT INTO mv_property ( PROPERTY_ID, APPLICATION_ID, NAME,
+		VALUE ) VALUES
+		(#id#,#appId:NUMERIC#,#name:VARCHAR#,#value:VARCHAR#)
+	</insert>
+	<select id="getExpropertyById" resultMap="expropertyResult"
+		parameterClass="int">
+		select * from mv_property where PROPERTY_ID=#value#
+	</select>
+	<delete id="delExpropertyById" parameterClass="int">
+		delete from mv_property where PROPERTY_ID=#value#
+	</delete>
+
+	
+</sqlMap>

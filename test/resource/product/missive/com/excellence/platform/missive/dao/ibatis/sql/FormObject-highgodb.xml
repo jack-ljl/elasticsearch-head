@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="FormObject">
+	<typeAlias alias="formObject"
+		type="com.excellence.platform.missive.vo.FormObjectVO" />
+
+	<resultMap id="formObjectResult" class="formObject">
+		<result property="id" column="OBJECT_ID" />
+		<result property="subformId" column="SUBFORM_ID" nullValue="0" />
+		<result property="name" column="NAME" nullValue="" />
+		<result property="type" column="TYPE" nullValue="0" />
+		<result property="defaultValue" column="DEFAULT_VALUE" />
+		<result property="isNull" column="IS_NULL" nullValue="0" />
+		<result property="maxLength" column="MAX_LENGTH" nullValue="0" />
+		<result property="desc" column="DESCRI" nullValue="" />
+		<result property="bindingDataName" column="BINDING_DATA_NAME" nullValue="" />
+		<result property="dataApp" column="DATA_APP" nullValue="" />
+		<result property="bgColor" column="BGCOLOR"  nullValue=""/>
+		<result property="font" column="FONT"  nullValue=""/>
+		<result property="frontColor" column="FRONT_COLOR" nullValue="" />
+		<result property="left" column="LEFT" nullValue="0" />
+		<result property="top" column="TOP" nullValue="0" />
+		<result property="ZIndex" column="Z_INDEX" nullValue="0" />
+		<result property="width" column="WIDTH" nullValue="0" />
+		<result property="height" column="HEIGHT" nullValue="0" />
+		<result property="align" column="ALIGN" nullValue="" />
+		<result property="tip" column="TIP" nullValue="" />
+		<result property="transparence" column="TRANSPARENCE" nullValue="0" />
+		<result property="att1" column="ATT1" nullValue="" />
+		<result property="att2" column="ATT2" nullValue="" />
+		<result property="att3" column="ATT3" nullValue="" />
+		<result property="att4" column="ATT4" nullValue="" />
+		<result property="att5" column="ATT5" nullValue="" />
+		<result property="att6" column="ATT6" nullValue="" />
+		<result property="att7" column="ATT7" nullValue="" />
+		<result property="att8" column="ATT8" nullValue="" />
+		<result property="att9" column="ATT9" nullValue="" />
+		<result property="att10" column="ATT10" nullValue="" />
+		<result property="att11" column="ATT11" nullValue="" />
+		<result property="att12" column="ATT12" nullValue="" />
+		<result property="att13" column="ATT13" nullValue="" />
+		<result property="att14" column="ATT14" nullValue="" />
+		<result property="att15" column="ATT15" nullValue="" />
+		<result property="att16" column="ATT16" nullValue="" />
+		<result property="att17" column="ATT17" nullValue="" />
+		<result property="att18" column="ATT18" nullValue="" />
+		<result property="att19" column="ATT19" nullValue="" />
+		<result property="att20" column="ATT20" nullValue="" />
+		<result property="att21" column="ATT21" nullValue="" />
+		<result property="tabIndex" column="TAB_INDEX" nullValue="0"/>
+	</resultMap>
+
+	<resultMap id="idsResult" class="java.lang.Integer">
+		<result property="id" column="OBJECT_ID" />
+	</resultMap>
+
+	<insert id="insertFormObject" parameterClass="formObject">
+		INSERT INTO MV_FORM_OBJECT ( OBJECT_ID, SUBFORM_ID, NAME, TYPE,
+		DEFAULT_VALUE, IS_NULL, MAX_LENGTH, DESCRI, BINDING_DATA_NAME,
+		DATA_APP, BGCOLOR, FONT, FRONT_COLOR, "LEFT", "TOP", Z_INDEX, WIDTH,
+		HEIGHT, ALIGN, TIP, TRANSPARENCE, ATT1, ATT2, ATT3, ATT5, ATT4,
+		ATT6, ATT7, ATT8, ATT9, ATT10, ATT11, ATT12, ATT13, ATT14,
+		ATT15, ATT16, ATT17, ATT18, ATT19, ATT20, ATT21, TAB_INDEX )
+		VALUES (#id#,#subformId:NUMERIC#,#name:VARCHAR#,#type:NUMERIC#,
+		#defaultValue:VARCHAR#,#isNull:NUMERIC#,#maxLength:NUMERIC#,
+		#desc:VARCHAR#,#bindingDataName:VARCHAR#,#dataApp:VARCHAR#,#bgColor:VARCHAR#,
+		#font:VARCHAR#,#frontColor:VARCHAR#,#left:NUMERIC#,#top:NUMERIC#,
+		#ZIndex:NUMERIC#,#width:VARCHAR#,#height:NUMERIC#,#align:VARCHAR#,
+		#tip:VARCHAR#,#transparence:NUMERIC#,#att1:VARCHAR#,#att2:VARCHAR#,
+		#att3:VARCHAR#,#att5:VARCHAR#,#att4:VARCHAR#,#att6:VARCHAR#,
+		#att7:VARCHAR#,#att8:VARCHAR#,#att9:VARCHAR#,#att10:VARCHAR#,
+		#att11:VARCHAR#,#att12:VARCHAR#,#att13:VARCHAR#,#att14:VARCHAR#,
+		#att15:VARCHAR#,#att16:VARCHAR#,#att17:VARCHAR#,#att18:VARCHAR#,
+		#att19:VARCHAR#,#att20:VARCHAR#,#att21:VARCHAR#,#tabIndex:NUMERIC#)
+	</insert>
+
+	<insert id="insertFormObjectByoldIdAndSubFormId"
+		parameterClass="java.util.Map">
+		INSERT INTO MV_FORM_OBJECT ( OBJECT_ID, SUBFORM_ID, NAME, TYPE,
+		DEFAULT_VALUE, IS_NULL, MAX_LENGTH, DESCRI, BINDING_DATA_NAME,
+		DATA_APP, BGCOLOR, FONT, FRONT_COLOR, "LEFT", "TOP", Z_INDEX, WIDTH,
+		HEIGHT, ALIGN, TIP, TRANSPARENCE, ATT1, ATT2, ATT3, ATT5, ATT4,
+		ATT6, ATT7, ATT8, ATT9, ATT10, ATT11, ATT12, ATT13, ATT14,
+		ATT15, ATT16, ATT17, ATT18, ATT19, ATT20, ATT21, TAB_INDEX )
+		SELECT #newId#, #subFormId#, NAME, TYPE, DEFAULT_VALUE, IS_NULL,
+		MAX_LENGTH, DESCRI, BINDING_DATA_NAME, DATA_APP, BGCOLOR, FONT,
+		FRONT_COLOR, "LEFT", "TOP", Z_INDEX, WIDTH, HEIGHT, ALIGN, TIP,
+		TRANSPARENCE, ATT1, ATT2, ATT3, ATT5, ATT4, ATT6, ATT7, ATT8,
+		ATT9, ATT10, ATT11, ATT12, ATT13, ATT14, ATT15, ATT16, ATT17,
+		ATT18, ATT19, ATT20, ATT21, TAB_INDEX FROM MV_FORM_OBJECT WHERE
+		OBJECT_ID=#oldformObjId#
+	</insert>
+
+	<update id="updateDefaultValue" parameterClass="java.util.Map">
+		update MV_FORM_OBJECT set DEFAULT_VALUE=#defaultValue:VARCHAR# 
+		where OBJECT_ID=#objectId:NUMERIC#
+	</update>
+
+	<select id="getFormObjectById" resultMap="formObjectResult"
+		parameterClass="int">
+		select * from MV_FORM_OBJECT where OBJECT_ID=#value#
+	</select>
+
+	<select id="getFormObjIdListBySubFormId" resultMap="idsResult"
+		parameterClass="int">
+		select OBJECT_ID from MV_FORM_OBJECT where SUBFORM_ID=#value#
+	</select>
+	
+	<select id="getFormObjListByFormId" resultMap="formObjectResult"
+		parameterClass="int">
+		select * from MV_FORM_OBJECT where SUBFORM_ID IN (select
+		SUBFORM_ID from MV_SUBFORM where FORM_ID=#value#)
+	</select>
+	
+	<select id="getFormObjListBySubFormId" resultMap="formObjectResult"
+		parameterClass="int">
+		select * from MV_FORM_OBJECT where SUBFORM_ID=#value#
+	</select>
+
+	<delete id="delFormObjectById" parameterClass="int">
+		delete from MV_FORM_OBJECT where OBJECT_ID=#value#
+	</delete>
+
+	<delete id="delFormObjectByFormId" parameterClass="int">
+		delete from MV_FORM_OBJECT where SUBFORM_ID IN (select
+		SUBFORM_ID from MV_SUBFORM where FORM_ID=#value#)
+	</delete>
+
+
+</sqlMap>

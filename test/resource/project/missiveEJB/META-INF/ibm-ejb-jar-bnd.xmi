@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ejbbnd:EJBJarBinding xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ejbbnd="ejbbnd.xmi" xmlns:ejb="ejb.xmi" xmi:id="EJBJarBinding_1081841601590" currentBackendId="ORACLE_V9_1">
+  <ejbJar href="META-INF/ejb-jar.xml#ejb-jar_ID"/>
+  <ejbBindings xmi:id="EnterpriseBeanBinding_1082340042594" jndiName="ejb/missive/MissiveAdmin">
+    <enterpriseBean xmi:type="ejb:Session" href="META-INF/ejb-jar.xml#MissiveAdmin"/>
+    <resRefBindings xmi:id="ResourceRefBinding_1141712599734" jndiName="jdbc/exoa">
+      <bindingResourceRef href="META-INF/ejb-jar.xml#ResourceRef_1082537628655"/>
+    </resRefBindings>
+  </ejbBindings>
+  <ejbBindings xmi:id="EnterpriseBeanBinding_1082340106065" jndiName="ejb/missive/MissiveProcessor"/>
+  <ejbBindings xmi:id="EnterpriseBeanBinding_1133853082421" jndiName="ejb/missive/MissiveProcessor">
+    <enterpriseBean xmi:type="ejb:Session" href="META-INF/ejb-jar.xml#MissiveProcessor"/>
+    <resRefBindings xmi:id="ResourceRefBinding_1141712599735" jndiName="jdbc/exoa">
+      <bindingResourceRef href="META-INF/ejb-jar.xml#ResourceRef_1082537628656"/>
+    </resRefBindings>
+  </ejbBindings>
+</ejbbnd:EJBJarBinding>

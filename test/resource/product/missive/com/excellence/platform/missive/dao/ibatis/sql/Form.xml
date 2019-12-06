@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Form">
+	<typeAlias alias="form"
+		type="com.excellence.platform.missive.vo.FormVO" />
+
+	<resultMap id="formResult" class="form">
+		<result property="id" column="FORM_ID" />
+		<result property="formsetId" column="FORMSET_ID" />
+		<result property="procInfoId" column="PROCINFO_ID" />
+		<result property="validateCode" column="VALIDATE_CODE" />
+		<result property="version" column="VERSION" />
+		<result property="defaultPage" column="DEFAULT_PAGE" />
+		<result property="inclusion" column="INCLUSION" />
+		<result property="dataProcessor" column="DATA_PROCESSOR" />
+		<result property="creator" column="CREATOR" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="editor" column="EDITOR" />
+		<result property="editTime" column="EDIT_TIME" />
+		<result property="pageCount" column="PAGE_COUNT" />
+		<result property="objectMaxid" column="OBJECT_MAXID" />
+		<result property="status" column="STATUS" />
+		<result property="attNames" column="ATT_NAMES" />
+		<result property="textMode" column="TEXT_MODE" />
+		<result property="layoutType" column="LAYOUT_TYPE" />
+		<result property="guid" column="GUID" />
+	</resultMap>
+
+	<resultMap id="idsResult" class="java.lang.Integer">
+		<result property="id" column="FORM_ID" />
+	</resultMap>
+
+	<insert id="insertForm" parameterClass="form">
+		INSERT INTO mv_form ( FORM_ID, FORMSET_ID, PROCINFO_ID,
+		VALIDATE_CODE, VERSION, DEFAULT_PAGE, INCLUSION, 
+		CREATOR, CREATE_TIME, EDITOR, EDIT_TIME, PAGE_COUNT,
+		OBJECT_MAXID, STATUS, ATT_NAMES, TEXT_MODE, LAYOUT_TYPE, GUID )
+		VALUES
+		(#id#,#formsetId:NUMERIC#,#procInfoId:NUMERIC#,#validateCode:VARCHAR#,
+		#version:VARCHAR#,#defaultPage:NUMERIC#,#inclusion:VARCHAR#,
+		#creator:VARCHAR#,
+		#createTime:TIMESTAMP#,#editor:VARCHAR#,#editTime:TIMESTAMP#,
+		#pageCount:NUMERIC#,#objectMaxid:NUMERIC#,#status:NUMERIC#,
+		#attNames:VARCHAR#,#textMode:VARCHAR#,#layoutType:NUMERIC#,
+		#guid:VARCHAR#)
+	</insert>
+
+	<insert id="insertFormByOldFormId" parameterClass="java.util.Map">
+		INSERT INTO mv_form ( FORM_ID, FORMSET_ID, PROCINFO_ID,
+		VALIDATE_CODE, VERSION, DEFAULT_PAGE, INCLUSION, DATA_PROCESSOR,
+		CREATOR, CREATE_TIME, EDITOR, EDIT_TIME, PAGE_COUNT,
+		OBJECT_MAXID, STATUS, ATT_NAMES, TEXT_MODE, LAYOUT_TYPE, GUID )
+		SELECT #newId#, FORMSET_ID, PROCINFO_ID, VALIDATE_CODE, VERSION,
+		DEFAULT_PAGE, INCLUSION, DATA_PROCESSOR, CREATOR, CREATE_TIME,
+		EDITOR, EDIT_TIME, PAGE_COUNT, OBJECT_MAXID, STATUS, ATT_NAMES,
+		TEXT_MODE, LAYOUT_TYPE, GUID from mv_form where FORM_ID=#formId#
+	</insert>
+
+	<select id="getFormById" resultMap="formResult"
+		parameterClass="int">
+		select * from mv_form where FORM_ID=#value#
+	</select>
+
+	<select id="getProcCount" resultClass="java.lang.Integer"
+		parameterClass="int">
+		select count(*) from mv_form where PROCINFO_ID=#value#
+	</select>
+
+	<select id="getProcCountByFlowId" resultClass="java.lang.Integer"
+		parameterClass="int">
+		select count(0) 
+		from mv_form,mv_proc_info 
+		where mv_form.PROCINFO_ID=mv_proc_info.PROC_ID 
+				and mv_proc_info.FLOW_ID=#value#
+	</select>
+
+
+	<select id="getProcIdFormPubFormByFormsetId"
+		resultClass="java.lang.Integer" parameterClass="int">
+		select form.PROCINFO_ID from mv_form form,mv_formset formset
+		where form.FORM_ID=formset.PUB_VERSION_ID and
+		formset.FORMSET_ID=#value#
+	</select>
+
+	<update id="updateProcId" parameterClass="java.util.Map">
+		update mv_form set PROCINFO_ID=#procId# where FORM_ID=#formId#
+	</update>
+
+	<select id="getFormIdListByFormsetId" resultMap="idsResult"
+		parameterClass="int">
+		select FORM_ID from mv_form where FORMSET_ID=#value#
+	</select>
+
+	<select id="getFormStatusById" resultClass="java.lang.Integer"
+		parameterClass="int">
+		select STATUS from mv_form where FORM_ID=#value#
+	</select>
+	
+	<select id="isHasForm" resultClass="java.lang.Integer"
+		parameterClass="int">
+		select COUNT(*) from mv_form where FORM_ID=#value#
+	</select>
+
+	<update id="updateFormStatusById" parameterClass="java.util.Map">
+		UPDATE mv_form set status=#status# where FORM_ID=#formId#
+	</update>
+
+
+	<!--	<update id="updateForm" parameterClass="form">
+		update mv_form set PROC_ID=#procInfoId:NUMERIC#,
+		name=#name:VARCHAR#,DESCRI=#desc:VARCHAR#,type=#type:NUMERIC#,
+		PRIORITY=#priority:NUMERIC#,EXT_JSP=#extJsp:VARCHAR#,FIRST_APP=#firstApplication:VARCHAR#,
+		FINISH_APP=#finishApplication:VARCHAR#,FILTER=#filter:VARCHAR#,
+		TRANSITION_LIMIT=#transitionLimit:NUMERIC#,COUNT_LIMIT=#countLimit:NUMERIC#,LIMIT_STATUS=#limitStatus:NUMERIC#,
+		PERCENT=#percent:NUMERIC#,HUMAN_COUNT=#humanCount:NUMERIC#,EXT_COUNT1=#extCount1:NUMERIC#,
+		EXT_COUNT2=#extCount2:NUMERIC#,EXT_COUNT3=#extCount3:NUMERIC#,SUBFLOW_ID=#subFlow:NUMERIC#,
+		SUBFLOW_NAME=#subFlowName:VARCHAR#,X=#x:NUMERIC#,Y=#y:NUMERIC#,EXT1=#ext1:VARCHAR#,
+		EXT2=#ext2:VARCHAR#,EXT3=#ext3:VARCHAR# where ACT_ID=#id#
+		</update>-->
+
+	<delete id="delFormById" parameterClass="int">
+		delete from mv_form where FORM_ID=#value#
+	</delete>
+
+
+</sqlMap>

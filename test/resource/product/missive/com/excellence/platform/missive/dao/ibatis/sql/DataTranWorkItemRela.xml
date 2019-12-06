@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="DataTranWorkItemRela">
+
+	<typeAlias alias="datatranworkitemrela"
+		type="com.excellence.platform.missive.vo.DataTranWorkItemRelaVO" />
+		
+	<resultMap id="datatranworkitemrelaResult" class="datatranworkitemrela">
+		<result property="id" column="ID" />
+		<result property="source_workitem_id" column="SRC_WORKITEM_ID" />
+		<result property="target_workitem_id" column="TAR_WORKITEM_ID" />
+		<result property="source_inst_id" column="SRC_INST_ID" />
+		<result property="target_inst_id" column="TAR_INST_ID" />
+		<result property="sourct_inst_type" column="SRC_INST_TYPE" nullValue="1"/>
+		<result property="target_inst_type" column="TAR_INST_TYPE" nullValue="1"/>
+		<result property="formset_id" column="FORMSET_ID" nullValue="-1" />
+		<result property="flow_id" column="FLOW_ID" nullValue="-1" />
+	</resultMap>
+	
+	<select id="getVOBySrcWorkItemId" resultMap="datatranworkitemrelaResult"
+		parameterClass="int">
+		select  * from  mv_datatran_workitem_rela
+			where SRC_WORKITEM_ID=#value#
+	</select>
+	
+	<select id="getVOBySrcInstIdAndSrcInstType" resultMap="datatranworkitemrelaResult"
+		parameterClass="java.util.Map">
+		select  * from  mv_datatran_workitem_rela
+			where SRC_INST_ID=#source_inst_id# and SRC_INST_TYPE = #sourct_inst_type# order by SRC_WORKITEM_ID
+	</select>
+	
+	<select id="getVOByTarInstIdAndTarInstType" resultMap="datatranworkitemrelaResult"
+		parameterClass="java.util.Map">
+		select  * from  mv_datatran_workitem_rela
+			where TAR_INST_ID=#target_inst_id# and TAR_INST_TYPE = #target_inst_type# order by TAR_WORKITEM_ID
+	</select>
+	
+	<select id="getByTarInstIdAndInstType" resultMap="datatranworkitemrelaResult"
+		parameterClass="java.util.Map">
+		select  * from  mv_datatran_workitem_rela
+			where TAR_INST_ID=#target_inst_id# and TAR_INST_TYPE = #target_inst_type# 
+			and SRC_INST_TYPE = #sourct_inst_type# order by TAR_WORKITEM_ID
+	</select>	
+	
+	<select id="getBySrcInstIdAndInstType" resultMap="datatranworkitemrelaResult"
+		parameterClass="java.util.Map">
+		select  * from  mv_datatran_workitem_rela
+			where SRC_INST_ID=#source_inst_id# and TAR_INST_TYPE = #target_inst_type# 
+			and SRC_INST_TYPE = #sourct_inst_type# order by TAR_WORKITEM_ID
+	</select>	
+		
+	<insert id="insertDataTranWorkItemRela" parameterClass="datatranworkitemrela">
+		INSERT INTO mv_datatran_workitem_rela
+		(ID,SRC_WORKITEM_ID,TAR_WORKITEM_ID,SRC_INST_ID,TAR_INST_ID,TAR_INST_TYPE,SRC_INST_TYPE,FORMSET_ID,FLOW_ID)
+		values
+		(#id#,#source_workitem_id:NUMERIC#,#target_workitem_id:NUMERIC#,#source_inst_id:NUMERIC#,#target_inst_id:NUMERIC#,
+		 #target_inst_type:NUMERIC#,#sourct_inst_type:NUMERIC#,#formset_id:NUMERIC#,#flow_id:NUMERIC#)
+	</insert>
+	
+	<update id="updateDataTranWorkItemRela" parameterClass="datatranworkitemrela">
+		update mv_datatran_workitem_rela 
+		set SRC_WORKITEM_ID = #source_workitem_id:NUMERIC# and TAR_WORKITEM_ID = #target_workitem_id:NUMERIC# 
+		and SRC_INST_ID = #source_inst_id:NUMERIC# and TAR_INST_ID = #target_inst_id:NUMERIC# 
+		and TAR_INST_TYPE = #target_inst_type:NUMERIC# and SRC_INST_TYPE = #sourct_inst_type:NUMERIC# 
+		and FORMSET_ID = #formset_id:NUMERIC# and FLOW_ID = #flow_id:NUMERIC# where ID = #id:NUMERIC# 
+	</update>
+	
+	<delete id="deleteById" parameterClass="int">
+		delete from  mv_datatran_workitem_rela where id = #value#
+	</delete>
+	
+	<delete id="deleteBySrcWorkItemId" parameterClass="int">
+		delete from  mv_datatran_workitem_rela where src_workitem_id = #value#
+	</delete>
+	
+	<delete id="deleteBySrcInstIdAndSrcInstType" parameterClass="java.util.Map">
+		delete from  mv_datatran_workitem_rela where src_inst_id = #source_inst_id# and src_inst_type = #sourct_inst_type#
+	</delete>
+	
+	
+	<delete id="deleteByTarWorkItemId" parameterClass="int">
+		delete from  mv_datatran_workitem_rela where tar_workitem_id = #value#
+	</delete>
+	
+	<delete id="deleteByTarInstIdAndTarInstType" parameterClass="java.util.Map">
+		delete from  mv_datatran_workitem_rela where tar_inst_id = #target_inst_id# and tar_inst_type = #target_inst_type#
+	</delete>	
+	
+	
+
+</sqlMap>

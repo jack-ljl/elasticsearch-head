@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SpecialRoute">
+ <typeAlias alias="specialRoute" type="com.excellence.platform.missive.vo.SpecialRouteVO"/>
+  
+   <resultMap id="specialRouteResult" class="specialRoute">
+    <result property="id" column="ROUTE_ID" />
+    <result property="workItemId" column="WORKITEM_ID" />
+    <result property="optional" column="OPTIONAL"/>
+    <result property="targetActivityId" column="TARGET_ACTIVITY_ID"/>  
+  </resultMap>
+  
+  	<resultMap id="idsResult" class="specialRoute">
+		<result property="id" column="ROUTE_ID" />
+	</resultMap>
+  
+<insert id="insertSpecialRoute" parameterClass="specialRoute">
+INSERT INTO MV_SPECIAL_ROUTE ( ROUTE_ID, WORKITEM_ID, OPTIONAL,
+TARGET_ACTIVITY_ID ) VALUES 
+  (#id#,#workItemId:NUMERIC#,#optional:NUMERIC#,#targetActivityId:NUMERIC#)
+</insert>
+
+ <select id="getSpecialRouteById" resultMap="specialRouteResult" parameterClass="int">
+    select * from MV_SPECIAL_ROUTE where ROUTE_ID=#value#    
+  </select>  
+
+ <select id="getSpecialRouteIDListByInstId" resultMap="idsResult" parameterClass="java.util.Map">
+    select s.ROUTE_ID from MV_SPECIAL_ROUTE s, MV_WORKITEM w 
+    where 
+    	s.WORKITEM_ID = w.WORKITEM_ID 
+		<isPropertyAvailable prepend="and" property="formsetInstId">
+			w.formset_inst_id=#formsetInstId#
+		</isPropertyAvailable> 
+		<isPropertyAvailable prepend="and" property="flowInstId">
+			w.flow_inst_id=#flowInstId#
+		</isPropertyAvailable> 
+  </select>  
+
+ <update id="updateSpecialRoute"  parameterClass="specialRoute">
+   update MV_SPECIAL_ROUTE set WORKITEM_ID=#workItemId:NUMERIC#,OPTIONAL=#optional:NUMERIC#,
+   TARGET_ACTIVITY_ID=#targetActivityId:NUMERIC# where ROUTE_ID=#id#    
+ </update>
+  
+  <delete id="delSpecialRoute"  parameterClass="int">
+    delete from MV_SPECIAL_ROUTE where ROUTE_ID=#value#    
+  </delete>
+
+	<delete id="delSpecialRouteByIdList"
+		parameterClass="java.util.List">
+		delete from MV_SPECIAL_ROUTE where ROUTE_ID IN
+		<iterate open="(" close=")" conjunction=",">#[]#</iterate>
+	</delete>
+</sqlMap>
